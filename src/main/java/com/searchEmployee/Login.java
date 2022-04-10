@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Login {
     @RequestMapping("/Login")
     private String login(){
-        return "/index.html";
+        return "index";
     }
 }
