@@ -35,8 +35,7 @@ public class Login {
             name = "ログイン太郎";
             model.addAttribute("status", "ログイン成功");
         } else {
-            name = "no name";
-            model.addAttribute("status", "ログイン失敗");
+            return "redirect:/login-error";
         }
 
         session.setAttribute("id", id);
@@ -49,7 +48,13 @@ public class Login {
         return "result.html";
     }
 
-    @RequestMapping("/redirectResult")
+    @RequestMapping("/login-error")
+    private String loginError(HttpServletRequest request, Model model){
+        model.addAttribute("loginError",true);
+        return "login.html";
+    }
+
+    @RequestMapping("/redirect-result")
     private String redirectResult(HttpServletRequest request, Model model){
 
         HttpSession session = request.getSession(false);
@@ -58,5 +63,12 @@ public class Login {
         model.addAttribute("name", session.getAttribute("name"));
 
         return "result.html";
+    }
+
+    @RequestMapping("/logout")
+    private String logout(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        return "redirect:/login";
     }
 }
