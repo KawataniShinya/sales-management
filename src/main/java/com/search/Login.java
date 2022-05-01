@@ -1,8 +1,12 @@
 package com.search;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +19,14 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class Login {
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
     @RequestMapping("/login")
     private String login(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes){
 //        HttpSession session = request.getSession(false);
@@ -61,7 +73,31 @@ public class Login {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("id", auth.getName());
         model.addAttribute("name", "test");
+
+        testBcryptMatch();
+
         return "result.html";
+    }
+
+    private void testBcryptMatch() {
+        String password = "password";
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String digest = passwordEncoder.encode(password);
+        System.out.println("ハッシュ値 = " + digest);
+
+        if (passwordEncoder.matches(password, digest)) {
+            System.out.println("一致したよ : " + password + " = " + digest);
+        } else {
+            System.out.println("一致しなかったよ : " + password + " = " + digest);
+        }
+
+        digest = "$2a$08$uGieQ2B6N9Ic7666NIpgI.7I70oits21rmd3D1M1nhBWnG8Zsko7C";
+
+        if (passwordEncoder.matches(password, digest)) {
+            System.out.println("一致したよ : " + password + " = " + digest);
+        } else {
+            System.out.println("一致しなかったよ : " + password + " = " + digest);
+        }
     }
 
 //    @RequestMapping("/login-error")
