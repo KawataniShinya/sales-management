@@ -8,7 +8,8 @@
     <h1>ログイン</h1>
     <form method="post" action="result.html" th:action="@{result}">
         <p>IDとパスワードを入力してください</p>
-        <p th:if="${loginError}">ログインに失敗しました</p>
+<!--        <p th:if="${loginError}">ログインに失敗しました</p>-->
+        <p th:if="${param.error}">ログインできませんでした</p>
         <input type="text" name="id" th:value="${id}" />
         <input type="password" name="pass" th:value="${password}" />
         <input type="submit" value="送信">

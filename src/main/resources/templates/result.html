@@ -9,6 +9,13 @@
     <p>社員ID：<span th:text="${id}">000</span></p>
     <p>社員名：<span th:text="${name}">John Doe</span></p>
     <a href="serch.html" th:href="@{serch}">社員検索</a></br>
-    <a href="login.html" th:href="@{logout}">ログアウト</a>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">ログアウト</button>
+    </form>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"> </script>
+    <div id="icatwidthc" title="800" /></div>
+    <div id="icatheightc" title="500" /></div>
+    <script type="text/javascript" src="https://www.ipa.go.jp/security/announce/irss/icatwc.js"> </script>
 </body>
 </html>
