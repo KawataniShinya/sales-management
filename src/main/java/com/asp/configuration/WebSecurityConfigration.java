@@ -1,4 +1,4 @@
-package com.search;
+package com.asp.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,10 +39,10 @@ public class WebSecurityConfigration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
-                .loginProcessingUrl("/result")
+                .loginProcessingUrl("/menu")
                 .loginPage("/login")
                 .failureUrl("/login?error")
-                .defaultSuccessUrl("/result", true)
+                .defaultSuccessUrl("/menu", true)
                 .usernameParameter("id")
                 .passwordParameter("pass")
                 .and()

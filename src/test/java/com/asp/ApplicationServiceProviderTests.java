@@ -1,10 +1,10 @@
-package com.search;
+package com.asp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SearchEmployeeApplicationTests {
+class ApplicationServiceProviderTests {
 
 	@Test
 	void contextLoads() {
