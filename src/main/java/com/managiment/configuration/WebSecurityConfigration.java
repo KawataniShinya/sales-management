@@ -1,4 +1,4 @@
-package com.asp.configuration;
+package com.managiment.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

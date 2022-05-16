@@ -1,6 +1,6 @@
-package com.asp.application;
+package com.managiment.application;
 
-import com.asp.domain.user.AuthUser;
+import com.managiment.domain.user.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

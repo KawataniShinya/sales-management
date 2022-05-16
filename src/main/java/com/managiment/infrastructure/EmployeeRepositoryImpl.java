@@ -1,6 +1,6 @@
-package com.asp.infrastructure;
+package com.managiment.infrastructure;
 
-import com.asp.domain.user.EmployeeRepository;
+import com.managiment.domain.user.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

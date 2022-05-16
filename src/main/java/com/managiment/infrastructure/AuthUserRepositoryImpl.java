@@ -1,6 +1,6 @@
-package com.asp.infrastructure;
+package com.managiment.infrastructure;
 
-import com.asp.domain.user.AuthUserRepository;
+import com.managiment.domain.user.AuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

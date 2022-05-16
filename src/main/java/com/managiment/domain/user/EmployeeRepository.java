@@ -1,4 +1,4 @@
-package com.asp.domain.user;
+package com.managiment.domain.user;
 
 import java.util.List;
 import java.util.Map;

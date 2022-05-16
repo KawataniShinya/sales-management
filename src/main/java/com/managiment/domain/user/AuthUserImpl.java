@@ -1,4 +1,4 @@
-package com.asp.domain.user;
+package com.managiment.domain.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

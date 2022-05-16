@@ -1,4 +1,4 @@
-package com.asp.domain.user;
+package com.managiment.domain.user;
 
 public interface AuthUser {
     public void outputAuthUserAll();

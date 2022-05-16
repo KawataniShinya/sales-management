@@ -1,7 +1,7 @@
-package com.asp.presentation;
+package com.managiment.presentation;
 
-import com.asp.application.SearchAuthUserService;
-import com.asp.application.SearchEmployeeService;
+import com.managiment.application.SearchAuthUserService;
+import com.managiment.application.SearchEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @PropertySource(value = "classpath:properties/sql.properties")
