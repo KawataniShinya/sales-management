@@ -2,6 +2,7 @@ package com.managiment.infrastructure;
 
 import com.managiment.domain.user.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,10 +17,10 @@ import java.util.Map;
 @PropertySource(value = "classpath:properties/sql.properties")
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    @Autowired
+    @Autowired @Qualifier("appljdbc01")
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
+    @Autowired @Qualifier("applNpjdbc01")
     private NamedParameterJdbcTemplate npJdbcTemplate;
 
     @Value("${SQLL001}")

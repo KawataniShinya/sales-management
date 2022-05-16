@@ -13,17 +13,17 @@ import javax.sql.DataSource;
 
 @Component
 @Configuration
-public class SecondaryConfiguration {
-    @Value("${spring.datasource.secondary.driverClassName}")
+public class DataSourceForApplication01Configuration {
+    @Value("${spring.datasource.application01.driverClassName}")
     private String driverClassName;
-    @Value("${spring.datasource.secondary.url}")
+    @Value("${spring.datasource.application01.url}")
     private String url;
-    @Value("${spring.datasource.secondary.username}")
+    @Value("${spring.datasource.application01.username}")
     private String username;
-    @Value("${spring.datasource.secondary.password}")
+    @Value("${spring.datasource.application01.password}")
     private String password;
 
-    @Bean("secondaryds")
+    @Bean("applds01")
     public DataSource createDataSource() {
         return DataSourceBuilder
                 .create()
@@ -34,13 +34,13 @@ public class SecondaryConfiguration {
                 .build();
     }
 
-    @Bean("secondaryjdbc")
-    public JdbcTemplate createJdbcTemplate(@Qualifier("secondaryds") DataSource dataSource) {
+    @Bean("appljdbc01")
+    public JdbcTemplate createJdbcTemplate(@Qualifier("applds01") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean("secondaryNpjdbc")
-    public NamedParameterJdbcTemplate createNamedParameterJdbcTemplate(@Qualifier("secondaryds") DataSource dataSource){
+    @Bean("applNpjdbc01")
+    public NamedParameterJdbcTemplate createNamedParameterJdbcTemplate(@Qualifier("applds01") DataSource dataSource){
         return new NamedParameterJdbcTemplate(dataSource);
     }
 

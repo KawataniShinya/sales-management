@@ -53,7 +53,7 @@ public class WebSecurityConfigration extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configure(AuthenticationManagerBuilder auth, @Qualifier("secondaryds") DataSource dataSource) throws Exception {
+    public void configure(AuthenticationManagerBuilder auth, @Qualifier("applds01") DataSource dataSource) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery(SQL_USERSBYUSERNAME)
                 .authoritiesByUsernameQuery(SQL_AUTHBYUSERNAME);

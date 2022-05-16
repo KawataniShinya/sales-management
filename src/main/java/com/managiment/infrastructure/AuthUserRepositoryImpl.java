@@ -16,10 +16,11 @@ import java.util.Map;
 @Repository
 @PropertySource(value = "classpath:properties/sql.properties")
 public class AuthUserRepositoryImpl implements AuthUserRepository {
-    @Autowired @Qualifier("secondaryjdbc")
+
+    @Autowired @Qualifier("sysjdbc01")
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired @Qualifier("secondaryNpjdbc")
+    @Autowired @Qualifier("sysNpjdbc01")
     private NamedParameterJdbcTemplate npJdbcTemplate;
 
     @Value("${SQLA001}")

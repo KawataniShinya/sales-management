@@ -1,5 +1,6 @@
 package com.managiment.configuration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,17 +14,17 @@ import javax.sql.DataSource;
 
 @Component
 @Configuration
-public class PrimaryConfiguration {
-    @Value("${spring.datasource.primary.driverClassName}")
+public class DataSourceForSystemConfiguration {
+    @Value("${spring.datasource.system01.driverClassName}")
     private String driverClassName;
-    @Value("${spring.datasource.primary.url}")
+    @Value("${spring.datasource.system01.url}")
     private String url;
-    @Value("${spring.datasource.primary.username}")
+    @Value("${spring.datasource.system01.username}")
     private String username;
-    @Value("${spring.datasource.primary.password}")
+    @Value("${spring.datasource.system01.password}")
     private String password;
 
-    @Bean
+    @Bean("sysds01")
     @Primary
     public DataSource createDataSource() {
         return DataSourceBuilder
@@ -35,15 +36,15 @@ public class PrimaryConfiguration {
                 .build();
     }
 
-    @Bean
+    @Bean("sysjdbc01")
     @Primary
-    public JdbcTemplate createJdbcTemplate(DataSource dataSource) {
+    public JdbcTemplate createJdbcTemplate(@Qualifier("sysds01") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean
+    @Bean("sysNpjdbc01")
     @Primary
-    public NamedParameterJdbcTemplate createNamedParameterJdbcTemplate(DataSource dataSource){
+    public NamedParameterJdbcTemplate createNamedParameterJdbcTemplate(@Qualifier("sysds01") DataSource dataSource){
         return new NamedParameterJdbcTemplate(dataSource);
     }
 

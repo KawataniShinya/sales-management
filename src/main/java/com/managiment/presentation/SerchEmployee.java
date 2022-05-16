@@ -21,11 +21,11 @@ public class SerchEmployee {
     @Autowired
     private SearchAuthUserService searchAuthUserService;
 
-    @Autowired @Qualifier("secondaryjdbc")
-    private JdbcTemplate jdbcTemplate2;
-
-    @Autowired @Qualifier("secondaryNpjdbc")
-    private NamedParameterJdbcTemplate npJdbcTemplate2;
+//    @Autowired @Qualifier("secondaryjdbc")
+//    private JdbcTemplate jdbcTemplate2;
+//
+//    @Autowired @Qualifier("secondaryNpjdbc")
+//    private NamedParameterJdbcTemplate npJdbcTemplate2;
 
     @Value("${SQLA001}")
     String sql21;
