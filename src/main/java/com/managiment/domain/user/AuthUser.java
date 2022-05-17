@@ -1,6 +1,8 @@
 package com.managiment.domain.user;
 
+import java.util.List;
+import java.util.Map;
+
 public interface AuthUser {
-    public void outputAuthUserAll();
-    public void outputAuthUserLimit();
+    public List<Map<String, Object>> getAuthUser(String username);
 }

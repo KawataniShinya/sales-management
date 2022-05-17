@@ -6,11 +6,11 @@
 </head>
 <body>
     <h1>ログイン</h1>
-    <form method="post" action="menu.html" th:action="@{menu}">
+    <form method="post" action="menu.html" th:action="@{authentication}">
         <p>IDとパスワードを入力してください</p>
         <p th:if="${param.error}">ログインできませんでした</p>
         <input type="text" name="id" th:value="${id}" />
-        <input type="password" name="pass" th:value="${password}" />
+        <input type="password" name="password" th:value="${password}" />
         <input type="submit" value="送信">
     </form>
 </body>

@@ -1,6 +1,6 @@
 package com.managiment.infrastructure;
 
-import com.managiment.domain.user.AuthUserRepository;
+import com.managiment.domain.user.AccessTestApplRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Repository
 @PropertySource(value = "classpath:properties/sql.properties")
-public class AuthUserRepositoryImpl implements AuthUserRepository {
+public class AccessTestApplRepositoryImpl implements AccessTestApplRepository {
 
     @Autowired @Qualifier("appljdbc01")
     private JdbcTemplate jdbcTemplate;
@@ -23,15 +23,23 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     @Autowired @Qualifier("applNpjdbc01")
     private NamedParameterJdbcTemplate npJdbcTemplate;
 
-    @Value("${APPLSQL001}")
-    private String AUTH_SQL;
+    @Value("${SQLL001}")
+    private String sql11;
+
+    @Value("${SQLL002}")
+    private String sql12;
 
     @Override
-    public List<Map<String, Object>> findByUserId(String username) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("ID", username);
-        System.out.println(AUTH_SQL);
-        System.out.println(paramMap);
-        return npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
+    public List<Map<String, Object>> selectAll() {
+        return jdbcTemplate.queryForList(sql11);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectLimit() {
+        Map<String, String> paramMap1 = new HashMap<String, String>();
+        paramMap1.put("ID", "100");
+        paramMap1.put("NEN", "2003");
+
+        return npJdbcTemplate.queryForList(sql12, paramMap1);
     }
 }

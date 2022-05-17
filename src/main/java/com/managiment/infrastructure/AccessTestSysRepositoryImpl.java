@@ -1,6 +1,6 @@
 package com.managiment.infrastructure;
 
-import com.managiment.domain.user.EmployeeRepository;
+import com.managiment.domain.user.AccessTestSysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,31 +15,31 @@ import java.util.Map;
 
 @Repository
 @PropertySource(value = "classpath:properties/sql.properties")
-public class EmployeeRepositoryImpl implements EmployeeRepository {
+public class AccessTestSysRepositoryImpl implements AccessTestSysRepository {
 
-    @Autowired @Qualifier("appljdbc01")
+    @Autowired @Qualifier("sysjdbc01")
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired @Qualifier("applNpjdbc01")
+    @Autowired @Qualifier("sysNpjdbc01")
     private NamedParameterJdbcTemplate npJdbcTemplate;
 
-    @Value("${SQLL001}")
-    private String sql11;
+    @Value("${SQLA001}")
+    private String sql21;
 
-    @Value("${SQLL002}")
-    private String sql12;
+    @Value("${SQLA002}")
+    private String sql22;
 
     @Override
     public List<Map<String, Object>> selectAll() {
-        return jdbcTemplate.queryForList(sql11);
+        return jdbcTemplate.queryForList(sql21);
     }
 
     @Override
     public List<Map<String, Object>> selectLimit() {
-        Map<String, String> paramMap1 = new HashMap<String, String>();
-        paramMap1.put("ID", "100");
-        paramMap1.put("NEN", "2003");
-
-        return npJdbcTemplate.queryForList(sql12, paramMap1);
+        Map<String, Object> paramMap2 = new HashMap<String, Object>();
+        paramMap2.put("ID", 101);
+        paramMap2.put("NEN", 2005);
+        paramMap2.put("SEI", "男");
+        return npJdbcTemplate.queryForList(sql22, paramMap2);
     }
 }

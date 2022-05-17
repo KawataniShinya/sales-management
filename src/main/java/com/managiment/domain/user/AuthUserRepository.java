@@ -4,6 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface AuthUserRepository {
-    public List<Map<String, Object>> selectAll();
-    public List<Map<String, Object>> selectLimit();
+    public List<Map<String, Object>> findByUserId(String username);
 }
