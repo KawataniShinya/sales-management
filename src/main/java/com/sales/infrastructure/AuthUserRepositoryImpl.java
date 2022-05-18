@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +41,9 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
         System.out.println(paramMap);
 
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
+
+        RowMapper<test> rowMapper = new BeanPropertyRowMapper<test>(test.class);
+        List<test> authUserList = npJdbcTemplate.query(AUTH_SQL, paramMap, rowMapper);
 
         return resultList;
     }
