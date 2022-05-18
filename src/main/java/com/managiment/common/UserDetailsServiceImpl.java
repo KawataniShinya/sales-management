@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<Map<String, Object>> resultMap = authUser.getAuthUser(username);
+        List<Map<String, Object>> resultMap = authUser.getAuthUserByUserId(username);
         if (resultMap.isEmpty() || resultMap.size() > 1) {
             throw new UsernameNotFoundException("not found : " + username);
         }

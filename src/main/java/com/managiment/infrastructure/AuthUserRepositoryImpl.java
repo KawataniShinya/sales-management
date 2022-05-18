@@ -1,6 +1,8 @@
 package com.managiment.infrastructure;
 
+import com.managiment.domain.user.AuthUser;
 import com.managiment.domain.user.AuthUserRepository;
+import com.managiment.domain.user.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,9 +29,10 @@ public class AuthUserRepositoryImpl implements AuthUserRepository {
     private String AUTH_SQL;
 
     @Override
-    public List<Map<String, Object>> findByUserId(String username) {
+    public List<Map<String, Object>> findByUserId(AuthUser authUser) {
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("ID", username);
+        paramMap.put("CATEGORY", Constant.CATEGORY.ROLE.getValue());
+        paramMap.put("ID", authUser.getUserId());
         System.out.println(AUTH_SQL);
         System.out.println(paramMap);
         return npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
