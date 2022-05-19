@@ -16,7 +16,6 @@ public class SearchEmployee {
 
     private SearchSysUserService searchSysUserService;
     private SearchApplUserService searchApplUserService;
-    private GenericApplicationContext context;
 
     @Autowired
     public SearchEmployee(SearchSysUserService searchSysUserService,
@@ -24,15 +23,10 @@ public class SearchEmployee {
                           GenericApplicationContext context) {
         this.searchSysUserService = searchSysUserService;
         this.searchApplUserService = searchApplUserService;
-        this.context = context;
     }
 
     @RequestMapping("/serch")
     private String serch(){
-        context.getBeanFactory().getBeanNamesIterator().forEachRemaining(el -> {
-            System.out.print(el.toString() + ", ");
-        });
-
         this.searchSysUserService.searchSysUser();
         this.searchApplUserService.searchApplUser();
 

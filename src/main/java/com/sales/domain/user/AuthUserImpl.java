@@ -14,7 +14,6 @@ import java.util.Map;
 @Scope("prototype")
 public class AuthUserImpl implements AuthUser {
 
-    @Autowired
     private AuthUserRepository authUserRepository;
 
     @Getter
@@ -60,6 +59,11 @@ public class AuthUserImpl implements AuthUser {
     @Getter
     @Setter
     private String updateUser;
+
+    @Autowired
+    public AuthUserImpl(AuthUserRepository authUserRepository) {
+        this.authUserRepository = authUserRepository;
+    }
 
     @Override
     public AuthUser setAuthUserByUserId(String username) {

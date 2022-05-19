@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("prototype")
 public class SearchSysUserServiceImpl implements SearchSysUserService {
-    @Autowired
+
     private AccessTestSys accessTestSys;
+
+    @Autowired
+    public SearchSysUserServiceImpl(AccessTestSys accessTestSys) {
+        this.accessTestSys = accessTestSys;
+    }
 
     @Override
     public void searchSysUser() {

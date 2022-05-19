@@ -7,8 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("prototype")
 public class AccessTestSysImpl implements AccessTestSys {
-    @Autowired
+
     private AccessTestSysRepository accessTestSysRepository;
+
+    @Autowired
+    public AccessTestSysImpl(AccessTestSysRepository accessTestSysRepository) {
+        this.accessTestSysRepository = accessTestSysRepository;
+    }
 
     @Override
     public void outputTestSysAll() {

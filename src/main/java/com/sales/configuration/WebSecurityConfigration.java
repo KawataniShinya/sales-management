@@ -20,8 +20,13 @@ import javax.sql.DataSource;
 @PropertySource(value = "classpath:properties/sql.properties")
 public class WebSecurityConfigration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    public WebSecurityConfigration(UserDetailsService userDetailsService) {
+        super();
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

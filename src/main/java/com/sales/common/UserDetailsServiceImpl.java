@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 @Scope("prototype")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
     private AuthUser authUser;
+
+    @Autowired
+    public UserDetailsServiceImpl(AuthUser authUser) {
+        this.authUser = authUser;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

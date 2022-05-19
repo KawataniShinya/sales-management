@@ -8,16 +8,17 @@ import org.springframework.stereotype.Service;
 @Service
 @Scope("prototype")
 public class SearchApplUserServiceImpl implements SearchApplUserService {
-    @Autowired
+
     private AccessTestAppl accessTestAppl;
+
+    @Autowired
+    public SearchApplUserServiceImpl(AccessTestAppl accessTestAppl) {
+        this.accessTestAppl = accessTestAppl;
+    }
 
     @Override
     public void searchApplUser() {
         this.accessTestAppl.outputTestApplAll();
         this.accessTestAppl.outputTestApplLimit();
-    }
-
-    public SearchApplUserServiceImpl() {
-        System.out.println("*** SearchApplUserServiceImpl() ***");
     }
 }
