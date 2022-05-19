@@ -33,9 +33,9 @@ public class AuthUserRepositoryImpl extends AbstractBaseDbRepository implements 
 
     @Override
     public List<Map<String, Object>> findByUserId(AuthUser authUser) {
-        Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("CATEGORY", Constant.CATEGORY.ROLE.getValue());
-        paramMap.put("ID", authUser.getId());
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY.getValue(), Constant.CATEGORY.ROLE.getValue());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue(), authUser.getId());
 
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
 

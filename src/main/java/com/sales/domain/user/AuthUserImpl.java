@@ -14,8 +14,6 @@ import java.util.Map;
 @Scope("prototype")
 public class AuthUserImpl implements AuthUser {
 
-    private AuthUserRepository authUserRepository;
-
     @Getter
     @Setter
     private String id;
@@ -60,6 +58,8 @@ public class AuthUserImpl implements AuthUser {
     @Setter
     private String updateUser;
 
+    private AuthUserRepository authUserRepository;
+
     @Autowired
     public AuthUserImpl(AuthUserRepository authUserRepository) {
         this.authUserRepository = authUserRepository;
@@ -80,17 +80,17 @@ public class AuthUserImpl implements AuthUser {
 
     @Override
     public void setFieldsFromMap(Map<String, Object> map) {
-        if(map.containsKey("ID")) this.setId(map.get("ID").toString());
-        if(map.containsKey("PASSWORD")) this.setPassword(map.get("PASSWORD").toString());
-        if(map.containsKey("AUTHORITY")) this.setAuthority(map.get("AUTHORITY").toString());
-        if(map.containsKey("AUTHORITY_VALUE")) this.setAuthorityValue(map.get("AUTHORITY_VALUE").toString());
-        if(map.containsKey("EXPIRATION_START")) this.setExpirationStart(map.get("EXPIRATION_START").toString());
-        if(map.containsKey("EXPIRATION_END")) this.setExpirationEnd(map.get("EXPIRATION_END").toString());
-        if(map.containsKey("ENABLED")) this.setEnabled(map.get("ENABLED").toString());
-        if(map.containsKey("INSERT_TIMESTAMP")) this.setInsertTimestamp(map.get("INSERT_TIMESTAMP").toString());
-        if(map.containsKey("INSERT_USER")) this.setInsertUser(map.get("INSERT_USER").toString());
-        if(map.containsKey("UPDATE_TIMESTAMP")) this.setUpdateTimestamp(map.get("UPDATE_TIMESTAMP").toString());
-        if(map.containsKey("UPDATE_USER")) this.setUpdateUser(map.get("UPDATE_USER ").toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue())) this.setId(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue())) this.setPassword(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue())) this.setAuthority(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue())) this.setAuthorityValue(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_START.getValue())) this.setExpirationStart(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_START.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_END.getValue())) this.setExpirationEnd(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_END.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ENABLED.getValue())) this.setEnabled(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ENABLED.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_TIMESTAMP.getValue())) this.setInsertTimestamp(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_TIMESTAMP.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_USER.getValue())) this.setInsertUser(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_USER.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_TIMESTAMP.getValue())) this.setUpdateTimestamp(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_TIMESTAMP.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_USER.getValue())) this.setUpdateUser(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_USER.getValue()).toString());
     }
 
 }

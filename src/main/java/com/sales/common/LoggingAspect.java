@@ -2,6 +2,9 @@ package com.sales.common;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -18,6 +21,15 @@ public class LoggingAspect {
                 + " [PreService] " + jp.getSignature().toString().split(" ")[0] + " "
                 + jp.getSignature().toString().split(" ")[1] + " "
                 + Arrays.toString(jp.getArgs()));
+
+        // ToDo
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                System.out.println(( (UserDetails) principal ).getUsername());
+            }
+        }
     }
 
     @After("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
