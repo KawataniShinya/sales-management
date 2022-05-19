@@ -25,8 +25,6 @@ public class AuthUserRepositoryImpl extends AbstractBaseDbRepository implements 
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("CATEGORY", Constant.CATEGORY.ROLE.getValue());
         paramMap.put("ID", authUser.getId());
-        System.out.println(AUTH_SQL);
-        System.out.println(paramMap);
 
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
 

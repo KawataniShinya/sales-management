@@ -16,4 +16,8 @@ public class SearchApplUserServiceImpl implements SearchApplUserService {
         this.accessTestAppl.outputTestApplAll();
         this.accessTestAppl.outputTestApplLimit();
     }
+
+    public SearchApplUserServiceImpl() {
+        System.out.println("*** SearchApplUserServiceImpl() ***");
+    }
 }
