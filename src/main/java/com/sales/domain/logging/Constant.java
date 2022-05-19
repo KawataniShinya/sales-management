@@ -20,4 +20,30 @@ public class Constant {
             return this.value;
         }
     }
+
+    public enum LOG_TYPE {
+        ACCESS("ACCESS"),
+        ASPECT("ASPECT"),
+        DEBUG("DEBUG");
+
+        private String value;
+        private LOG_TYPE(String value) {this.value = value;}
+        public String getValue() {
+            return this.value;
+        }
+    }
+
+    public enum INTERCEPT_POINT {
+        PRE_HANDLE("PreHandle"),
+        POST_HANDLE("PostHandle"),
+        AFTER_COMPLETION("AfterCompletion"),
+        PRE_SERVICE("PreService"),
+        POST_SERVICE("PostService");
+
+        private String value;
+        private INTERCEPT_POINT(String value) {this.value = value;}
+        public String getValue() {
+            return this.value;
+        }
+    }
 }

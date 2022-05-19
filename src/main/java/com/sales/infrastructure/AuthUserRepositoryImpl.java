@@ -19,7 +19,7 @@ import java.util.Map;
 @Repository
 @Scope("prototype")
 @PropertySource(value = "classpath:properties/sql.properties")
-public class AuthUserRepositoryImpl extends AbstractBaseDbRepository implements AuthUserRepository {
+public class AuthUserRepositoryImpl extends AbstractBaseSystemDbRepository implements AuthUserRepository {
 
     private String AUTH_SQL;
 

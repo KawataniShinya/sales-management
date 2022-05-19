@@ -18,7 +18,7 @@ public class ApplicationLogImpl implements ApplicationLog{
 
     @Getter
     @Setter
-    private int threadNo;
+    private long threadNo;
 
     @Getter
     @Setter
@@ -79,7 +79,7 @@ public class ApplicationLogImpl implements ApplicationLog{
     @Override
     public void setFieldsFromMap(Map<String, Object> map) {
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue())) this.setTimestamp(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue())) this.setThreadNo(Integer.parseInt(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue()).toString()));
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue())) this.setThreadNo(Long.parseLong(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue()).toString()));
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue())) this.setRowNumber(Integer.parseInt(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue()).toString()));
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue())) this.setLogType(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue()).toString());
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue())) this.setInterceptPoint(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue()).toString());

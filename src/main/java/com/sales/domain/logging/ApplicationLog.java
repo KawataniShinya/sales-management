@@ -5,8 +5,8 @@ import java.util.Map;
 public interface ApplicationLog {
     public void setTimestamp(String timestamp);
     public String getTimestamp();
-    public void setThreadNo(int threadNo);
-    public int getThreadNo();
+    public void setThreadNo(long threadNo);
+    public long getThreadNo();
     public void setRowNumber(int rowNumber);
     public int getRowNumber();
     public void setLogType(String logType);

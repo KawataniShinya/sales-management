@@ -19,13 +19,13 @@ import java.util.Map;
 @Repository
 @Scope("prototype")
 @PropertySource(value = "classpath:properties/sql.properties")
-public class ApplicationLogRepositoryImpl extends AbstractBaseDbRepository implements ApplicationLogRepository {
+public class ApplicationLogRepositoryImpl extends AbstractBaseApplicationDbRepository implements ApplicationLogRepository {
 
     private String APL_LOG_INSERT_SQL;
 
     @Autowired
-    public ApplicationLogRepositoryImpl(@Qualifier("appljdbc01") JdbcTemplate jdbcTemplate,
-                                        @Qualifier("applNpjdbc01") NamedParameterJdbcTemplate npJdbcTemplate,
+    public ApplicationLogRepositoryImpl(@Qualifier("sysjdbc01") JdbcTemplate jdbcTemplate,
+                                        @Qualifier("sysNpjdbc01") NamedParameterJdbcTemplate npJdbcTemplate,
                                         @Value("${SYSSQL001}") String APL_LOG_INSERT_SQL) {
         super(jdbcTemplate, npJdbcTemplate);
         this.APL_LOG_INSERT_SQL = APL_LOG_INSERT_SQL;
@@ -36,7 +36,8 @@ public class ApplicationLogRepositoryImpl extends AbstractBaseDbRepository imple
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
         if (applicationLog.getTimestamp() != null) {
-            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), applicationLog.getTimestamp());
+//            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), applicationLog.getTimestamp());
+            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), new Timestamp(System.currentTimeMillis()));
         } else {
             paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), new Timestamp(System.currentTimeMillis()).toString());
         }
@@ -68,7 +69,12 @@ public class ApplicationLogRepositoryImpl extends AbstractBaseDbRepository imple
             paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), "");
         }
         if (applicationLog.getProcessReturnType() != null) {
-            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), applicationLog.getProcessReturnType());
+            if (applicationLog.getProcessReturnType().length() > 32) {
+                paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), applicationLog.getProcessReturnType().substring(0, 32));
+            }
+            else {
+                paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), applicationLog.getProcessReturnType());
+            }
         } else {
             paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), "");
         }
