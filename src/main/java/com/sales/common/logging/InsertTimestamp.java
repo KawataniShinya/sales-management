@@ -1,4 +1,4 @@
-package com.sales.domain.logging;
+package com.sales.common.logging;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -12,6 +12,10 @@ import java.util.Date;
 public class InsertTimestamp {
     Date date;
     private final int digitsStringTimestamp = 23;
+
+    public InsertTimestamp() {
+        this.date = new Date();
+    }
 
     public void setDate(String stringTimestamp) {
         String fixedStringTimestamp = getZeroPaddingString(stringTimestamp);

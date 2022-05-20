@@ -1,4 +1,4 @@
-package com.sales.common;
+package com.sales.configuration;
 
 import com.sales.domain.user.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;

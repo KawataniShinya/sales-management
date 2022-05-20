@@ -1,4 +1,4 @@
-package com.sales.domain.logging;
+package com.sales.common.logging;
 
 public class Constant {
     public enum DATA_SOURCE_FIELD_NAME_APPLICATION_LOG {

@@ -1,4 +1,4 @@
-package com.sales.domain.logging;
+package com.sales.common.logging;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +8,7 @@ import java.time.format.DateTimeParseException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InsertTimestampTest {
+
     private final int digitsStringTimestamp = 23;
 
     @Test
@@ -79,7 +80,7 @@ class InsertTimestampTest {
         }
     }
 
-        private String getZeroPaddingString(String stringTimestamp) {
+    private String getZeroPaddingString(String stringTimestamp) {
         StringBuilder stringBuilderToFixStringTimestamp = new StringBuilder(stringTimestamp).append("000");
         stringBuilderToFixStringTimestamp.setLength(this.digitsStringTimestamp);
         String fixedStringTimestamp = stringBuilderToFixStringTimestamp.toString();

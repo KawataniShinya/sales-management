@@ -1,6 +1,6 @@
-package com.sales.domain.logging;
+package com.sales.common.logging;
 
-public class ProcessReturnType {
+public class UserId {
 
     private String value = "";
 

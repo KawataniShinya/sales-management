@@ -1,4 +1,4 @@
-package com.sales.domain.logging;
+package com.sales.common.logging;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,41 +23,38 @@ public class ApplicationLogImpl implements ApplicationLog{
     @Setter
     private int rowNumber;
 
-    @Getter
-    @Setter
-    private String logType;
+    private LogType logType;
 
-    @Getter
-    @Setter
-    private String interceptPoint;
+    private InterceptPoint interceptPoint;
 
-    @Getter
-    @Setter
-    private String userId;
+    private UserId userId;
 
-    @Getter
-    @Setter
-    private String sessionId;
+    private SessionId sessionId;
 
-    @Getter
-    @Setter
-    private String processName;
+    private ProcessName processName;
 
     private ProcessReturnType processReturnType;
 
-    @Getter
-    @Setter
-    private String argumentValue;
+    private ArgumentValue argumentValue;
 
-    @Getter
-    @Setter
-    private String message;
+    private Message message;
 
     private ApplicationLogRepository applicationLogRepository;
 
     @Autowired
     public ApplicationLogImpl(ApplicationLogRepository applicationLogRepository) {
         this.applicationLogRepository = applicationLogRepository;
+        this.insertTimestamp = new InsertTimestamp();
+        this.threadNo = 0;
+        this.rowNumber = 0;
+        this.logType = new LogType();
+        this.interceptPoint = new InterceptPoint();
+        this.userId = new UserId();
+        this.sessionId = new SessionId();
+        this.processName = new ProcessName();
+        this.processReturnType = new ProcessReturnType();
+        this.argumentValue = new ArgumentValue();
+        this.message = new Message();
     }
 
     @Override
@@ -89,14 +86,64 @@ public class ApplicationLogImpl implements ApplicationLog{
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue())) this.setMessage(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue()).toString());
     }
 
-    public void setInsertTimestamp(String stringTimestamp) {
+    public void setInsertTimestamp(String value) {
         InsertTimestamp insertTimestamp = new InsertTimestamp();
-        insertTimestamp.setDate(stringTimestamp);
+        insertTimestamp.setDate(value);
         this.insertTimestamp = insertTimestamp;
     }
 
     public Timestamp getInsertTimestamp() {
         return this.insertTimestamp.getDateFormatTimestamp();
+    }
+
+    public void setLogType(String value) {
+        LogType logType = new LogType();
+        logType.setValue(value, true);
+        this.logType = logType;
+    }
+
+    public String getLogType() {
+        return this.logType.getValue();
+    }
+
+    public void setInterceptPoint(String value) {
+        InterceptPoint interceptPoint = new InterceptPoint();
+        interceptPoint.setValue(value, true);
+        this.interceptPoint = interceptPoint;
+    }
+
+    public String getInterceptPoint() {
+        return this.interceptPoint.getValue();
+    }
+
+    public void setUserId(String value) {
+        UserId userId = new UserId();
+        userId.setValue(value, true);
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return this.userId.getValue();
+    }
+
+    public void setSessionId(String value) {
+        SessionId sessionId = new SessionId();
+        sessionId.setValue(value, true);
+        this.sessionId = sessionId;
+    }
+
+    public String getSessionId() {
+        return this.sessionId.getValue();
+    }
+
+    public void setProcessName(String value) {
+        ProcessName processName = new ProcessName();
+        processName.setValue(value, true);
+        this.processName = processName;
+    }
+
+    public String getProcessName() {
+        return this.processName.getValue();
     }
 
     public void setProcessReturnType(String value) {
@@ -107,5 +154,25 @@ public class ApplicationLogImpl implements ApplicationLog{
 
     public String getProcessReturnType() {
         return this.processReturnType.getValue();
+    }
+
+    public void setArgumentValue(String value) {
+        ArgumentValue argumentValue = new ArgumentValue();
+        argumentValue.setValue(value, true);
+        this.argumentValue = argumentValue;
+    }
+
+    public String getArgumentValue() {
+        return this.argumentValue.getValue();
+    }
+
+    public void setMessage(String value) {
+        Message message = new Message();
+        message.setValue(value, true);
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return this.message.getValue();
     }
 }

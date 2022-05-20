@@ -1,4 +1,4 @@
-package com.sales.common;
+package com.sales.configuration;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;

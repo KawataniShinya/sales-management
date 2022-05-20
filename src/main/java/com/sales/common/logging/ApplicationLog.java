@@ -1,4 +1,4 @@
-package com.sales.domain.logging;
+package com.sales.common.logging;
 
 import java.sql.Timestamp;
 import java.util.Map;
