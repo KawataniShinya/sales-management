@@ -35,12 +35,13 @@ public class ApplicationLogRepositoryImpl extends AbstractBaseApplicationDbRepos
     public void insertLog(ApplicationLog applicationLog) {
         Map<String, Object> paramMap = new HashMap<String, Object>();
 
-        if (applicationLog.getTimestamp() != null) {
+//        if (applicationLog.getInsertTimestamp() != null) {
 //            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), applicationLog.getTimestamp());
-            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), new Timestamp(System.currentTimeMillis()));
-        } else {
-            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.TIMESTAMP.getValue(), new Timestamp(System.currentTimeMillis()).toString());
-        }
+//            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), new Timestamp(System.currentTimeMillis()));
+            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), applicationLog.getInsertTimestamp());
+//        } else {
+//            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), new Timestamp(System.currentTimeMillis()).toString());
+//        }
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), applicationLog.getThreadNo());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), applicationLog.getRowNumber());
         if (applicationLog.getLogType() != null) {
@@ -68,16 +69,18 @@ public class ApplicationLogRepositoryImpl extends AbstractBaseApplicationDbRepos
         } else {
             paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), "");
         }
-        if (applicationLog.getProcessReturnType() != null) {
-            if (applicationLog.getProcessReturnType().length() > 32) {
-                paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), applicationLog.getProcessReturnType().substring(0, 32));
-            }
-            else {
+
+//        if (applicationLog.getProcessReturnType() != null) {
+//            if (applicationLog.getProcessReturnType().length() > 32) {
+//                paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), applicationLog.getProcessReturnType().substring(0, 32));
+//            }
+//            else {
                 paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), applicationLog.getProcessReturnType());
-            }
-        } else {
-            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), "");
-        }
+//            }
+//        } else {
+//            paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), "");
+//        }
+
         if (applicationLog.getArgumentValue() != null) {
             paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), applicationLog.getArgumentValue());
         } else {

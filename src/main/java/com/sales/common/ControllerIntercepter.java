@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
 import java.util.Arrays;
 
 @Component
@@ -63,7 +62,6 @@ public class ControllerIntercepter implements HandlerInterceptor {
             });
         }
 
-        this.applicationLog.setTimestamp(new Timestamp(System.currentTimeMillis()).toString());
         this.applicationLog.setThreadNo(Thread.currentThread().getId());
         this.applicationLog.setRowNumber(0);
         this.applicationLog.setLogType(Constant.LOG_TYPE.ACCESS.getValue());
@@ -75,33 +73,6 @@ public class ControllerIntercepter implements HandlerInterceptor {
         this.applicationLog.setArgumentValue(sbParameterName.toString());
 
         this.applicationLog.outputLog();
-
-//        StringBuilder sbParameterType = new StringBuilder();
-//        StringBuilder sbParameterName = new StringBuilder();
-//        Arrays.stream(handlerMethod.getMethodParameters()).forEach(methodParameter -> {
-//            if (sbParameterType.isEmpty()) {
-//                sbParameterType.append("(");
-//                sbParameterName.append("[");
-//            } else {
-//                sbParameterType.append(", ");
-//                sbParameterName.append(", ");
-//            }
-//            sbParameterType.append(methodParameter.getParameter().getType().getName());
-//            sbParameterName.append(methodParameter.getParameter().getName());
-//        });
-//        sbParameterType.append(")");
-//        sbParameterName.append("]");
-//
-//        System.out.println(
-//                new Timestamp(System.currentTimeMillis()).toString() + " "
-//                + Thread.currentThread().getId() + " "
-//                + "[" + interceptPoint + "] "
-//                + handlerMethod.getBeanType().toString().split(" ")[0] + " "
-//                + handlerMethod.getBeanType().getName() + "."
-//                + handlerMethod.getMethod().getName()
-//                + sbParameterType.toString() + " "
-//                + sbParameterName.toString()
-//                + " , SESSTIONID : " + request.getSession().getId());
     }
 
     @Override

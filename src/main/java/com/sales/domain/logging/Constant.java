@@ -2,7 +2,7 @@ package com.sales.domain.logging;
 
 public class Constant {
     public enum DATA_SOURCE_FIELD_NAME_APPLICATION_LOG {
-        TIMESTAMP("TIMESTAMP"),
+        INSERT_TIMESTAMP("INSERT_TIMESTAMP"),
         THREAD_NO("THREAD_NO"),
         ROW_NUMBER("ROW_NUMBER"),
         LOG_TYPE("LOG_TYPE"),

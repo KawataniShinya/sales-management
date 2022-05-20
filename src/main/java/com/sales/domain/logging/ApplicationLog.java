@@ -1,10 +1,11 @@
 package com.sales.domain.logging;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 public interface ApplicationLog {
-    public void setTimestamp(String timestamp);
-    public String getTimestamp();
+    public void setInsertTimestamp(String timestamp);
+    public Timestamp getInsertTimestamp();
     public void setThreadNo(long threadNo);
     public long getThreadNo();
     public void setRowNumber(int rowNumber);

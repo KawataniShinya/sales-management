@@ -27,7 +27,7 @@ public class LoggingAspect {
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
             if (principal instanceof UserDetails) {
-                System.out.println(( (UserDetails) principal ).getUsername());
+                System.out.println("*** loggingBefore : " + ( (UserDetails) principal ).getUsername());
             }
         }
     }
