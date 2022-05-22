@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @Component
@@ -37,6 +38,9 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
+            this.setUserDataToThreadVariables(request);
+        }
         if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
             printLog(request, handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
         };
@@ -95,8 +99,8 @@ public class ControllerIntercepter implements HandlerInterceptor {
         this.applicationLog.setRowNumber(ThreadVariables.threadLocal.get().getLogRowNumberInThisThread());
         this.applicationLog.setLogType(Constant.LOG_TYPE.ACCESS.getValue());
         this.applicationLog.setInterceptPoint(interceptPoint);
-        this.applicationLog.setUserId(this.getUserName());
-        this.applicationLog.setSessionId(request.getSession().getId());
+        this.applicationLog.setUserId(ThreadVariables.threadLocal.get().getUserId());
+        this.applicationLog.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
         this.applicationLog.setProcessName(this.getProcessName(handler) + "." + this.getMethodName(handler));
         this.applicationLog.setProcessReturnType(this.getReturnType(handler) + "(" + this.getParameterType(handler).toString() + ")");
         this.applicationLog.setArgumentValue(this.getParameterName(handler).toString());
@@ -104,6 +108,12 @@ public class ControllerIntercepter implements HandlerInterceptor {
         if (!Arrays.asList(this.ignoreControllers).contains(this.applicationLog.getProcessName())) {
             this.applicationLog.outputLog();
         }
+    }
+
+    private void setUserDataToThreadVariables(HttpServletRequest request) {
+        ThreadVariables.threadLocal.get().setUserId(this.getUserName());
+        ThreadVariables.threadLocal.get().setRole(this.getRole());
+        ThreadVariables.threadLocal.get().setSessionId(request.getSession().getId());
     }
 
     private String getUserName(){
@@ -116,6 +126,15 @@ public class ControllerIntercepter implements HandlerInterceptor {
             }
         }
         return userName;
+    }
+
+    private String getRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String role = "";
+        if (authentication != null) {
+            role = new ArrayList<>(SecurityContextHolder.getContext().getAuthentication().getAuthorities()).get(0).toString();
+        }
+        return role;
     }
 
     private String getProcessName(Object handler) {

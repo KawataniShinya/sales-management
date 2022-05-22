@@ -16,8 +16,10 @@ public class Constant {
     }
 
     public enum ROLE {
+        ROLE_GUEST("0000"),
         ROLE_USER("0001"),
-        ROLE_ADMIN("0002");
+        ROLE_ADMIN("0002"),
+        ROLE_STAFF("0003");
 
         private String value;
         private ROLE(String value) {

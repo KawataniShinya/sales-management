@@ -62,7 +62,8 @@ public class LoggingAspect {
         this.applicationLog.setRowNumber(ThreadVariables.threadLocal.get().getLogRowNumberInThisThread());
         this.applicationLog.setLogType(Constant.LOG_TYPE.ASPECT.getValue());
         this.applicationLog.setInterceptPoint(interceptPoint);
-        this.applicationLog.setUserId(getUserName());
+        this.applicationLog.setUserId(ThreadVariables.threadLocal.get().getUserId());
+        this.applicationLog.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
         this.applicationLog.setProcessName(jp.getSignature().toString().split(" ")[1]);
         this.applicationLog.setProcessReturnType(jp.getSignature().toString().split(" ")[0]);
         this.applicationLog.setArgumentValue(Arrays.toString(jp.getArgs()));
@@ -70,15 +71,4 @@ public class LoggingAspect {
         this.applicationLog.outputLog();
     }
 
-    private String getUserName(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = "";
-        if (authentication != null) {
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof UserDetails) {
-                userName = ( (UserDetails) principal ).getUsername();
-            }
-        }
-        return userName;
-    }
 }
