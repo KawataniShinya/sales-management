@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SalesManagement {
 
-	@RequestMapping("/")
+	@RequestMapping("/**")
 	String index(){
 		return "Hello World!";
 	}

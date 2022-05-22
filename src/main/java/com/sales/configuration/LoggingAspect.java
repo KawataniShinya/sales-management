@@ -6,9 +6,6 @@ import com.sales.common.logging.Constant;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -19,13 +16,6 @@ public class LoggingAspect {
 
     private ApplicationLog applicationLog;
     private final String[] ignoreAspects = {"com.sales.infrastructure.ApplicationLogRepositoryImpl.insertLog(ApplicationLog)"};
-
-//    private static ThreadLocal<ThreadVariables> threadValiable = new ThreadLocal<ThreadVariables>(){
-//        @Override
-//        protected ThreadVariables initialValue(){
-//            return new ThreadVariables();
-//        }
-//    };
 
     @Autowired
     public LoggingAspect(ApplicationLog applicationLog) {
@@ -47,15 +37,6 @@ public class LoggingAspect {
     }
 
     private void printLog(JoinPoint jp, String interceptPoint) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = "";
-//        if (authentication != null) {
-//            Object principal = authentication.getPrincipal();
-//            if (principal instanceof UserDetails) {
-//                userName = ( (UserDetails) principal ).getUsername();
-//            }
-//        }
-
         this.applicationLog = this.applicationLog.createApplicationLog();
 
         this.applicationLog.setThreadNo(Thread.currentThread().getId());

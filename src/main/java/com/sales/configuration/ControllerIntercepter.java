@@ -24,13 +24,6 @@ public class ControllerIntercepter implements HandlerInterceptor {
     private ApplicationLog applicationLog;
     private final String[] ignoreControllers = {};
 
-//    private static ThreadLocal<ThreadVariable> threadValiable = new ThreadLocal<ThreadVariable>(){
-//        @Override
-//        protected ThreadVariable initialValue(){
-//            return new ThreadVariable();
-//        }
-//    };
-
     @Autowired
     public ControllerIntercepter(ApplicationLog applicationLog) {
         this.applicationLog = applicationLog;
@@ -38,12 +31,16 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        request.getSession().setAttribute("CURRENT_URI", request.getRequestURI().toString());
+
         if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
             this.setUserDataToThreadVariables(request);
         }
+
         if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
             printLog(request, handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
         };
+
         return true;
     }
 
@@ -58,41 +55,16 @@ public class ControllerIntercepter implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                                 @Nullable Exception ex) throws Exception {
+        if (request.getSession().getAttribute("CURRENT_URI") != null) {
+            request.getSession().setAttribute("PREVIOUS_URI", request.getSession().getAttribute("CURRENT_URI").toString());
+        }
+
         if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
             printLog(request, handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
         }
     }
 
     private void printLog(HttpServletRequest request, Object handler, String interceptPoint) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = "";
-//        if (authentication != null) {
-//            Object principal = authentication.getPrincipal();
-//            if (principal instanceof UserDetails) {
-//                userName = ( (UserDetails) principal ).getUsername();
-//            }
-//        }
-//
-//        String processName = "";
-//        String methodName = "";
-//        String returnType = "";
-//        StringBuilder sbParameterType = new StringBuilder();
-//        StringBuilder sbParameterName = new StringBuilder();
-//        if (HandlerMethod.class.isInstance(handler)) {
-//            HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
-//            processName = handlerMethod.getBeanType().getName();
-//            methodName = handlerMethod.getMethod().getName();
-//            returnType = handlerMethod.getBeanType().toString().split(" ")[0];
-//            Arrays.stream(handlerMethod.getMethodParameters()).forEach(methodParameter -> {
-//                if (!sbParameterType.isEmpty()) {
-//                    sbParameterType.append(", ");
-//                    sbParameterName.append(", ");
-//                }
-//                sbParameterType.append(methodParameter.getParameter().getType().getName());
-//                sbParameterName.append(methodParameter.getParameter().getName());
-//            });
-//        }
-
         this.applicationLog = this.applicationLog.createApplicationLog();
 
         this.applicationLog.setThreadNo(Thread.currentThread().getId());
