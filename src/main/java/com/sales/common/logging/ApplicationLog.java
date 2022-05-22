@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Map;
 
 public interface ApplicationLog{
+    public ApplicationLog createApplicationLog();
     public void init();
 
     public void setInsertTimestamp(String timestamp);

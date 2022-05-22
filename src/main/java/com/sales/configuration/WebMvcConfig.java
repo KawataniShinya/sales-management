@@ -7,10 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-//    @Bean
-//    ControllerIntercepter controllerIntercepter() {
-//        return new ControllerIntercepter();
-//    }
 
     ControllerIntercepter controllerIntercepter;
 

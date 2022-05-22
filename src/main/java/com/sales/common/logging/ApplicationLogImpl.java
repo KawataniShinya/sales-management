@@ -48,6 +48,11 @@ public class ApplicationLogImpl implements ApplicationLog{
     }
 
     @Override
+    public ApplicationLog createApplicationLog() {
+        return new ApplicationLogImpl(this.applicationLogRepository);
+    }
+
+    @Override
     public void init() {
         this.insertTimestamp = new InsertTimestamp();
         this.threadNo = 0;

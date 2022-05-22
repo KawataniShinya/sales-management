@@ -14,9 +14,9 @@ public class Login {
     @RequestMapping("/login")
     private String login(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes){
         if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
-            request.getSession().getAttributeNames().asIterator().forEachRemaining(e -> System.out.println(e.toString()));
-            System.out.println(request.getSession().getAttribute("org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN"));
-            System.out.println(request.getSession().getAttribute("SPRING_SECURITY_CONTEXT"));
+//            request.getSession().getAttributeNames().asIterator().forEachRemaining(e -> System.out.println(e.toString()));
+//            System.out.println(request.getSession().getAttribute("org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN"));
+//            System.out.println(request.getSession().getAttribute("SPRING_SECURITY_CONTEXT"));
             return "menu.html";
         }
         return "login.html";
