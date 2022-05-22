@@ -3,7 +3,9 @@ package com.sales.common.logging;
 import java.sql.Timestamp;
 import java.util.Map;
 
-public interface ApplicationLog {
+public interface ApplicationLog{
+    public void init();
+
     public void setInsertTimestamp(String timestamp);
     public Timestamp getInsertTimestamp();
     public void setThreadNo(long threadNo);
@@ -26,6 +28,9 @@ public interface ApplicationLog {
     public String getArgumentValue();
     public void setMessage(String message);
     public String getMessage();
+
     public void outputLog();
     public void setFieldsFromMap(Map<String, Object> map);
+
+    public ApplicationLogImpl clone();
 }

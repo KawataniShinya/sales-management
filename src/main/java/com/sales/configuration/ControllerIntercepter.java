@@ -20,6 +20,7 @@ import java.util.Arrays;
 public class ControllerIntercepter implements HandlerInterceptor {
 
     private ApplicationLog applicationLog;
+    private final String[] ignoreAspects = {"com.sales.infrastructure.ApplicationLogRepositoryImpl.insertLog(ApplicationLog)"};
 
     @Autowired
     public ControllerIntercepter(ApplicationLog applicationLog) {
@@ -30,6 +31,18 @@ public class ControllerIntercepter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         printLog(request, handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                           @Nullable ModelAndView modelAndView) throws Exception {
+        printLog(request, handler, Constant.INTERCEPT_POINT.POST_HANDLE.getValue());
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+                                @Nullable Exception ex) throws Exception {
+        printLog(request, handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
     }
 
     private void printLog(HttpServletRequest request, Object handler, String interceptPoint) {
@@ -62,6 +75,9 @@ public class ControllerIntercepter implements HandlerInterceptor {
             });
         }
 
+        this.applicationLog = this.applicationLog.clone();
+        this.applicationLog.init();
+
         this.applicationLog.setThreadNo(Thread.currentThread().getId());
         this.applicationLog.setRowNumber(0);
         this.applicationLog.setLogType(Constant.LOG_TYPE.ACCESS.getValue());
@@ -72,21 +88,9 @@ public class ControllerIntercepter implements HandlerInterceptor {
         this.applicationLog.setProcessReturnType(returnType + "(" + sbParameterType.toString() + ")");
         this.applicationLog.setArgumentValue(sbParameterName.toString());
 
-        this.applicationLog.outputLog();
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           @Nullable ModelAndView modelAndView) throws Exception {
-        System.out.println("**** postHandle ****");
-        printLog(request, handler, Constant.INTERCEPT_POINT.POST_HANDLE.getValue());
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-                                @Nullable Exception ex) throws Exception {
-        printLog(request, handler, "AfterCompletion");
-        printLog(request, handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
+        if (!Arrays.asList(this.ignoreAspects).contains(this.applicationLog.getProcessName())) {
+            this.applicationLog.outputLog();
+        }
     }
 
 }
