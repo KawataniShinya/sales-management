@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+package "AuthUser Sub Domain" {
+    entity AuthUser {}
+}
+
+package "Staff Sub Domain" {
+    entity Staff {}
+    entity Manager {}
+}
+
+package "Department Sub Domain" {
+    entity Department {}
+}
+
+package "ApplicationForm Sub Domain" {
+    entity ApplicationForm {}
+    entity PersonnelRegistration {}
+    entity HolidayRequest {}
+}
+
+package "ConferenceRoom Sub Domain" {
+    entity ConferenceRoom {}
+    entity RoomReservation {}
+}
+
+package "Customer Sub Domain" {
+    entity Customer {}
+}
+
+note "Core Domain" as commentCoreDomain
+folder "Order Sub Domain" as OrderSubDomain {
+    entity Order {}
+}
+OrderSubDomain .. commentCoreDomain
+
+package "Contract Sub Domain" {
+    entity Contract {}
+}
+
+package "SoftwareService Sub Domain" {
+    entity SoftwareService {}
+}
+
+AuthUser ||--o| Customer
+AuthUser ||--o| Staff
+Customer ||--o{ Contract
+Customer ||--o{ Order
+Contract }|--|| SoftwareService
+Order }|--|| SoftwareService
+Staff ||--o| Manager
+Staff }o--|| Department
+Department ||--|| Manager
+Staff ||--o{ ApplicationForm
+ApplicationForm ||--o{ PersonnelRegistration
+ApplicationForm ||--o{ HolidayRequest
+Staff ||--o{ RoomReservation
+ConferenceRoom ||--o{ RoomReservation
+
+@enduml
