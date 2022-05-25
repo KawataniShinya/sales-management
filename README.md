@@ -3,8 +3,16 @@
 ## Description
 
 ## Components
+- Java
+- Spring Boot
+- Thymeleaf
+- MySQL
+- PostgreSQL
+- JUnit
 
 ## Development Environment And Tools
+- Intellij IDEA
+- Gradle
 
 ## Demo
 
