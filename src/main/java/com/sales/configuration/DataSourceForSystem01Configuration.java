@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -48,4 +50,9 @@ public class DataSourceForSystem01Configuration {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
+    @Bean("sysTransactionManager")
+    @Primary
+    public PlatformTransactionManager createPlatformTransactionManager(@Qualifier("sysds01") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 }

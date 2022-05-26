@@ -25,4 +25,10 @@ public class AccessTestApplImpl implements AccessTestAppl {
         System.out.println("AccessTest_Appl_limit : " + this.accessTestApplRepository.selectLimit());
     }
 
+    @Override
+    public void insertTestApp() {
+        System.out.println("AccessTest_Appl_insert");
+        this.accessTestApplRepository.insertUser();
+    }
+
 }

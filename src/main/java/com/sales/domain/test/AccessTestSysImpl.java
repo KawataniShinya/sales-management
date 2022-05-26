@@ -24,4 +24,10 @@ public class AccessTestSysImpl implements AccessTestSys {
     public void outputTestSysLimit() {
         System.out.println("AccessTest_Sys_limit : " + this.accessTestSysRepository.selectLimit());
     }
+
+    @Override
+    public void insertTestSys() {
+        System.out.println("AccessTest_Sys_insert");
+        this.accessTestSysRepository.insertUser();
+    }
 }

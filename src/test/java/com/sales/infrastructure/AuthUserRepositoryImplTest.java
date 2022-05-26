@@ -1,6 +1,5 @@
 package com.sales.infrastructure;
 
-import com.sales.common.DataSourceForApplication01ConfigurationTestMock;
 import com.sales.domain.user.AuthUser;
 import com.sales.domain.user.AuthUserRepository;
 import org.dbunit.database.DatabaseConnection;
@@ -10,63 +9,62 @@ import org.dbunit.dataset.excel.XlsDataSet;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
-@Transactional
-@Import(DataSourceForApplication01ConfigurationTestMock.class)
 @PropertySource(value = "classpath:properties/sql.properties")
 @DisplayName("認証用リポジトリテストクラス")
 class AuthUserRepositoryImplTest {
 
     private AuthUser authUser;
-    private DataSource dataSource;
-    private AuthUserRepository authUserRepository;
+    private DataSource dataSourceTest;
+    private AuthUserRepository authUserRepositoryTest;
+    private PlatformTransactionManager sysTransactionManager;
 
     @Autowired
     public AuthUserRepositoryImplTest(AuthUser authUser,
-                                      @Qualifier("applds01TestMock") DataSource dataSource,
-                                      @Qualifier("appljdbc01TestMock") JdbcTemplate jdbcTemplate,
-                                      @Qualifier("applNpjdbc01TestMock") NamedParameterJdbcTemplate npJdbcTemplate,
-                                      @Value("${APPLSQL001}") String AUTH_SQL) {
+                                      @Qualifier("applds01") DataSource dataSourceTest,
+                                      AuthUserRepository authUserRepositoryTest,
+                                      @Qualifier("sysTransactionManager") PlatformTransactionManager sysTransactionManager) {
         this.authUser = authUser;
-        this.dataSource = dataSource;
-        this.authUserRepository = new AuthUserRepositoryImpl(jdbcTemplate, npJdbcTemplate, AUTH_SQL);
+        this.dataSourceTest = dataSourceTest;
+        this.authUserRepositoryTest = authUserRepositoryTest;
+        this.sysTransactionManager = sysTransactionManager;
     }
 
     @Test
+    @Transactional(transactionManager = "applTransactionManager")
     @DisplayName("正常系 ユーザー取得")
     public void testNomal01() {
-        Connection connection = null;
-        IDatabaseConnection iDatabaseConnection = null;
+        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        this.sysTransactionManager.getTransaction(transactionDefinition);
 
         try {
-            connection = this.dataSource.getConnection();
-            connection.setAutoCommit(false);
-
-            iDatabaseConnection= new DatabaseConnection(connection);
-            IDataSet dataset = new XlsDataSet(new File("./src/test/resources/test.xlsx"));
-            DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection,dataset);
+            Connection connectionTest = DataSourceUtils.getConnection(this.dataSourceTest);
+            IDatabaseConnection iDatabaseConnectionTest= new DatabaseConnection(connectionTest);
+            IDataSet dataset = new XlsDataSet(new File("./src/test/resources/" +
+                    Thread.currentThread().getStackTrace()[1].getClassName().replaceAll("\\.", "/") + "/" +
+                    Thread.currentThread().getStackTrace()[1].getMethodName() + "/" +
+                    "init.xlsx"));
+            DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnectionTest,dataset);
 
             Map<String, Object> expectMap = new HashMap<>();
             expectMap.put("ID", "root");
@@ -78,21 +76,12 @@ class AuthUserRepositoryImplTest {
             expectList.add(expectMap);
 
             this.authUser.setId("root");
-            List<Map<String, Object>> resultList = this.authUserRepository.findByUserId(this.authUser);
+            List<Map<String, Object>> resultList = this.authUserRepositoryTest.findByUserId(this.authUser);
 
             assertEquals(expectList, resultList);
         } catch (Exception e) {
             assertTrue(false);
             e.printStackTrace();
-        } finally {
-            try{
-                if(connection!=null) {
-                    connection.rollback();
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -44,4 +44,9 @@ public class AccessTestApplRepositoryImpl implements AccessTestApplRepository {
 
         return npJdbcTemplate.queryForList(sql12, paramMap1);
     }
+
+    @Override
+    public void insertUser() {
+        this.npJdbcTemplate.update("insert into shain_table(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
+    }
 }

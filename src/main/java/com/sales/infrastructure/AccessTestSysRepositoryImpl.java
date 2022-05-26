@@ -44,4 +44,9 @@ public class AccessTestSysRepositoryImpl implements AccessTestSysRepository {
         paramMap2.put("SEI", "男");
         return npJdbcTemplate.queryForList(sql22, paramMap2);
     }
+
+    @Override
+    public void insertUser() {
+        this.npJdbcTemplate.update("insert into T_MST_EMPLOYEE(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
+    }
 }
