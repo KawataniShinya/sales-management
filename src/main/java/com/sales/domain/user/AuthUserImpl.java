@@ -58,7 +58,7 @@ public class AuthUserImpl implements AuthUser {
     @Setter
     private String updateUser;
 
-    private AuthUserRepository authUserRepository;
+    private final AuthUserRepository authUserRepository;
 
     @Autowired
     public AuthUserImpl(AuthUserRepository authUserRepository) {
@@ -70,7 +70,7 @@ public class AuthUserImpl implements AuthUser {
 
         this.setId(username);
         List<Map<String, Object>> resultList = authUserRepository.findByUserId(this);
-        if (resultList.isEmpty() || resultList.size() > 1) {
+        if (resultList.size() != 1) {
             throw new UsernameNotFoundException("not found : " + username);
         }
         this.setFieldsFromMap(resultList.get(0));

@@ -33,8 +33,7 @@ public class InsertTimestamp {
     private String getZeroPaddingString(String stringTimestamp) {
         StringBuilder stringBuilderToFixStringTimestamp = new StringBuilder(stringTimestamp).append("000");
         stringBuilderToFixStringTimestamp.setLength(this.digitsStringTimestamp);
-        String fixedStringTimestamp = stringBuilderToFixStringTimestamp.toString();
-        return fixedStringTimestamp;
+        return stringBuilderToFixStringTimestamp.toString();
     }
 
     public Timestamp getDateFormatTimestamp() {

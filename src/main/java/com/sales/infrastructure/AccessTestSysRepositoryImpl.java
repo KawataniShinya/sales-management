@@ -47,6 +47,6 @@ public class AccessTestSysRepositoryImpl implements AccessTestSysRepository {
 
     @Override
     public void insertUser() {
-        this.npJdbcTemplate.update("insert into T_MST_EMPLOYEE(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
+//        this.npJdbcTemplate.update("insert into T_MST_EMPLOYEE(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
     }
 }

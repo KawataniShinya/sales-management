@@ -1,5 +1,6 @@
 package com.sales.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -16,14 +17,22 @@ import javax.sql.DataSource;
 @Component
 @Configuration
 public class DataSourceForApplication01Configuration {
-    @Value("${spring.datasource.application01.driverClassName}")
-    private String driverClassName;
-    @Value("${spring.datasource.application01.url}")
-    private String url;
-    @Value("${spring.datasource.application01.username}")
-    private String username;
-    @Value("${spring.datasource.application01.password}")
-    private String password;
+    private final String driverClassName;
+    private final String url;
+    private final String username;
+    private final String password;
+
+    @Autowired
+    public DataSourceForApplication01Configuration(
+            @Value("${spring.datasource.application01.driverClassName}") String driverClassName,
+            @Value("${spring.datasource.application01.url}") String url,
+            @Value("${spring.datasource.application01.username}") String username,
+            @Value("${spring.datasource.application01.password}") String password) {
+        this.driverClassName = driverClassName;
+        this.url = url;
+        this.username = username;
+        this.password = password;
+    }
 
     @Bean("applds01")
     public DataSource createDataSource() {

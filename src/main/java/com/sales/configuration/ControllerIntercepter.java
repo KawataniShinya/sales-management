@@ -30,41 +30,41 @@ public class ControllerIntercepter implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        request.getSession().setAttribute("CURRENT_URI", request.getRequestURI().toString());
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        request.getSession().setAttribute("CURRENT_URI", request.getRequestURI());
 
         if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
             this.setUserDataToThreadVariables(request);
         }
 
         if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(request, handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
-        };
+            printLog(handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
+        }
 
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           @Nullable ModelAndView modelAndView) throws Exception {
+                           @Nullable ModelAndView modelAndView) {
         if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(request, handler, Constant.INTERCEPT_POINT.POST_HANDLE.getValue());
+            printLog(handler, Constant.INTERCEPT_POINT.POST_HANDLE.getValue());
         }
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-                                @Nullable Exception ex) throws Exception {
+                                @Nullable Exception ex) {
         if (request.getSession().getAttribute("CURRENT_URI") != null) {
             request.getSession().setAttribute("PREVIOUS_URI", request.getSession().getAttribute("CURRENT_URI").toString());
         }
 
         if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(request, handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
+            printLog(handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
         }
     }
 
-    private void printLog(HttpServletRequest request, Object handler, String interceptPoint) {
+    private void printLog(Object handler, String interceptPoint) {
         this.applicationLog = this.applicationLog.createApplicationLog();
 
         this.applicationLog.setThreadNo(Thread.currentThread().getId());
@@ -74,8 +74,8 @@ public class ControllerIntercepter implements HandlerInterceptor {
         this.applicationLog.setUserId(ThreadVariables.threadLocal.get().getUserId());
         this.applicationLog.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
         this.applicationLog.setProcessName(this.getProcessName(handler) + "." + this.getMethodName(handler));
-        this.applicationLog.setProcessReturnType(this.getReturnType(handler) + "(" + this.getParameterType(handler).toString() + ")");
-        this.applicationLog.setArgumentValue(this.getParameterName(handler).toString());
+        this.applicationLog.setProcessReturnType(this.getReturnType(handler) + "(" + this.getParameterType(handler) + ")");
+        this.applicationLog.setArgumentValue(this.getParameterName(handler));
 
         if (!Arrays.asList(this.ignoreControllers).contains(this.applicationLog.getProcessName())) {
             this.applicationLog.outputLog();
@@ -111,8 +111,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     private String getProcessName(Object handler) {
         String processName = "";
-        if (HandlerMethod.class.isInstance(handler)) {
-            HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
+        if (handler instanceof HandlerMethod handlerMethod) {
             processName = handlerMethod.getBeanType().getName();
         }
         return processName;
@@ -120,8 +119,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     private String getMethodName(Object handler) {
         String methodName = "";
-        if (HandlerMethod.class.isInstance(handler)) {
-            HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
+        if (handler instanceof HandlerMethod handlerMethod) {
             methodName = handlerMethod.getMethod().getName();
         }
         return methodName;
@@ -129,8 +127,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     private String getReturnType(Object handler) {
         String returnType = "";
-        if (HandlerMethod.class.isInstance(handler)) {
-            HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
+        if (handler instanceof HandlerMethod handlerMethod) {
             returnType = handlerMethod.getBeanType().toString().split(" ")[0];
         }
         return returnType;
@@ -138,8 +135,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     private String getParameterType(Object handler) {
         StringBuilder sbParameterType = new StringBuilder();
-        if (HandlerMethod.class.isInstance(handler)) {
-            HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
+        if (handler instanceof HandlerMethod handlerMethod) {
             Arrays.stream(handlerMethod.getMethodParameters()).forEach(methodParameter -> {
                 if (!sbParameterType.isEmpty()) {
                     sbParameterType.append(", ");
@@ -152,8 +148,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     private String getParameterName(Object handler) {
         StringBuilder sbParameterName = new StringBuilder();
-        if (HandlerMethod.class.isInstance(handler)) {
-            HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
+        if (handler instanceof HandlerMethod handlerMethod) {
             Arrays.stream(handlerMethod.getMethodParameters()).forEach(methodParameter -> {
                 if (!sbParameterName.isEmpty()) {
                     sbParameterName.append(", ");

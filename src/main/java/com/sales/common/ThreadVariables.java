@@ -6,12 +6,8 @@ import lombok.Setter;
 
 public class ThreadVariables {
 
-    public static ThreadLocal<ThreadVariables> threadLocal = new ThreadLocal<ThreadVariables>(){
-        @Override
-        protected ThreadVariables initialValue(){
-            return new ThreadVariables();
-        }
-    };
+    public static ThreadLocal<ThreadVariables> threadLocal =
+            ThreadLocal.withInitial(ThreadVariables::new);
 
     private int logRowNumberInThisThread;
 

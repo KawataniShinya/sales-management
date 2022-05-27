@@ -21,7 +21,7 @@ import java.util.Map;
 @PropertySource(value = "classpath:properties/sql.properties")
 public class AuthUserRepositoryImpl extends AbstractBaseSystemDbRepository implements AuthUserRepository {
 
-    private String AUTH_SQL;
+    private final String AUTH_SQL;
 
     @Autowired
     public AuthUserRepositoryImpl(@Qualifier("appljdbc01") JdbcTemplate jdbcTemplate,
@@ -33,12 +33,10 @@ public class AuthUserRepositoryImpl extends AbstractBaseSystemDbRepository imple
 
     @Override
     public List<Map<String, Object>> findByUserId(AuthUser authUser) {
-        Map<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY.getValue(), Constant.CATEGORY.ROLE.getValue());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue(), authUser.getId());
 
-        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
-
-        return resultList;
+        return npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
     }
 }

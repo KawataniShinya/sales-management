@@ -20,7 +20,7 @@ import java.util.Map;
 @PropertySource(value = "classpath:properties/sql.properties")
 public class ApplicationLogRepositoryImpl extends AbstractBaseApplicationDbRepository implements ApplicationLogRepository {
 
-    private String APL_LOG_INSERT_SQL;
+    private final String APL_LOG_INSERT_SQL;
 
     @Autowired
     public ApplicationLogRepositoryImpl(@Qualifier("sysjdbc01") JdbcTemplate jdbcTemplate,
@@ -32,7 +32,7 @@ public class ApplicationLogRepositoryImpl extends AbstractBaseApplicationDbRepos
 
     @Override
     public void insertLog(ApplicationLog applicationLog) {
-        Map<String, Object> paramMap = new HashMap<String, Object>();
+        Map<String, Object> paramMap = new HashMap<>();
 
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), applicationLog.getInsertTimestamp());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), applicationLog.getThreadNo());

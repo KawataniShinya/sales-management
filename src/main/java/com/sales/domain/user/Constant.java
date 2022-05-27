@@ -6,8 +6,8 @@ public class Constant {
         GENDER("0002"),
         ROLE("0003");
 
-        private String value;
-        private CATEGORY(String value) {
+        private final String value;
+        CATEGORY(String value) {
             this.value = value;
         }
         public String getValue() {
@@ -21,8 +21,8 @@ public class Constant {
         ROLE_ADMIN("0002"),
         ROLE_STAFF("0003");
 
-        private String value;
-        private ROLE(String value) {
+        private final String value;
+        ROLE(String value) {
             this.value = value;
         }
         public String getValue() {
@@ -33,8 +33,8 @@ public class Constant {
     public enum DATA_SOURCE_FIELD_NAME_GENERIC_CD {
         CATEGORY("CATEGORY");
 
-        private String value;
-        private DATA_SOURCE_FIELD_NAME_GENERIC_CD(String value) {this.value = value;}
+        private final String value;
+        DATA_SOURCE_FIELD_NAME_GENERIC_CD(String value) {this.value = value;}
         public String getValue() {
             return this.value;
         }
@@ -53,8 +53,8 @@ public class Constant {
         UPDATE_TIMESTAMP("UPDATE_TIMESTAMP"),
         UPDATE_USER("UPDATE_USER");
 
-        private String value;
-        private DATA_SOURCE_FIELD_NAME_AUTH_USER(String value) {this.value = value;}
+        private final String value;
+        DATA_SOURCE_FIELD_NAME_AUTH_USER(String value) {this.value = value;}
         public String getValue() {
             return this.value;
         }

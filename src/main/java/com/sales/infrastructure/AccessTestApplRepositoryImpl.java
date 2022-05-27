@@ -47,6 +47,6 @@ public class AccessTestApplRepositoryImpl implements AccessTestApplRepository {
 
     @Override
     public void insertUser() {
-        this.npJdbcTemplate.update("insert into shain_table(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
+//        this.npJdbcTemplate.update("insert into shain_table(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
     }
 }

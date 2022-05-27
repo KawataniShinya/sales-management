@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Scope("prototype")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private AuthUser authUser;
+    private final AuthUser authUser;
 
     @Autowired
     public UserDetailsServiceImpl(AuthUser authUser) {

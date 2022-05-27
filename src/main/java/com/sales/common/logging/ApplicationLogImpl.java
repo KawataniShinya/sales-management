@@ -39,7 +39,7 @@ public class ApplicationLogImpl implements ApplicationLog{
 
     private Message message;
 
-    private ApplicationLogRepository applicationLogRepository;
+    private final ApplicationLogRepository applicationLogRepository;
 
     @Autowired
     public ApplicationLogImpl(ApplicationLogRepository applicationLogRepository) {

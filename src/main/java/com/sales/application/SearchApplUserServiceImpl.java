@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Scope("prototype")
 public class SearchApplUserServiceImpl implements SearchApplUserService {
 
-    private AccessTestAppl accessTestAppl;
+    private final AccessTestAppl accessTestAppl;
 
     @Autowired
     public SearchApplUserServiceImpl(AccessTestAppl accessTestAppl) {

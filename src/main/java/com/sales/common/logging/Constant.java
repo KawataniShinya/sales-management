@@ -14,8 +14,8 @@ public class Constant {
         ARGUMENT_VALUE("ARGUMENT_VALUE"),
         MESSAGE("MESSAGE");
 
-        private String value;
-        private DATA_SOURCE_FIELD_NAME_APPLICATION_LOG(String value) {this.value = value;}
+        private final String value;
+        DATA_SOURCE_FIELD_NAME_APPLICATION_LOG(String value) {this.value = value;}
         public String getValue() {
             return this.value;
         }
@@ -26,8 +26,8 @@ public class Constant {
         ASPECT("ASPECT"),
         DEBUG("DEBUG");
 
-        private String value;
-        private LOG_TYPE(String value) {this.value = value;}
+        private final String value;
+        LOG_TYPE(String value) {this.value = value;}
         public String getValue() {
             return this.value;
         }
@@ -40,8 +40,8 @@ public class Constant {
         PRE_SERVICE("PreService"),
         POST_SERVICE("PostService");
 
-        private String value;
-        private INTERCEPT_POINT(String value) {this.value = value;}
+        private final String value;
+        INTERCEPT_POINT(String value) {this.value = value;}
         public String getValue() {
             return this.value;
         }
