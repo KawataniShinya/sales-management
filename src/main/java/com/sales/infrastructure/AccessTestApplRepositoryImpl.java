@@ -10,9 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Scope("prototype")
@@ -48,5 +46,13 @@ public class AccessTestApplRepositoryImpl implements AccessTestApplRepository {
     @Override
     public void insertUser() {
 //        this.npJdbcTemplate.update("insert into shain_table(id,name,sei,nen,address) values('900','藤田信正','男','2020','大阪府大阪市')", new HashMap<String, Object>());
+        Set<String> ids = new HashSet<>();
+        ids.add("102");
+        ids.add("104");
+        ids.add("900");
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("IDS", ids);
+        paramMap.put("NEN", "2003");
+        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList("SELECT * FROM SHAIN_TABLE WHERE ID IN (:IDS) AND NEN > :NEN", paramMap);
     }
 }

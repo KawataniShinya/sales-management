@@ -25,7 +25,7 @@ public class Login {
 //            ArrayList<? extends GrantedAuthority> roleList = new ArrayList<>(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 //            roleList.forEach(role -> System.out.println(role.toString()));
 //            System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
-            return "menu.html";
+            return "forward:/menu";
         }
         return "login.html";
     }

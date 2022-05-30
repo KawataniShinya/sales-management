@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>メニュー</title>
+</head>
+<body>
+    <h1><span th:text="${status}">OK</span></h1>
+
+    <p>ユーザーID：<span th:text="${id}">000</span></p>
+    <p>ユーザー名：<span th:text="${name}">John Doe</span></p>
+    <!--/* -->
+    <p>ロール：<span th:text="${role}">Role</span></p>
+    <!-- */-->
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">ログアウト</button>
+    </form>
+</body>
+</html>
