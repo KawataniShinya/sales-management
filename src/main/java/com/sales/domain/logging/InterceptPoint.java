@@ -1,4 +1,4 @@
-package com.sales.common.logging;
+package com.sales.domain.logging;
 
 public class InterceptPoint {
 

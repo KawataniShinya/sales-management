@@ -1,8 +1,8 @@
 package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
-import com.sales.common.logging.ApplicationLog;
-import com.sales.common.logging.Constant;
+import com.sales.domain.logging.ApplicationLog;
+import com.sales.domain.logging.Constant;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,9 @@ import java.util.Arrays;
 public class LoggingAspect {
 
     private ApplicationLog applicationLog;
-    private final String[] ignoreAspects = {"com.sales.infrastructure.ApplicationLogRepositoryImpl.insertLog(ApplicationLog)"};
+    private final String[] ignoreAspects = {
+            "com.sales.infrastructure.ApplicationLogRepositoryImpl.insertLog(ApplicationLog)",
+            "com.sales.domain.logging"};
 
     @Autowired
     public LoggingAspect(ApplicationLog applicationLog) {
@@ -24,16 +26,24 @@ public class LoggingAspect {
 
     @Before("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
     public void loggingBefore(JoinPoint jp) {
-        if (!Arrays.asList(this.ignoreAspects).contains(jp.getSignature().toString().split(" ")[1])) {
+        if (isLoggingJointPoint(jp)) {
             printLog(jp, Constant.INTERCEPT_POINT.PRE_SERVICE.getValue());
         }
     }
 
     @After("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
     public void loggingAfter(JoinPoint jp) {
-        if (!Arrays.asList(this.ignoreAspects).contains(jp.getSignature().toString().split(" ")[1])) {
+        if (isLoggingJointPoint(jp)) {
             printLog(jp, Constant.INTERCEPT_POINT.POST_SERVICE.getValue());
         }
+
+    }
+
+    private boolean isLoggingJointPoint(JoinPoint jp) {
+        for (String ignore: this.ignoreAspects) {
+            if (jp.getSignature().toString().split(" ")[1].contains(ignore)) return false;
+        }
+        return true;
     }
 
     private void printLog(JoinPoint jp, String interceptPoint) {

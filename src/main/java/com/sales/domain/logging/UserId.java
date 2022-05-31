@@ -1,10 +1,10 @@
-package com.sales.common.logging;
+package com.sales.domain.logging;
 
-public class LogType {
+public class UserId {
 
     private String value = "";
 
-    private final int digits = 16;
+    private final int digits = 32;
 
     public void setValue(String value, boolean forceSetValue) {
         if (value.length() > this.digits) {

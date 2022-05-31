@@ -1,4 +1,4 @@
-package com.sales.common.logging;
+package com.sales.domain.logging;
 
 import lombok.Getter;
 import lombok.Setter;

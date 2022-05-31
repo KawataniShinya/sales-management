@@ -1,8 +1,8 @@
 package com.sales.infrastructure;
 
-import com.sales.common.logging.ApplicationLog;
-import com.sales.common.logging.ApplicationLogRepository;
-import com.sales.common.logging.Constant;
+import com.sales.domain.logging.ApplicationLog;
+import com.sales.domain.logging.ApplicationLogRepository;
+import com.sales.domain.logging.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

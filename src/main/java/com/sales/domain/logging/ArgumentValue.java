@@ -1,10 +1,10 @@
-package com.sales.common.logging;
+package com.sales.domain.logging;
 
-public class SessionId {
+public class ArgumentValue {
 
     private String value = "";
 
-    private final int digits = 64;
+    private final int digits = 128;
 
     public void setValue(String value, boolean forceSetValue) {
         if (value.length() > this.digits) {

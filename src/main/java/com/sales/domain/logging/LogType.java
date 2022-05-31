@@ -1,10 +1,10 @@
-package com.sales.common.logging;
+package com.sales.domain.logging;
 
-public class Message {
+public class LogType {
 
     private String value = "";
 
-    private final int digits = 1024;
+    private final int digits = 16;
 
     public void setValue(String value, boolean forceSetValue) {
         if (value.length() > this.digits) {

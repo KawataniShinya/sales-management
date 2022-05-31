@@ -1,10 +1,10 @@
-package com.sales.common.logging;
+package com.sales.domain.logging;
 
-public class ProcessName {
+public class SessionId {
 
     private String value = "";
 
-    private final int digits = 256;
+    private final int digits = 64;
 
     public void setValue(String value, boolean forceSetValue) {
         if (value.length() > this.digits) {

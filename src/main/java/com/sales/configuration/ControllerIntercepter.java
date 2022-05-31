@@ -1,8 +1,8 @@
 package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
-import com.sales.common.logging.ApplicationLog;
-import com.sales.common.logging.Constant;
+import com.sales.domain.logging.ApplicationLog;
+import com.sales.domain.logging.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
