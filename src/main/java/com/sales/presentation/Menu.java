@@ -17,7 +17,7 @@ public class Menu {
     private String result(HttpServletRequest request, Model model){
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        model.addAttribute("id", auth.getName());
-        model.addAttribute("id", ThreadVariables.threadLocal.get().getUserId());
+        model.addAttribute("userId", ThreadVariables.threadLocal.get().getUserId());
         model.addAttribute("name", "test");
         model.addAttribute("role", ThreadVariables.threadLocal.get().getRole());
 

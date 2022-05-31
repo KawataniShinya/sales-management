@@ -35,7 +35,7 @@ public class AuthUserRepositoryImpl extends AbstractBaseSystemDbRepository imple
     public List<Map<String, Object>> findByUserId(AuthUser authUser) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY.getValue(), Constant.CATEGORY.ROLE.getValue());
-        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue(), authUser.getId());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue(), authUser.getUserId());
 
         return npJdbcTemplate.queryForList(AUTH_SQL, paramMap);
     }

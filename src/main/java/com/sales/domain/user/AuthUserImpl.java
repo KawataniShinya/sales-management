@@ -16,7 +16,7 @@ public class AuthUserImpl implements AuthUser {
 
     @Getter
     @Setter
-    private String id;
+    private String userId;
 
     @Getter
     @Setter
@@ -68,7 +68,7 @@ public class AuthUserImpl implements AuthUser {
     @Override
     public AuthUser setAuthUserByUserId(String username) {
 
-        this.setId(username);
+        this.setUserId(username);
         List<Map<String, Object>> resultList = authUserRepository.findByUserId(this);
         if (resultList.size() != 1) {
             throw new UsernameNotFoundException("not found : " + username);
@@ -80,7 +80,7 @@ public class AuthUserImpl implements AuthUser {
 
     @Override
     public void setFieldsFromMap(Map<String, Object> map) {
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue())) this.setId(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ID.getValue()).toString());
+        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue())) this.setUserId(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue()).toString());
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue())) this.setPassword(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue()).toString());
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue())) this.setAuthority(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue()).toString());
         if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue())) this.setAuthorityValue(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue()).toString());

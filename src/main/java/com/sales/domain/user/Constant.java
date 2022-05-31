@@ -41,7 +41,7 @@ public class Constant {
     }
 
     public enum DATA_SOURCE_FIELD_NAME_AUTH_USER {
-        ID("ID"),
+        USER_ID("USER_ID"),
         PASSWORD("PASSWORD"),
         AUTHORITY("AUTHORITY"),
         AUTHORITY_VALUE("AUTHORITY_VALUE"),

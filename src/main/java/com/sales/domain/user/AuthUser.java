@@ -3,8 +3,8 @@ package com.sales.domain.user;
 import java.util.Map;
 
 public interface AuthUser {
-    void setId(String userId);
-    String getId();
+    void setUserId(String userId);
+    String getUserId();
     void setPassword(String password);
     String getPassword();
     void setAuthority(String authority);
