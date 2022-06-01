@@ -3,6 +3,8 @@ package com.sales.configuration;
 import com.sales.common.ThreadVariables;
 import com.sales.domain.logging.ApplicationLog;
 import com.sales.domain.logging.Constant;
+import com.sales.presentation.Logging;
+import com.sales.presentation.bean.LoggingCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -22,11 +24,14 @@ import java.util.Arrays;
 public class ControllerIntercepter implements HandlerInterceptor {
 
     private ApplicationLog applicationLog;
-    private final String[] ignoreControllers = {};
+    private Logging logging;
+    private final String[] ignoreControllers = {"com.sales.application.LoggingServiceImpl"};
 
     @Autowired
-    public ControllerIntercepter(ApplicationLog applicationLog) {
+    public ControllerIntercepter(ApplicationLog applicationLog,
+                                 Logging logging) {
         this.applicationLog = applicationLog;
+        this.logging = logging;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
             this.setUserDataToThreadVariables(request);
         }
 
-        if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
+        if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
             printLog(handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
         }
 
@@ -47,7 +52,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) {
-        if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
+        if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
             printLog(handler, Constant.INTERCEPT_POINT.POST_HANDLE.getValue());
         }
     }
@@ -59,27 +64,35 @@ public class ControllerIntercepter implements HandlerInterceptor {
             request.getSession().setAttribute("PREVIOUS_URI", request.getSession().getAttribute("CURRENT_URI").toString());
         }
 
-        if (!Arrays.asList(this.ignoreControllers).contains(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
+        if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
             printLog(handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
         }
     }
 
-    private void printLog(Object handler, String interceptPoint) {
-        this.applicationLog = this.applicationLog.createApplicationLog();
-
-        this.applicationLog.setThreadNo(Thread.currentThread().getId());
-        this.applicationLog.setRowNumber(ThreadVariables.threadLocal.get().getLogRowNumberInThisThread());
-        this.applicationLog.setLogType(Constant.LOG_TYPE.ACCESS.getValue());
-        this.applicationLog.setInterceptPoint(interceptPoint);
-        this.applicationLog.setUserId(ThreadVariables.threadLocal.get().getUserId());
-        this.applicationLog.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
-        this.applicationLog.setProcessName(this.getProcessName(handler) + "." + this.getMethodName(handler));
-        this.applicationLog.setProcessReturnType(this.getReturnType(handler) + "(" + this.getParameterType(handler) + ")");
-        this.applicationLog.setArgumentValue(this.getParameterName(handler));
-
-        if (!Arrays.asList(this.ignoreControllers).contains(this.applicationLog.getProcessName())) {
-            this.applicationLog.outputLog();
+    private boolean isLoggingController(String controller) {
+        for (String ignore: this.ignoreControllers) {
+            if (controller.contains(ignore)) return false;
         }
+        return true;
+    }
+
+    private void printLog(Object handler, String interceptPoint) {
+        LoggingCreateRequest loggingCreateRequest = new LoggingCreateRequest();
+
+        loggingCreateRequest.setThreadNo(String.valueOf(Thread.currentThread().getId()));
+        loggingCreateRequest.setRowNumber(String.valueOf(ThreadVariables.threadLocal.get().getLogRowNumberInThisThread()));
+        loggingCreateRequest.setLogType(Constant.LOG_TYPE.ACCESS.getValue());
+        loggingCreateRequest.setInterceptPoint(interceptPoint);
+        loggingCreateRequest.setUserId(ThreadVariables.threadLocal.get().getUserId());
+        loggingCreateRequest.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
+        loggingCreateRequest.setProcessName(this.getProcessName(handler) + "." + this.getMethodName(handler));
+        loggingCreateRequest.setProcessReturnType(this.getReturnType(handler) + "(" + this.getParameterType(handler) + ")");
+        loggingCreateRequest.setArgumentValue(this.getParameterName(handler));
+
+        ArrayList<LoggingCreateRequest> loggingArray = new ArrayList<>();
+        loggingArray.add(loggingCreateRequest);
+
+        this.logging.create(loggingArray);
     }
 
     private void setUserDataToThreadVariables(HttpServletRequest request) {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Scope("prototype")
@@ -73,24 +74,44 @@ public class AuthUserImpl implements AuthUser {
         if (resultList.size() != 1) {
             throw new UsernameNotFoundException("not found : " + username);
         }
-        this.setFieldsFromMap(resultList.get(0));
+        this.setFieldsByMapFromDataSource(resultList.get(0));
 
         return this;
     }
 
     @Override
-    public void setFieldsFromMap(Map<String, Object> map) {
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue())) this.setUserId(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue())) this.setPassword(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue())) this.setAuthority(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue())) this.setAuthorityValue(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_START.getValue())) this.setExpirationStart(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_START.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_END.getValue())) this.setExpirationEnd(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_END.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ENABLED.getValue())) this.setEnabled(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ENABLED.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_TIMESTAMP.getValue())) this.setInsertTimestamp(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_TIMESTAMP.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_USER.getValue())) this.setInsertUser(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_USER.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_TIMESTAMP.getValue())) this.setUpdateTimestamp(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_TIMESTAMP.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_USER.getValue())) this.setUpdateUser(map.get(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_USER.getValue()).toString());
-    }
+    public void setFieldsByMapFromDataSource(Map<String, Object> map) {
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue(), null))
+                .ifPresent(object -> this.setUserId(object.toString()));
 
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.PASSWORD.getValue(), null))
+                .ifPresent(object -> this.setPassword(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY.getValue(), null))
+                .ifPresent(object -> this.setAuthority(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.AUTHORITY_VALUE.getValue(), null))
+                .ifPresent(object -> this.setAuthorityValue(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_START.getValue(), null))
+                .ifPresent(object -> this.setExpirationStart(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_END.getValue(), null))
+                .ifPresent(object -> this.setExpirationEnd(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.ENABLED.getValue(), null))
+                .ifPresent(object -> this.setEnabled(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_TIMESTAMP.getValue(), null))
+                .ifPresent(object -> this.setInsertTimestamp(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.INSERT_USER.getValue(), null))
+                .ifPresent(object -> this.setInsertUser(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_TIMESTAMP.getValue(), null))
+                .ifPresent(object -> this.setUpdateTimestamp(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.UPDATE_USER.getValue(), null))
+                .ifPresent(object -> this.setUpdateUser(object.toString()));
+    }
 }

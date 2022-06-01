@@ -24,5 +24,5 @@ public interface AuthUser {
     void setUpdateUser(String updateUser);
     String getUpdateUser();
     AuthUser setAuthUserByUserId(String username);
-    void setFieldsFromMap(Map<String, Object> map);
+    void setFieldsByMapFromDataSource(Map<String, Object> map);
 }

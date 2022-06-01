@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Scope("prototype")
@@ -82,18 +83,75 @@ public class ApplicationLogImpl implements ApplicationLog{
     }
 
     @Override
-    public void setFieldsFromMap(Map<String, Object> map) {
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue())) this.setInsertTimestamp(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue())) this.setThreadNo(Long.parseLong(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue()).toString()));
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue())) this.setRowNumber(Integer.parseInt(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue()).toString()));
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue())) this.setLogType(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue())) this.setInterceptPoint(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue())) this.setUserId(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue())) this.setSessionId(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue())) this.setProcessName(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue())) this.setProcessReturnType(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue())) this.setArgumentValue(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue()).toString());
-        if(map.containsKey(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue())) this.setMessage(map.get(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue()).toString());
+    public void setFieldsByMapFromDataSource(Map<String, Object> map) {
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), null))
+                .ifPresent(object -> this.setInsertTimestamp(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), null))
+                .ifPresent(object -> this.setThreadNo(Long.parseLong(object.toString())));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), null))
+                .ifPresent(object -> this.setRowNumber(Integer.parseInt(object.toString())));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue(), null))
+                .ifPresent(object -> this.setLogType(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue(), null))
+                .ifPresent(object -> this.setInterceptPoint(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue(), null))
+                .ifPresent(object -> this.setUserId(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue(), null))
+                .ifPresent(object -> this.setSessionId(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), null))
+                .ifPresent(object -> this.setProcessName(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), null))
+                .ifPresent(object -> this.setProcessReturnType(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), null))
+                .ifPresent(object -> this.setArgumentValue(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue(), null))
+                .ifPresent(object -> this.setMessage(object.toString()));
+    }
+
+    @Override
+    public void setFieldsByMapFromApi(Map<String, Object> map) {
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), null))
+                .ifPresent(object -> this.setInsertTimestamp(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), null))
+                .ifPresent(object -> this.setThreadNo(Long.parseLong(object.toString())));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), null))
+                .ifPresent(object -> this.setRowNumber(Integer.parseInt(object.toString())));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue(), null))
+                .ifPresent(object -> this.setLogType(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue(), null))
+                .ifPresent(object -> this.setInterceptPoint(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue(), null))
+                .ifPresent(object -> this.setUserId(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue(), null))
+                .ifPresent(object -> this.setSessionId(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), null))
+                .ifPresent(object -> this.setProcessName(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), null))
+                .ifPresent(object -> this.setProcessReturnType(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), null))
+                .ifPresent(object -> this.setArgumentValue(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue(), null))
+                .ifPresent(object -> this.setMessage(object.toString()));
     }
 
     public void setInsertTimestamp(String value) {

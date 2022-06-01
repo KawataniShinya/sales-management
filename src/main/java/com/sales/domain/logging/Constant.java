@@ -21,6 +21,26 @@ public class Constant {
         }
     }
 
+    public enum API_FIELD_NAME_APPLICATION_LOG {
+        INSERT_TIMESTAMP("insertTimestamp"),
+        THREAD_NO("threadNo"),
+        ROW_NUMBER("rowNumber"),
+        LOG_TYPE("logType"),
+        INTERCEPT_POINT("interceptPoint"),
+        USER_ID("userId"),
+        SESSION_ID("sessionId"),
+        PROCESS_NAME("processName"),
+        PROCESS_RETURN_TYPE("processReturnType"),
+        ARGUMENT_VALUE("argumentValue"),
+        MESSAGE("message");
+
+        private final String value;
+        API_FIELD_NAME_APPLICATION_LOG(String value) {this.value = value;}
+        public String getValue() {
+            return this.value;
+        }
+    }
+
     public enum LOG_TYPE {
         ACCESS("ACCESS"),
         ASPECT("ASPECT"),

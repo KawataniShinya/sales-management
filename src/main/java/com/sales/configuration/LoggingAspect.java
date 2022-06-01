@@ -17,7 +17,8 @@ public class LoggingAspect {
     private ApplicationLog applicationLog;
     private final String[] ignoreAspects = {
             "com.sales.infrastructure.ApplicationLogRepositoryImpl.insertLog(ApplicationLog)",
-            "com.sales.domain.logging"};
+            "com.sales.domain.logging",
+            "com.sales.application.LoggingServiceImpl"};
 
     @Autowired
     public LoggingAspect(ApplicationLog applicationLog) {
