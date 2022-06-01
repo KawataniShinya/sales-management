@@ -3,6 +3,8 @@ package com.sales.domain.user;
 import java.util.Map;
 
 public interface AuthUser {
+    AuthUser createAuthUser();
+
     void setUserId(String userId);
     String getUserId();
     void setPassword(String password);
@@ -23,6 +25,7 @@ public interface AuthUser {
     String getInsertUser();
     void setUpdateUser(String updateUser);
     String getUpdateUser();
+
     AuthUser setAuthUserByUserId(String username);
     void setFieldsByMapFromDataSource(Map<String, Object> map);
 }

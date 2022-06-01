@@ -1,7 +1,6 @@
 package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
-import com.sales.domain.logging.ApplicationLog;
 import com.sales.domain.logging.Constant;
 import com.sales.presentation.Logging;
 import com.sales.presentation.bean.LoggingCreateRequest;
@@ -23,14 +22,11 @@ import java.util.Arrays;
 @Component
 public class ControllerIntercepter implements HandlerInterceptor {
 
-    private ApplicationLog applicationLog;
-    private Logging logging;
+    private final Logging logging;
     private final String[] ignoreControllers = {"com.sales.application.LoggingServiceImpl"};
 
     @Autowired
-    public ControllerIntercepter(ApplicationLog applicationLog,
-                                 Logging logging) {
-        this.applicationLog = applicationLog;
+    public ControllerIntercepter(Logging logging) {
         this.logging = logging;
     }
 

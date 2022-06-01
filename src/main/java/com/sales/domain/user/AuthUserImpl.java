@@ -67,6 +67,11 @@ public class AuthUserImpl implements AuthUser {
     }
 
     @Override
+    public AuthUser createAuthUser() {
+        return new AuthUserImpl(this.authUserRepository);
+    }
+
+    @Override
     public AuthUser setAuthUserByUserId(String username) {
 
         this.setUserId(username);
