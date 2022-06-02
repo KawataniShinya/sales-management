@@ -3,8 +3,8 @@ package com.sales.infrastructure;
 import com.sales.common.ApplicationLogConstant;
 import com.sales.common.LoggingDelegateRepository;
 import com.sales.common.ThreadVariables;
-import com.sales.presentation.Logging;
-import com.sales.presentation.bean.LoggingCreateRequest;
+import com.sales.presentation.LoggingController;
+import com.sales.presentation.dto.LoggingCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -17,11 +17,11 @@ import java.util.Map;
 @Repository
 @Scope("prototype")
 public class LoggingDelegateRepositoryImpl implements LoggingDelegateRepository {
-    private final Logging logging;
+    private final LoggingController loggingController;
 
     @Autowired
-    public LoggingDelegateRepositoryImpl(Logging logging) {
-        this.logging = logging;
+    public LoggingDelegateRepositoryImpl(LoggingController loggingController) {
+        this.loggingController = loggingController;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LoggingDelegateRepositoryImpl implements LoggingDelegateRepository 
         loggingCreateRequest.setInterceptPoint(ApplicationLogConstant.INTERCEPT_POINT.REPOSITORY.getValue());
         loggingCreateRequest.setUserId(ThreadVariables.threadLocal.get().getUserId());
         loggingCreateRequest.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
-        loggingCreateRequest.setProcessName(enclosingClass.getName() + "." + enclosingMethod.getName() + "(" + sbParameterType.toString() + ")");
+        loggingCreateRequest.setProcessName(enclosingClass.getName() + "." + enclosingMethod.getName() + "(" + sbParameterType + ")");
         loggingCreateRequest.setProcessReturnType(enclosingMethod.getReturnType().getName());
         loggingCreateRequest.setArgumentValue("");
         loggingCreateRequest.setMessage(sqlId + " : " + sqlStatement + " / " + paramMap);
@@ -55,6 +55,6 @@ public class LoggingDelegateRepositoryImpl implements LoggingDelegateRepository 
         ArrayList<LoggingCreateRequest> loggingArray = new ArrayList<>();
         loggingArray.add(loggingCreateRequest);
 
-        this.logging.create(loggingArray);
+        this.loggingController.create(loggingArray);
     }
 }

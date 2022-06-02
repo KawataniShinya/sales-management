@@ -3,8 +3,8 @@ package com.sales.presentation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sales.application.LoggingService;
-import com.sales.presentation.bean.LoggingCreateRequest;
-import com.sales.presentation.bean.LoggingCreateResponse;
+import com.sales.presentation.dto.LoggingCreateRequest;
+import com.sales.presentation.dto.LoggingCreateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,11 +16,11 @@ import java.util.List;
 
 @RestController
 @Scope("prototype")
-public class Logging {
+public class LoggingController {
     public final LoggingService loggingService;
 
     @Autowired
-    public Logging(LoggingService loggingService) {
+    public LoggingController(LoggingService loggingService) {
         this.loggingService = loggingService;
     }
 

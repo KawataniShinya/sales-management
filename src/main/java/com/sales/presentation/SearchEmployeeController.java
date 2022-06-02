@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @PropertySource(value = "classpath:properties/sql.properties")
-public class SearchEmployee {
+public class SearchEmployeeController {
 
     private SearchSysUserService searchSysUserService;
     private SearchApplUserService searchApplUserService;
 
     @Autowired
-    public SearchEmployee(SearchSysUserService searchSysUserService,
-                          SearchApplUserService searchApplUserService,
-                          GenericApplicationContext context) {
+    public SearchEmployeeController(SearchSysUserService searchSysUserService,
+                                    SearchApplUserService searchApplUserService,
+                                    GenericApplicationContext context) {
         this.searchSysUserService = searchSysUserService;
         this.searchApplUserService = searchApplUserService;
     }

@@ -33,9 +33,6 @@ public class ThreadVariables {
         return this.logRowNumberInThisThread++;
     }
 
-    public void setRole(Constant.ROLE role) {
-        this.role = role;
-    }
     public void setRole(String role) {
         this.role = Constant.ROLE.valueOf(role);
     }

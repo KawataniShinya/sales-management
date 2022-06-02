@@ -2,8 +2,8 @@ package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
 import com.sales.common.ApplicationLogConstant;
-import com.sales.presentation.Logging;
-import com.sales.presentation.bean.LoggingCreateRequest;
+import com.sales.presentation.LoggingController;
+import com.sales.presentation.dto.LoggingCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -22,12 +22,12 @@ import java.util.Arrays;
 @Component
 public class ControllerIntercepter implements HandlerInterceptor {
 
-    private final Logging logging;
+    private final LoggingController loggingController;
     private final String[] ignoreControllers = {"com.sales.application.LoggingServiceImpl"};
 
     @Autowired
-    public ControllerIntercepter(Logging logging) {
-        this.logging = logging;
+    public ControllerIntercepter(LoggingController loggingController) {
+        this.loggingController = loggingController;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
         ArrayList<LoggingCreateRequest> loggingArray = new ArrayList<>();
         loggingArray.add(loggingCreateRequest);
 
-        this.logging.create(loggingArray);
+        this.loggingController.create(loggingArray);
     }
 
     private void setUserDataToThreadVariables(HttpServletRequest request) {

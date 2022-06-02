@@ -2,8 +2,8 @@ package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
 import com.sales.common.ApplicationLogConstant;
-import com.sales.presentation.Logging;
-import com.sales.presentation.bean.LoggingCreateRequest;
+import com.sales.presentation.LoggingController;
+import com.sales.presentation.dto.LoggingCreateRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,15 @@ import java.util.Arrays;
 @Component
 public class LoggingAspect {
 
-    private final Logging logging;
+    private final LoggingController loggingController;
     private final String[] ignoreAspects = {
             "com.sales.infrastructure.ApplicationLogRepositoryImpl.insertLog(ApplicationLog)",
             "com.sales.domain.logging",
             "com.sales.application.LoggingServiceImpl"};
 
     @Autowired
-    public LoggingAspect(Logging logging) {
-        this.logging = logging;
+    public LoggingAspect(LoggingController loggingController) {
+        this.loggingController = loggingController;
     }
 
     @Before("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
@@ -65,7 +65,7 @@ public class LoggingAspect {
         ArrayList<LoggingCreateRequest> loggingArray = new ArrayList<>();
         loggingArray.add(loggingCreateRequest);
 
-        this.logging.create(loggingArray);
+        this.loggingController.create(loggingArray);
     }
 
 }

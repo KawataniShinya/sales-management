@@ -1,19 +1,16 @@
 package com.sales.presentation;
 
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 @Controller
 @Scope("prototype")
-public class Login {
+public class LoginController {
     @RequestMapping("/login")
     private String login(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes){
         if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
