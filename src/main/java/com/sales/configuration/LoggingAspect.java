@@ -1,7 +1,7 @@
 package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
-import com.sales.domain.logging.Constant;
+import com.sales.common.ApplicationLogConstant;
 import com.sales.presentation.Logging;
 import com.sales.presentation.bean.LoggingCreateRequest;
 import org.aspectj.lang.JoinPoint;
@@ -30,14 +30,14 @@ public class LoggingAspect {
     @Before("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
     public void loggingBefore(JoinPoint jp) {
         if (isLoggingJointPoint(jp)) {
-            printLog(jp, Constant.INTERCEPT_POINT.PRE_SERVICE.getValue());
+            printLog(jp, ApplicationLogConstant.INTERCEPT_POINT.PRE_SERVICE.getValue());
         }
     }
 
     @After("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
     public void loggingAfter(JoinPoint jp) {
         if (isLoggingJointPoint(jp)) {
-            printLog(jp, Constant.INTERCEPT_POINT.POST_SERVICE.getValue());
+            printLog(jp, ApplicationLogConstant.INTERCEPT_POINT.POST_SERVICE.getValue());
         }
 
     }
@@ -54,7 +54,7 @@ public class LoggingAspect {
 
         loggingCreateRequest.setThreadNo(String.valueOf(Thread.currentThread().getId()));
         loggingCreateRequest.setRowNumber(String.valueOf(ThreadVariables.threadLocal.get().getLogRowNumberInThisThread()));
-        loggingCreateRequest.setLogType(Constant.LOG_TYPE.ASPECT.getValue());
+        loggingCreateRequest.setLogType(ApplicationLogConstant.LOG_TYPE.ASPECT.getValue());
         loggingCreateRequest.setInterceptPoint(interceptPoint);
         loggingCreateRequest.setUserId(ThreadVariables.threadLocal.get().getUserId());
         loggingCreateRequest.setSessionId(ThreadVariables.threadLocal.get().getSessionId());

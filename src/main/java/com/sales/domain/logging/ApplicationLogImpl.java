@@ -1,5 +1,6 @@
 package com.sales.domain.logging;
 
+import com.sales.common.ApplicationLogConstant;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,73 +85,73 @@ public class ApplicationLogImpl implements ApplicationLog{
 
     @Override
     public void setFieldsByMapFromDataSource(Map<String, Object> map) {
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), null))
                 .ifPresent(object -> this.setInsertTimestamp(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), null))
                 .ifPresent(object -> this.setThreadNo(Long.parseLong(object.toString())));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), null))
                 .ifPresent(object -> this.setRowNumber(Integer.parseInt(object.toString())));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue(), null))
                 .ifPresent(object -> this.setLogType(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue(), null))
                 .ifPresent(object -> this.setInterceptPoint(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue(), null))
                 .ifPresent(object -> this.setUserId(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue(), null))
                 .ifPresent(object -> this.setSessionId(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), null))
                 .ifPresent(object -> this.setProcessName(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), null))
                 .ifPresent(object -> this.setProcessReturnType(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), null))
                 .ifPresent(object -> this.setArgumentValue(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.DATA_SOURCE_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue(), null))
                 .ifPresent(object -> this.setMessage(object.toString()));
     }
 
     @Override
     public void setFieldsByMapFromApi(Map<String, Object> map) {
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.INSERT_TIMESTAMP.getValue(), null))
                 .ifPresent(object -> this.setInsertTimestamp(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.THREAD_NO.getValue(), null))
                 .ifPresent(object -> this.setThreadNo(Long.parseLong(object.toString())));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.ROW_NUMBER.getValue(), null))
                 .ifPresent(object -> this.setRowNumber(Integer.parseInt(object.toString())));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.LOG_TYPE.getValue(), null))
                 .ifPresent(object -> this.setLogType(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.INTERCEPT_POINT.getValue(), null))
                 .ifPresent(object -> this.setInterceptPoint(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.USER_ID.getValue(), null))
                 .ifPresent(object -> this.setUserId(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.SESSION_ID.getValue(), null))
                 .ifPresent(object -> this.setSessionId(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.PROCESS_NAME.getValue(), null))
                 .ifPresent(object -> this.setProcessName(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.PROCESS_RETURN_TYPE.getValue(), null))
                 .ifPresent(object -> this.setProcessReturnType(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.ARGUMENT_VALUE.getValue(), null))
                 .ifPresent(object -> this.setArgumentValue(object.toString()));
 
-        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue(), null))
+        Optional.ofNullable(map.getOrDefault(ApplicationLogConstant.API_FIELD_NAME_APPLICATION_LOG.MESSAGE.getValue(), null))
                 .ifPresent(object -> this.setMessage(object.toString()));
     }
 

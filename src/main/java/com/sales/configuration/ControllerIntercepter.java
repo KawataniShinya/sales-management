@@ -1,7 +1,7 @@
 package com.sales.configuration;
 
 import com.sales.common.ThreadVariables;
-import com.sales.domain.logging.Constant;
+import com.sales.common.ApplicationLogConstant;
 import com.sales.presentation.Logging;
 import com.sales.presentation.bean.LoggingCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
         }
 
         if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(handler, Constant.INTERCEPT_POINT.PRE_HANDLE.getValue());
+            printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.PRE_HANDLE.getValue());
         }
 
         return true;
@@ -49,7 +49,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) {
         if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(handler, Constant.INTERCEPT_POINT.POST_HANDLE.getValue());
+            printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.POST_HANDLE.getValue());
         }
     }
 
@@ -61,7 +61,7 @@ public class ControllerIntercepter implements HandlerInterceptor {
         }
 
         if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(handler, Constant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
+            printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
         }
     }
 
@@ -77,12 +77,15 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
         loggingCreateRequest.setThreadNo(String.valueOf(Thread.currentThread().getId()));
         loggingCreateRequest.setRowNumber(String.valueOf(ThreadVariables.threadLocal.get().getLogRowNumberInThisThread()));
-        loggingCreateRequest.setLogType(Constant.LOG_TYPE.ACCESS.getValue());
+        loggingCreateRequest.setLogType(ApplicationLogConstant.LOG_TYPE.ACCESS.getValue());
         loggingCreateRequest.setInterceptPoint(interceptPoint);
         loggingCreateRequest.setUserId(ThreadVariables.threadLocal.get().getUserId());
         loggingCreateRequest.setSessionId(ThreadVariables.threadLocal.get().getSessionId());
-        loggingCreateRequest.setProcessName(this.getProcessName(handler) + "." + this.getMethodName(handler));
-        loggingCreateRequest.setProcessReturnType(this.getReturnType(handler) + "(" + this.getParameterType(handler) + ")");
+        loggingCreateRequest.setProcessName(
+                this.getProcessName(handler) + "." +
+                this.getMethodName(handler) +
+                "(" + this.getParameterType(handler) + ")");
+        loggingCreateRequest.setProcessReturnType(this.getReturnType(handler));
         loggingCreateRequest.setArgumentValue(this.getParameterName(handler));
 
         ArrayList<LoggingCreateRequest> loggingArray = new ArrayList<>();

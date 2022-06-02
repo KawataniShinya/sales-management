@@ -8,6 +8,8 @@ import com.sales.presentation.bean.LoggingCreateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class Logging {
         this.loggingService = loggingService;
     }
 
+    @RequestMapping(value = "/logging", method = RequestMethod.POST)
     public List<LoggingCreateResponse> create(@RequestBody List<LoggingCreateRequest> listLoggingCreateRequest) {
         listLoggingCreateRequest.forEach(loggingCreateRequest ->
                 this.loggingService.outputLog(new ObjectMapper().convertValue(loggingCreateRequest, new TypeReference<>() { })));

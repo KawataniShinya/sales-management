@@ -1,6 +1,6 @@
-package com.sales.domain.logging;
+package com.sales.common;
 
-public class Constant {
+public class ApplicationLogConstant {
     public enum DATA_SOURCE_FIELD_NAME_APPLICATION_LOG {
         INSERT_TIMESTAMP("INSERT_TIMESTAMP"),
         THREAD_NO("THREAD_NO"),
@@ -58,7 +58,9 @@ public class Constant {
         POST_HANDLE("PostHandle"),
         AFTER_COMPLETION("AfterCompletion"),
         PRE_SERVICE("PreService"),
-        POST_SERVICE("PostService");
+        POST_SERVICE("PostService"),
+        DOMAIN("Domain"),
+        REPOSITORY("Repository");
 
         private final String value;
         INTERCEPT_POINT(String value) {this.value = value;}

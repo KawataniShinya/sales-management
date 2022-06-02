@@ -6,15 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoggingCreateRequest {
-    public String insertTimestamp;
-    public String threadNo;
-    public String rowNumber;
-    public String logType;
-    public String interceptPoint;
-    public String userId;
-    public String sessionId;
-    public String processName;
-    public String processReturnType;
-    public String argumentValue;
-    public String message;
+    private String insertTimestamp;
+    private String threadNo;
+    private String rowNumber;
+    private String logType;
+    private String interceptPoint;
+    private String userId;
+    private String sessionId;
+    private String processName;
+    private String processReturnType;
+    private String argumentValue;
+    private String message;
 }
