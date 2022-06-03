@@ -41,6 +41,7 @@ public class WebSecurityConfigration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll() //cssへアクセス許可
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -53,8 +54,10 @@ public class WebSecurityConfigration extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-        ;
+                .logoutSuccessUrl("/login");
+        http
+            .csrf()
+            .ignoringAntMatchers("/api/**");
     }
 
     @Autowired

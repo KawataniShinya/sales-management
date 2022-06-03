@@ -23,7 +23,9 @@ import java.util.Arrays;
 public class ControllerIntercepter implements HandlerInterceptor {
 
     private final LoggingController loggingController;
-    private final String[] ignoreControllers = {"com.sales.application.LoggingServiceImpl"};
+    private final String[] ignoreControllers = {
+            "com.sales.application.LoggingServiceImpl",
+            "com.sales.presentation.LoggingController"};
 
     @Autowired
     public ControllerIntercepter(LoggingController loggingController) {

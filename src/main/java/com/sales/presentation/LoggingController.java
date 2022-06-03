@@ -24,7 +24,7 @@ public class LoggingController {
         this.loggingService = loggingService;
     }
 
-    @RequestMapping(value = "/logging", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/logging", method = RequestMethod.POST)
     public List<LoggingCreateResponse> create(@RequestBody List<LoggingCreateRequest> listLoggingCreateRequest) {
         listLoggingCreateRequest.forEach(loggingCreateRequest ->
                 this.loggingService.outputLog(new ObjectMapper().convertValue(loggingCreateRequest, new TypeReference<>() { })));
