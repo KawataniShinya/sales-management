@@ -38,11 +38,18 @@ package "Customer Sub Domain" {
 note "Core Domain" as commentCoreDomain
 folder "Order Sub Domain" as OrderSubDomain {
     entity Order {}
+    entity OrderItems {}
 }
 OrderSubDomain .. commentCoreDomain
 
+package "Engineering Management Sub Domain" {
+    entity DeliveryProcess {}
+    entity ProductionProcess {}
+}
+
 package "Contract Sub Domain" {
     entity Contract {}
+    entity ContractItems {}
 }
 
 package "SoftwareService Sub Domain" {
@@ -53,8 +60,12 @@ AuthUser ||--o| Customer
 AuthUser ||--o| Staff
 Customer ||--o{ Contract
 Customer ||--o{ Order
+Contract ||--|{ ContractItems
 Contract }|--|| SoftwareService
+Order ||--|{ OrderItems
 Order }|--|| SoftwareService
+DeliveryProcess }|--|| OrderItems
+ProductionProcess }|--|| SoftwareService
 Staff ||--o| Manager
 Staff }o--|| Department
 Department ||--|| Manager
