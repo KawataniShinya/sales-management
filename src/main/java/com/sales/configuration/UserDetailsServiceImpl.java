@@ -1,6 +1,6 @@
 package com.sales.configuration;
 
-import com.sales.domain.user.AuthUser;
+import com.sales.domain.auth.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.authority.AuthorityUtils;

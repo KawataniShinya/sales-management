@@ -26,7 +26,7 @@ public class SearchEmployeeController {
     }
 
     @RequestMapping("/serch")
-    private String serch(){
+    public String serch(){
         this.searchSysUserService.searchSysUser();
         this.searchApplUserService.searchApplUser();
 

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Scope("prototype")
 public class MenuController {
     @RequestMapping("/menu")
-    private String result(HttpServletRequest request, Model model){
+    public String result(HttpServletRequest request, Model model){
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        model.addAttribute("id", auth.getName());
 
@@ -24,6 +24,9 @@ public class MenuController {
         model.addAttribute("userId", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue()));
         model.addAttribute("userName", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_NAME.getValue()));
         model.addAttribute("role", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue()));
+        model.addAttribute("departmentName", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.DEPARTMENT_NAME.getValue()));
+        model.addAttribute("privateEmail", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.PRIVATE_EMAIL.getValue()));
+        model.addAttribute("workplaceEmail", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.WORKPLACE_EMAIL.getValue()));
 
 //        switch (ThreadVariables.threadLocal.get().getRole()) {
 //            case ROLE_USER :

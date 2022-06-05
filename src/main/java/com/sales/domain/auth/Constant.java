@@ -1,4 +1,4 @@
-package com.sales.domain.user;
+package com.sales.domain.auth;
 
 public class Constant {
     public enum CATEGORY {
@@ -44,7 +44,7 @@ public class Constant {
         USER_ID("USER_ID"),
         PASSWORD("PASSWORD"),
         AUTHORITY("AUTHORITY"),
-        AUTHORITY_VALUE("AUTHORITY_VALUE"),
+        AUTHORITY_VALUE("AUTHORITY_VALUE"), // Expansion
         EXPIRATION_START("EXPIRATION_START"),
         EXPIRATION_END("EXPIRATION_END"),
         ENABLED("ENABLED"),
@@ -52,8 +52,7 @@ public class Constant {
         INSERT_USER("INSERT_USER"),
         UPDATE_TIMESTAMP("UPDATE_TIMESTAMP"),
         UPDATE_USER("UPDATE_USER"),
-        // Expansion
-        EXPIRATION_DATE("EXPIRATION_DATE");
+        EXPIRATION_DATE("EXPIRATION_DATE"); // Expansion
 
         private final String value;
         DATA_SOURCE_FIELD_NAME_AUTH_USER(String value) {this.value = value;}

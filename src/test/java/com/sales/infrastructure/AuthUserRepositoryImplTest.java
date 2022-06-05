@@ -1,7 +1,7 @@
 package com.sales.infrastructure;
 
-import com.sales.domain.user.AuthUser;
-import com.sales.domain.user.AuthUserRepository;
+import com.sales.domain.auth.AuthUser;
+import com.sales.domain.auth.AuthUserRepository;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;

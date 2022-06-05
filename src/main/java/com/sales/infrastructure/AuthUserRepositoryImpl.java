@@ -1,9 +1,10 @@
 package com.sales.infrastructure;
 
 import com.sales.common.LoggingDelegateRepository;
-import com.sales.domain.user.AuthUser;
-import com.sales.domain.user.AuthUserRepository;
-import com.sales.domain.user.Constant;
+import com.sales.domain.auth.AuthUser;
+import com.sales.domain.auth.AuthUserRepository;
+import com.sales.domain.auth.Constant;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Scope("prototype")
@@ -39,7 +37,7 @@ public class AuthUserRepositoryImpl extends AbstractBaseApplicationDbRepository 
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY.getValue(), Constant.CATEGORY.ROLE.getValue());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue(), authUser.getUserId());
-        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_DATE.getValue(), new Date());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_DATE.getValue(), DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
 
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL001",this.APPLSQL001 ,paramMap);
         return npJdbcTemplate.queryForList(APPLSQL001, paramMap);

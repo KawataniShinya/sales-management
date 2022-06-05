@@ -1,6 +1,6 @@
 package com.sales.common;
 
-import com.sales.domain.user.Constant;
+import com.sales.domain.auth.Constant;
 import lombok.Getter;
 import lombok.Setter;
 

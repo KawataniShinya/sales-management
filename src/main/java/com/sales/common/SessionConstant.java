@@ -5,7 +5,10 @@ public class SessionConstant {
         SECURITY_CONTEXT("SPRING_SECURITY_CONTEXT"),
         USER_ID("userId"),
         USER_NAME("userName"),
-        ROLE("role");
+        DEPARTMENT_NAME("departmentName"),
+        ROLE("role"),
+        PRIVATE_EMAIL("privateEmail"),
+        WORKPLACE_EMAIL("WORKPLACEeMAIL");
 
         private final String value;
         ATTRIBUTE(String value) {

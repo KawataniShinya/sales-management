@@ -1,12 +1,12 @@
 package com.sales.presentation;
 
-import com.fasterxml.jackson.datatype.jsr310.ser.YearSerializer;
+import com.sales.application.AuthenticatedService;
 import com.sales.common.SessionConstant;
 import com.sales.common.ThreadVariables;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -15,8 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @Scope("prototype")
 public class LoginController {
+
+    private final AuthenticatedService authenticatedService;
+
+    @Autowired
+    public LoginController(AuthenticatedService authenticatedService) {
+        this.authenticatedService = authenticatedService;
+    }
+
     @RequestMapping("/login")
-    private String login(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+    public String login(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
         if (request.getSession().getAttribute(SessionConstant.ATTRIBUTE.SECURITY_CONTEXT.getValue()) != null) {
 //            request.getSession().getAttributeNames().asIterator().forEachRemaining(e -> System.out.println(e.toString()));
 //            System.out.println(request.getSession().getAttribute("org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN"));
@@ -32,7 +40,7 @@ public class LoginController {
     }
 
     @RequestMapping("/authenticated")
-    private String authenticated(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
+    public String authenticated(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
 //        if (request == null) {
 //            System.out.println("null");
 //        } else {
@@ -41,6 +49,7 @@ public class LoginController {
         if (request.getSession().getAttribute(SessionConstant.ATTRIBUTE.SECURITY_CONTEXT.getValue()) != null) {
             request.getSession().setAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue(), ThreadVariables.threadLocal.get().getUserId());
             request.getSession().setAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue(), ThreadVariables.threadLocal.get().getRole());
+            this.authenticatedService.setSessionAttribute(request.getSession());
 
             return "redirect:/menu";
         }
