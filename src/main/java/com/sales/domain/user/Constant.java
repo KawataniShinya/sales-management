@@ -51,7 +51,9 @@ public class Constant {
         INSERT_TIMESTAMP("INSERT_TIMESTAMP"),
         INSERT_USER("INSERT_USER"),
         UPDATE_TIMESTAMP("UPDATE_TIMESTAMP"),
-        UPDATE_USER("UPDATE_USER");
+        UPDATE_USER("UPDATE_USER"),
+        // Expansion
+        EXPIRATION_DATE("EXPIRATION_DATE");
 
         private final String value;
         DATA_SOURCE_FIELD_NAME_AUTH_USER(String value) {this.value = value;}

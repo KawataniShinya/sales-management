@@ -75,7 +75,7 @@ public class AuthUserImpl implements AuthUser {
     public AuthUser setAuthUserByUserId(String username) {
 
         this.setUserId(username);
-        List<Map<String, Object>> resultList = authUserRepository.findByUserId(this);
+        List<Map<String, Object>> resultList = authUserRepository.findEnableUserByUserId(this);
         if (resultList.size() != 1) {
             throw new UsernameNotFoundException("not found : " + username);
         }

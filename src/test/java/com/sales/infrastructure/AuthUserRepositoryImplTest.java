@@ -69,7 +69,7 @@ class AuthUserRepositoryImplTest {
         expectList.add(expectMap);
 
         this.authUser.setUserId("root");
-        List<Map<String, Object>> resultList = this.authUserRepositoryTest.findByUserId(this.authUser);
+        List<Map<String, Object>> resultList = this.authUserRepositoryTest.findEnableUserByUserId(this.authUser);
 
         assertEquals(expectList, resultList);
     }

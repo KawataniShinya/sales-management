@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface AuthUserRepository {
-    List<Map<String, Object>> findByUserId(AuthUser authUser);
+    List<Map<String, Object>> findEnableUserByUserId(AuthUser authUser);
 }

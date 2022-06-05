@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +35,11 @@ public class AuthUserRepositoryImpl extends AbstractBaseApplicationDbRepository 
     }
 
     @Override
-    public List<Map<String, Object>> findByUserId(AuthUser authUser) {
+    public List<Map<String, Object>> findEnableUserByUserId(AuthUser authUser) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY.getValue(), Constant.CATEGORY.ROLE.getValue());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue(), authUser.getUserId());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_DATE.getValue(), new Date());
 
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL001",this.APPLSQL001 ,paramMap);
         return npJdbcTemplate.queryForList(APPLSQL001, paramMap);
