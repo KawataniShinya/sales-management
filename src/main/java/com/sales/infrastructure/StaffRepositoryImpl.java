@@ -4,6 +4,8 @@ import com.sales.common.LoggingDelegateRepository;
 import com.sales.domain.staff.Constant;
 import com.sales.domain.staff.Staff;
 import com.sales.domain.staff.StaffRepository;
+import com.sales.presentation.DepartmentController;
+import com.sales.presentation.dto.DepartmentGetRequest;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,15 +24,18 @@ import java.util.*;
 public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository implements StaffRepository {
 
     private final String APPLSQL002;
+    private final DepartmentController departmentController;
 
     @Autowired
     public StaffRepositoryImpl(
             @Qualifier("appljdbc01") JdbcTemplate jdbcTemplate,
             @Qualifier("applNpjdbc01") NamedParameterJdbcTemplate npJdbcTemplate,
             LoggingDelegateRepository loggingDelegateRepository,
-            @Value("${APPLSQL002}") String applsql002) {
+            @Value("${APPLSQL002}") String applsql002,
+            DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
+        this.departmentController = departmentController;
     }
 
     @Override
@@ -45,7 +50,9 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL001",this.APPLSQL002 ,paramMap);
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL002, paramMap);
         resultList.forEach(map -> {
-            map.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), "dummy_dept");
+            DepartmentGetRequest departmentGetRequest = new DepartmentGetRequest();
+            departmentGetRequest.setDepartmentCd((String) map.get(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue()));
+            map.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), this.departmentController.getDepartment(departmentGetRequest).getDepartmentNameJa());
         });
         return resultList;
     }

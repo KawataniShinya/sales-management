@@ -22,7 +22,8 @@ public class LoggingServiceImpl implements LoggingService{
 
     @Override
     public void outputLog(Map<String, Object> map) {
-        this.applicationLog.setFieldsByMapFromApi(map);
-        this.applicationLog.outputLog();
+        ApplicationLog applicationLog = this.applicationLog.createApplicationLog();
+        applicationLog.setFieldsByMapFromApi(map);
+        applicationLog.outputLog();
     }
 }

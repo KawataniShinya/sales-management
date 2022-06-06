@@ -108,6 +108,10 @@ public class StaffImpl implements Staff{
     @Setter
     private String updateUser;
 
+    @Getter
+    @Setter
+    private Date expirationDate;
+
     private final StaffRepository staffRepository;
 
     @Autowired
@@ -273,5 +277,8 @@ public class StaffImpl implements Staff{
 
         Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.UPDATE_USER.getValue(), null))
                 .ifPresent(object -> this.setUpdateUser(object.toString()));
+
+        Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.EXPIRATION_DATE.getValue(), null))
+                .ifPresent(object -> this.setExpirationDate((Date) object));
     }
 }

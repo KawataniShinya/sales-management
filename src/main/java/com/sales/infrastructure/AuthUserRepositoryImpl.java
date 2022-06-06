@@ -39,7 +39,7 @@ public class AuthUserRepositoryImpl extends AbstractBaseApplicationDbRepository 
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.USER_ID.getValue(), authUser.getUserId());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_AUTH_USER.EXPIRATION_DATE.getValue(), DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
 
-        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL001",this.APPLSQL001 ,paramMap);
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL001", this.APPLSQL001 ,paramMap);
         return npJdbcTemplate.queryForList(APPLSQL001, paramMap);
     }
 }

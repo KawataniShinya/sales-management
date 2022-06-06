@@ -57,7 +57,8 @@ public class Constant {
         INSERT_TIMESTAMP("insertTimestamp"),
         INSERT_USER("insertUser"),
         UPDATE_TIMESTAMP("updateTimestamp"),
-        UPDATE_USER("updateUser");
+        UPDATE_USER("updateUser"),
+        EXPIRATION_DATE("expirationDate"); // Expansion
 
         private final String value;
         API_FIELD_NAME_STAFF(String value) {this.value = value;}

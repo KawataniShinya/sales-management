@@ -53,6 +53,8 @@ public interface Staff {
     Timestamp getUpdateTimestamp();
     void setUpdateUser(String updateUser);
     String getUpdateUser();
+    void setExpirationDate(Date expirationDate);
+    Date getExpirationDate();
 
     Staff setStaffByUserId(String userId);
 
