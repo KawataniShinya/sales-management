@@ -7,14 +7,14 @@
 <body>
     <h1><span th:text="${status}">OK</span></h1>
 
-    <p>ユーザーID：<span th:text="${userId}">000</span></p>
-    <p>ユーザー名：<span th:text="${userName}">John Doe</span></p>
+    <p>ユーザーID：<span th:text="${response.userId}">000</span></p>
+    <p>ユーザー名：<span th:text="${response.userName}">John Doe</span></p>
     <!--/* -->
-    <p>ロール：<span th:text="${role}">Role</span></p>
+    <p>ロール：<span th:text="${response.role}">Role</span></p>
     <!-- */-->
-    <p>部署名：<span th:text="${departmentName}">John Doe</span></p>
-    <p>Eメールアドレス：<span th:text="${privateEmail}">John Doe</span></p>
-    <p>Eメールアドレス：<span th:text="${workplaceEmail}">John Doe</span></p>
+    <p>部署名：<span th:text="${response.departmentName}">John Doe</span></p>
+    <p>Eメールアドレス：<span th:text="${response.privateEmail}">John Doe</span></p>
+    <p>Eメールアドレス：<span th:text="${response.workplaceEmail}">John Doe</span></p>
 
     <nav>
         <ul>

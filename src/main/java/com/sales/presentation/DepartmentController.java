@@ -3,6 +3,7 @@ package com.sales.presentation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sales.application.DepartmentService;
+import com.sales.application.bean.DepartmentServiceBean;
 import com.sales.domain.department.Department;
 import com.sales.presentation.dto.DepartmentGetRequest;
 import com.sales.presentation.dto.DepartmentGetResponse;
@@ -19,22 +20,18 @@ import java.util.Optional;
 @Scope("prototype")
 public class DepartmentController {
     private final DepartmentService departmentService;
-    private final Department department;
 
     @Autowired
-    public DepartmentController(
-            DepartmentService departmentService,
-            Department department) {
+    public DepartmentController(DepartmentService departmentService) {
         this.departmentService = departmentService;
-        this.department = department;
     }
 
     @RequestMapping(value = "/api/department", method = RequestMethod.GET)
     public DepartmentGetResponse getDepartment(@RequestBody DepartmentGetRequest departmentGetRequest){
-        Department department = this.department.createDepartment();
-        department = this.departmentService.getDepartmentByCd(new ObjectMapper().convertValue(departmentGetRequest, new TypeReference<>() { }));
+        DepartmentServiceBean departmentServiceBean =
+                this.departmentService.getDepartmentByCd(new ObjectMapper().convertValue(departmentGetRequest, new TypeReference<>() { }));
 
-        return getDepartmentGetResponse(department);
+        return getDepartmentGetResponse(departmentServiceBean.getDepartment());
     }
 
     private DepartmentGetResponse getDepartmentGetResponse(Department department) {

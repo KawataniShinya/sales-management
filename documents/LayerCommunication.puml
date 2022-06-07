@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+'skinparam linetype ortho
+
+Entity View as "[External]View,API..." {}
+Entity Presentation as "Presentation(Controller)" #Application {}
+Entity Application #Application {}
+Entity Domain #Application {}
+Entity Infrastructure as "Infrastructure(Repository)" #Application {}
+Entity Persistance as "[External]DB,File..." {}
+
+View -> Presentation: DTO(JSON)
+View <- Presentation: DTO(JSON)
+Presentation -> Application: Map,List
+Presentation <- Application: Bean
+Application -> Domain: Entity
+Application <- Domain: Entity
+Domain -> Infrastructure: Entity
+Domain <- Infrastructure: List
+Infrastructure -> Persistance: JDBC...
+Infrastructure <- Persistance: List
+Infrastructure -> Presentation: DTO
+Infrastructure <- Presentation: DTO
+
+@enduml

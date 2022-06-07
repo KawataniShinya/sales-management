@@ -8,8 +8,8 @@ import lombok.Setter;
 public class DepartmentGetResponse {
     private String departmentCd;
     private String departmentNameEn;
-    private String departmentNameJa;
     private String expirationStart;
+    private String departmentNameJa;
     private String expirationEnd;
     private String expirationDate;	// Expansion
     private String insertTimestamp;

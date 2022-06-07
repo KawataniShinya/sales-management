@@ -1,5 +1,6 @@
 package com.sales.application;
 
+import com.sales.application.bean.DepartmentServiceBean;
 import com.sales.domain.department.Constant;
 import com.sales.domain.department.Department;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
-    public Department getDepartmentByCd(Map<String, Object> map) {
-        return this.department.createDepartment()
-                .setDepartmentByCd((String) map.get(Constant.API_FIELD_NAME_DEPARTMENT.DEPARTMENT_CD.getValue()));
+    public DepartmentServiceBean getDepartmentByCd(Map<String, Object> map) {
+        DepartmentServiceBean departmentServiceBean = new DepartmentServiceBean();
+        Department department = this.department.createDepartment();
+        department.setDepartmentByCd((String) map.get(Constant.API_FIELD_NAME_DEPARTMENT.DEPARTMENT_CD.getValue()));
+        departmentServiceBean.setDepartment(department);
+        return departmentServiceBean;
     }
 }
