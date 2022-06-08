@@ -1,14 +1,11 @@
 package com.sales.presentation;
 
-import com.sales.common.SessionConstant;
-import com.sales.presentation.dto.MenuInitResponse;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @Controller
 @Scope("prototype")
@@ -22,20 +19,20 @@ public class MenuController {
 //        model.addAttribute("name", "test");
 //        model.addAttribute("role", ThreadVariables.threadLocal.get().getRole());
 
-        MenuInitResponse menuInitResponse = new MenuInitResponse();
-        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue()))
-                .ifPresent(object -> menuInitResponse.setUserId(object.toString()));
-        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_NAME.getValue()))
-                .ifPresent(object -> menuInitResponse.setUserName(object.toString()));
-        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue()))
-                .ifPresent(object -> menuInitResponse.setRole(object.toString()));
-        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.DEPARTMENT_NAME.getValue()))
-                .ifPresent(object -> menuInitResponse.setDepartmentName(object.toString()));
-        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.PRIVATE_EMAIL.getValue()))
-                .ifPresent(object -> menuInitResponse.setPrivateEmail(object.toString()));
-        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.WORKPLACE_EMAIL.getValue()))
-                .ifPresent(object -> menuInitResponse.setWorkplaceEmail(object.toString()));
-        model.addAttribute("response", menuInitResponse);
+//        HeaderResponse headerResponse = new HeaderResponse();
+//        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue()))
+//                .ifPresent(object -> headerResponse.setUserId(object.toString()));
+//        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_NAME.getValue()))
+//                .ifPresent(object -> headerResponse.setUserName(object.toString()));
+//        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue()))
+//                .ifPresent(object -> headerResponse.setRole(object.toString()));
+//        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.DEPARTMENT_NAME.getValue()))
+//                .ifPresent(object -> headerResponse.setDepartmentName(object.toString()));
+//        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.PRIVATE_EMAIL.getValue()))
+//                .ifPresent(object -> headerResponse.setPrivateEmail(object.toString()));
+//        Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.WORKPLACE_EMAIL.getValue()))
+//                .ifPresent(object -> headerResponse.setWorkplaceEmail(object.toString()));
+//        model.addAttribute("response", headerResponse);
 
 //        model.addAttribute("userId", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue()));
 //        model.addAttribute("userName", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_NAME.getValue()));
@@ -54,6 +51,8 @@ public class MenuController {
 //            default:
 //                return "Internal Error";
 //        }
+
+        CommonDisplay.setHeaderParameter(request, model);
         return "menu.html";
     }
 }
