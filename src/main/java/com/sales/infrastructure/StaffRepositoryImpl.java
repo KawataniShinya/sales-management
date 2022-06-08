@@ -39,7 +39,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     }
 
     @Override
-    public List<Map<String, Object>> findEnableUserByUserId(Staff staff) {
+    public List<Map<String, Object>> findUserByUserIdInExpiration(Staff staff) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.USER_ID.getValue(), staff.getUserId());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.EXPIRATION_DATE.getValue(), DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
@@ -47,7 +47,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_BLOOD_TYPE.getValue(), Constant.CATEGORY.BLOOD_TYPE.getValue());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_ADDRESS_PREFECTURE.getValue(), Constant.CATEGORY.ADDRESS_PREFECTURE.getValue());
 
-        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL001",this.APPLSQL002 ,paramMap);
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL002",this.APPLSQL002 ,paramMap);
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL002, paramMap);
         resultList.forEach(map -> {
             DepartmentGetRequest departmentGetRequest = new DepartmentGetRequest();

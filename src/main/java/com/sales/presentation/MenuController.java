@@ -1,8 +1,7 @@
 package com.sales.presentation;
 
 import com.sales.common.SessionConstant;
-import com.sales.common.ThreadVariables;
-import com.sales.presentation.dto.MenuControllerResultResponse;
+import com.sales.presentation.dto.MenuInitResponse;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @Scope("prototype")
 public class MenuController {
     @RequestMapping("/menu")
-    public String result(HttpServletRequest request, Model model){
+    public String init(HttpServletRequest request, Model model){
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        model.addAttribute("id", auth.getName());
 
@@ -23,20 +22,20 @@ public class MenuController {
 //        model.addAttribute("name", "test");
 //        model.addAttribute("role", ThreadVariables.threadLocal.get().getRole());
 
-        MenuControllerResultResponse menuControllerResultResponse = new MenuControllerResultResponse();
+        MenuInitResponse menuInitResponse = new MenuInitResponse();
         Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue()))
-                .ifPresent(object -> menuControllerResultResponse.setUserId(object.toString()));
+                .ifPresent(object -> menuInitResponse.setUserId(object.toString()));
         Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_NAME.getValue()))
-                .ifPresent(object -> menuControllerResultResponse.setUserName(object.toString()));
+                .ifPresent(object -> menuInitResponse.setUserName(object.toString()));
         Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue()))
-                .ifPresent(object -> menuControllerResultResponse.setRole(object.toString()));
+                .ifPresent(object -> menuInitResponse.setRole(object.toString()));
         Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.DEPARTMENT_NAME.getValue()))
-                .ifPresent(object -> menuControllerResultResponse.setDepartmentName(object.toString()));
+                .ifPresent(object -> menuInitResponse.setDepartmentName(object.toString()));
         Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.PRIVATE_EMAIL.getValue()))
-                .ifPresent(object -> menuControllerResultResponse.setPrivateEmail(object.toString()));
+                .ifPresent(object -> menuInitResponse.setPrivateEmail(object.toString()));
         Optional.ofNullable(request.getSession().getAttribute(SessionConstant.ATTRIBUTE.WORKPLACE_EMAIL.getValue()))
-                .ifPresent(object -> menuControllerResultResponse.setWorkplaceEmail(object.toString()));
-        model.addAttribute("response", menuControllerResultResponse);
+                .ifPresent(object -> menuInitResponse.setWorkplaceEmail(object.toString()));
+        model.addAttribute("response", menuInitResponse);
 
 //        model.addAttribute("userId", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue()));
 //        model.addAttribute("userName", request.getSession().getAttribute(SessionConstant.ATTRIBUTE.USER_NAME.getValue()));

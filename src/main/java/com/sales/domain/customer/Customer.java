@@ -1,44 +1,40 @@
-package com.sales.domain.staff;
+package com.sales.domain.customer;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 
-public interface Staff {
+public interface Customer {
     void setUserId(String userId);
     String getUserId();
     void setFamilyName(String familyName);
     String getFamilyName();
     void setFirstName(String firstName);
     String getFirstName();
-    void setDepartmentCd(String departmentCd);
-    String getDepartmentCd();
-    void setDepartmentName(String departmentName);  // Expansion
-    String getDepartmentName(); // Expansion
+    void setPersonalityCd(String personalityCd);
+    String getPersonalityCd();
+    void setPersonalityName(String personalityName);  // Expansion
+    String getPersonalityName();  // Expansion
     void setGenderCd(String genderCd);
     String getGenderCd();
-    void setGenderName(String genderName);   // Expansion
+    void setGenderName(String genderName);  // Expansion
     String getGenderName();  // Expansion
     void setBirthdate(Date birthdate);
     Date getBirthdate();
     void setBloodTypeCd(String bloodTypeCd);
     String getBloodTypeCd();
-    void setBloodTypeName(String bloodTypeName);    // Expansion
+    void setBloodTypeName(String bloodTypeName);  // Expansion
     String getBloodTypeName();  // Expansion
     void setAddressPrefectureCd(String addressPrefectureCd);
     String getAddressPrefectureCd();
-    void setAddressPrefectureName(String addressPrefectureName);    // Expansion
+    void setAddressPrefectureName(String addressPrefectureName);  // Expansion
     String getAddressPrefectureName();  // Expansion
     void setAddressMunicipality(String addressMunicipality);
     String getAddressMunicipality();
-    void setPrivateTelNo(String privateTelNo);
-    String getPrivateTelNo();
-    void setPrivateEmail(String privateEmail);
-    String getPrivateEmail();
-    void setWorkplaceTelNo(String workplaceTelNo);
-    String getWorkplaceTelNo();
-    void setWorkplaceEmail(String workplaceEmail);
-    String getWorkplaceEmail();
+    void setTelNo(String telNo);
+    String getTelNo();
+    void setEmail(String email);
+    String getEmail();
     void setExpirationStart(Date expirationStart);
     Date getExpirationStart();
     void setExpirationEnd(Date expirationEnd);
@@ -51,14 +47,14 @@ public interface Staff {
     Timestamp getUpdateTimestamp();
     void setUpdateUser(String updateUser);
     String getUpdateUser();
-    void setExpirationDate(Date expirationDate);
-    Date getExpirationDate();
+    void setExpirationDate(Date expirationDate);  // Expansion
+    Date getExpirationDate();  // Expansion
 
-    Staff createStaff();
+    Customer createCustomer();
 
     void init();
 
-    Staff setStaffByUserId(String userId);
+    Customer setCustomerByUserId(String userId);
 
     void setFieldsByMapFromDataSource(Map<String, Object> map);
     void setFieldsByMapFromApi(Map<String, Object> map);

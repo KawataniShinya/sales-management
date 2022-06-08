@@ -244,21 +244,4 @@ public class ApplicationLogImpl implements ApplicationLog{
     public String getMessage() {
         return this.message.getValue();
     }
-
-    @Override
-    public ApplicationLogImpl clone() {
-        ApplicationLogImpl applicationLogImpl = new ApplicationLogImpl(this.applicationLogRepository);
-        applicationLogImpl.insertTimestamp = this.insertTimestamp;
-        applicationLogImpl.threadNo = this.threadNo;
-        applicationLogImpl.rowNumber = this.rowNumber;
-        applicationLogImpl.logType = this.logType;
-        applicationLogImpl.interceptPoint = this.interceptPoint;
-        applicationLogImpl.userId = this.userId;
-        applicationLogImpl.sessionId = this.sessionId;
-        applicationLogImpl.processName = this.processName;
-        applicationLogImpl.processReturnType = this.processReturnType;
-        applicationLogImpl.argumentValue = this.argumentValue;
-        applicationLogImpl.message = this.message;
-        return applicationLogImpl;
-    }
 }

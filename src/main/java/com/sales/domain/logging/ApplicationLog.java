@@ -33,6 +33,4 @@ public interface ApplicationLog{
     void outputLog();
     void setFieldsByMapFromDataSource(Map<String, Object> map);
     void setFieldsByMapFromApi(Map<String, Object> map);
-
-    ApplicationLogImpl clone();
 }

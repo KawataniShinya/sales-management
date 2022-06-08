@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.Map;
 
 public interface Department {
-    Department createDepartment();
-
     void setDepartmentCd(String departmentCd);
     String getDepartmentCd();
     void setDepartmentNameEn(String departmentNameEn);
@@ -27,6 +25,8 @@ public interface Department {
     Timestamp getUpdateTimestamp();
     void setUpdateUser(String updateUser);
     String getUpdateUser();
+
+    Department createDepartment();
 
     Department setDepartmentByCd(String departmentCd);
 

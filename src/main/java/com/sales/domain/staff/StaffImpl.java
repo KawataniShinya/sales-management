@@ -117,6 +117,7 @@ public class StaffImpl implements Staff{
     @Autowired
     public StaffImpl(StaffRepository staffRepository) {
         this.staffRepository = staffRepository;
+        this.init();
     }
 
     @Override
@@ -125,13 +126,42 @@ public class StaffImpl implements Staff{
     }
 
     @Override
+    public void init() {
+        this.userId = "";
+        this.familyName = "";
+        this.firstName = "";
+        this.departmentCd = "";
+        this.departmentName = "";
+        this.genderCd = "";
+        this.genderName = "";
+        this.birthdate = new Date(0);
+        this.bloodTypeCd = "";
+        this.bloodTypeName = "";
+        this.addressPrefectureCd = "";
+        this.addressPrefectureName = "";
+        this.addressMunicipality = "";
+        this.privateTelNo = "";
+        this.privateEmail = "";
+        this.workplaceTelNo = "";
+        this.workplaceEmail = "";
+        this.expirationStart = new Date(0);
+        this.expirationEnd = new Date(0);
+        this.insertTimestamp = new Timestamp(0);
+        this.insertUser = "";
+        this.updateTimestamp = new Timestamp(0);
+        this.updateUser = "";
+        this.expirationDate = new Date(0);
+    }
+
+    @Override
     public Staff setStaffByUserId(String userId) {
         this.setUserId(userId);
-        List<Map<String, Object>> resultList = this.staffRepository.findEnableUserByUserId(this);
+        List<Map<String, Object>> resultList = this.staffRepository.findUserByUserIdInExpiration(this);
         if (resultList.size() != 1) {
             // exception
+        } else {
+            this.setFieldsByMapFromDataSource(resultList.get(0));
         }
-        this.setFieldsByMapFromDataSource(resultList.get(0));
         return this;
     }
 
