@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+skinparam actorStyle awesome
+
+skinparam usecase {
+    BackgroundColor DarkSeaGreen
+    BorderColor DarkSlateGray
+}
+
+rectangle Staff {
+    actor staff_general #green
+    actor admin #red
+    rectangle 人事部 {
+        actor staff_hr #blue
+    }
+}
+
+rectangle System(社員) #DDDDDD {
+    package 登録 {
+        usecase 自分の情報を登録
+        usecase 任意の情報を登録
+    }
+    package 照会 {
+        usecase 自分の情報を照会
+        usecase 任意の情報を照会
+    }
+    package 更新 {
+        usecase 自分の情報を更新
+        usecase 任意の情報を更新
+    }
+    package 削除 {
+        usecase 任意の情報を削除
+    }
+    package パスワード {
+        usecase 自分のパスワードを変更
+        usecase 自分のパスワードを初期化依頼する
+        usecase 依頼されたパスワードを初期化承認する
+    }
+}
+
+自分の情報を登録 <-[#green,bold]- staff_general
+任意の情報を登録 <-[#red,bold]- admin
+任意の情報を登録 <-[#blue,bold]- staff_hr
+自分の情報を照会 <-[#green,bold]- staff_general
+任意の情報を照会 <-[#red,bold]- admin
+任意の情報を照会 <-[#blue,bold]- staff_hr
+自分の情報を更新 <-[#green,bold]- staff_general
+任意の情報を更新 <-[#red,bold]- admin
+任意の情報を更新 <-[#blue,bold]- staff_hr
+任意の情報を削除 <-[#red,bold]- admin
+自分のパスワードを変更 <-[#green,bold]- staff_general
+自分のパスワードを変更 <-[#red,bold]- admin
+自分のパスワードを変更 <-[#blue,bold]- staff_hr
+自分のパスワードを初期化依頼する <-[#green,bold]- staff_general
+依頼されたパスワードを初期化承認する <-[#red,bold]- admin
+自分のパスワードを初期化依頼する -> 依頼されたパスワードを初期化承認する
+
+@enduml

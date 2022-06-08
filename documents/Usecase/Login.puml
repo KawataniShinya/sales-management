@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+skinparam actorStyle awesome
+
+skinparam usecase {
+    BackgroundColor DarkSeaGreen
+    BorderColor DarkSlateGray
+}
+
+rectangle Customer {
+    actor user
+}
+
+rectangle Staff {
+    actor staff
+    actor admin
+}
+
+rectangle System(ログイン) #DDDDDD {
+    usecase ログイン
+}
+
+user --> ログイン
+ログイン <-- staff
+ログイン <-- admin
+
+@enduml
