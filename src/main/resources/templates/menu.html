@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>メニュー</title>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!-- <script type="text/javascript" th:src="@{/js/jquery-3.6.0.min.js}"></script> -->
+
+    <!--/* -->
+    <script type="text/javascript" src="../static/js/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function (){
+            $.ajaxSetup({cache:false});
+            $('header.header').load('./common.html header');
+        });
+    </script>
+    <!-- */-->
+    
 </head>
 <body>
-    <h1><span th:text="${status}">OK</span></h1>
-
-    <p>ユーザーID：<span th:text="${header.userId}">000</span></p>
-    <p>ユーザー名：<span th:text="${header.userName}">John Doe</span></p>
-    <!--/* -->
-    <p>ロール：<span th:text="${header.role}">Role</span></p>
-    <!-- */-->
-    <p>部署名：<span th:text="${header.departmentName}">John Doe</span></p>
-    <p>Eメールアドレス：<span th:text="${header.privateEmail}">John Doe</span></p>
-    <p>Eメールアドレス：<span th:text="${header.workplaceEmail}">John Doe</span></p>
+    <!--/* --><header class="header">header test jquery</header><!-- */-->
+    <!--/*/<header th:replace="common :: header">header test th</header>/*/-->
 
     <nav>
         <ul>
@@ -41,7 +47,6 @@
         <button type="submit">ログアウト</button>
     </form>
 
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"> </script>
     <div id="icatwidthc" title="800" /></div>
     <div id="icatheightc" title="500" /></div>
     <script type="text/javascript" src="https://www.ipa.go.jp/security/announce/irss/icatwc.js"> </script>

@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SalesManagement {
 
-	@RequestMapping("/**")
+	@RequestMapping("/")
 	String index(){
-		return "Hello World!";
+		return "Welcome to Test Application";
 	}
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(SalesManagement.class, args);
-
 	}
 
 }
