@@ -51,7 +51,7 @@ public class LoginController {
             request.getSession().setAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue(), ThreadVariables.threadLocal.get().getRole());
             this.authenticatedService.setSessionAttribute(request.getSession());
 
-            return "redirect:/menu";
+            return "redirect:/top";
         }
         return "redirect:/login";
     }

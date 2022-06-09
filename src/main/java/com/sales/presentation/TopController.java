@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Scope("prototype")
-public class MenuController {
-    @RequestMapping("/menu")
+public class TopController {
+    @RequestMapping("/top")
     public String init(HttpServletRequest request, Model model){
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        model.addAttribute("id", auth.getName());
@@ -53,6 +53,6 @@ public class MenuController {
 //        }
 
         CommonDisplay.setHeaderParameter(request, model);
-        return "menu.html";
+        return "top.html";
     }
 }

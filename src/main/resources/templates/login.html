@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>ログイン</h1>
-    <form method="post" action="menu_customer.html" th:action="@{authentication}">
+    <form method="post" action="top.html" th:action="@{authentication}">
         <p>IDとパスワードを入力してください</p>
         <p th:if="${param.error}">ログインできませんでした</p>
         <input type="text" name="userId" th:value="${userId}" />

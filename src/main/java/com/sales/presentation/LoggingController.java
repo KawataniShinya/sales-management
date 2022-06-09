@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,11 @@ public class LoggingController {
     public List<LoggingCreateResponse> create(@RequestBody List<LoggingCreateRequest> listLoggingCreateRequest) {
         listLoggingCreateRequest.forEach(loggingCreateRequest ->
                 this.loggingService.outputLog(new ObjectMapper().convertValue(loggingCreateRequest, new TypeReference<>() { })));
-        return null;
+
+        LoggingCreateResponse loggingCreateResponse = new LoggingCreateResponse();
+        loggingCreateResponse.setMessage("succsess logging");
+        ArrayList<LoggingCreateResponse> responseArrayList = new ArrayList<>();
+        responseArrayList.add(loggingCreateResponse);
+        return responseArrayList;
     }
 }
