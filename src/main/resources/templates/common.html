@@ -25,27 +25,24 @@
             </div>
             
             <div class="right-item" th:if="${header} != null">
-                <div class="user">
+                <div class="user un-visible">
                     <table>
-                        <tr>
+                        <tr class="tr-user-id">
                             <td nowrap>ユーザーID</td>
                             <td nowrap>:</td>
-                            <td nowrap th:text="${header.userId}">000</td>
+                            <td class="user-id" nowrap th:text="${header.userId}">000</td>
                         </tr>
-                        <tr>
+                        <tr class="tr-user-name">
                             <td>ユーザー名</td>
                             <td nowrap>:</td>
-                            <td nowrap th:text="${header.userName}">John Doe</td>
+                            <td class="user-name" nowrap th:text="${header.userName}">John Doe</td>
                         </tr>
-                        <tr>
+                        <tr class="tr-department-name">
                             <td nowrap>部署名</td>
                             <td nowrap>:</td>
-                            <td nowrap th:text="${header.departmentName}">Engineering</td>
+                            <td class="department-name" nowrap th:text="${header.departmentName}">Engineering</td>
                         </tr>
                     </table>
-                    <!-- <p>ユーザーID:<span th:text="${header.userId}">000</span></p>
-                    <p>ユーザー名:<span th:text="${header.userName}">John Doe</span></p>
-                    <p>部署名:<span th:text="${header.departmentName}">John Doe</span></p> -->
                 </div>
     
                 <div class="container-fluid logout">

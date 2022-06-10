@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>トップ | TestApplication</title>
+    <!--/*/
+    <script th:inline="javascript">
+        window.addEventListener('load', function(){
+            const role = /*[[${header.role}]]*/"role";
+            if (role === 'ROLE_USER') {
+                const element = document.querySelector('.tr-department-name');
+                element.remove();
+            }
+            document.querySelector('.user').classList.remove('un-visible');
+        });
+    </script>
+    /*/-->
     <!--/* -->
     <link rel="icon" href="../static/images/logo.png">
     <script src="../static/js/bootstrap.min.js"></script>
@@ -19,6 +31,14 @@
             $.ajaxSetup({cache:false});
             $('div.left-nav').load('./common.html .left-nav');
         });
+    </script>
+    <script async>
+        let timerId = setInterval(function(){
+            if (document.querySelector(".user-name")) {
+                document.querySelector('.user').classList.remove('un-visible');
+                clearInterval(timerId);
+            }
+        },100);
     </script>
     <!-- */-->
 </head>

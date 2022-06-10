@@ -67,6 +67,10 @@ body {
   font-size: small;
 }
 
+.header__inner .right-item .user.un-visible {
+  visibility: hidden;
+}
+
 .header__inner .right-item .logout {
   text-align: right;
   width: auto;

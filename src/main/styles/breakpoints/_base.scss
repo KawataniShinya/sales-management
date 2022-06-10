@@ -64,6 +64,10 @@ body {
       & .user {
         margin: 0 20px;
         font-size: small;
+
+        &.un-visible {
+          visibility: hidden;
+        }
       }
 
       & .logout {
