@@ -1,8 +1,6 @@
-.login {
-    width: 60%;
-    margin: 0 auto;
-
-    & .field {
-        max-width: 500px;
+.main {
+    & .login {
+        width: 60%;
+        max-width: 600px;
     }
 }

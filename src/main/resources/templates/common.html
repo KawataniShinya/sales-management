@@ -15,7 +15,7 @@
     <header class="header" th:fragment="header">
         <div class="header__inner">
             <div class="logo">
-                <a href="#" th:href="@{/}"></a>
+                <a href="top.html" th:href="@{/}"></a>
                 <!--/* --><img class="logo__image" src="../static/images/logo.svg" alt="logoImage"><!-- */-->
                 <!--/*/<img class="logo__image" th:src="@{/images/logo.svg}" alt="logoImage">/*/-->
                 <span class="logo__first">Test</span>
@@ -48,12 +48,11 @@
     
                 <div class="container-fluid logout">
                     <form action="login.html" th:action="@{/logout}" method="post">
-                        <!--/* --><button type="button" class="btn btn-outline-dark btn-light" onclick="location.href='top.html'">ログアウト</button><!-- */-->
+                        <!--/* --><button type="button" class="btn btn-outline-dark btn-light" onclick="location.href='login.html'">ログアウト</button><!-- */-->
                         <!--/*/<button type="submit" class="btn btn-outline-dark btn-light">ログアウト</button>/*/-->
                     </form>
                 </div>
             </div>
-            <script>document.querySelector(".user").style.display = 'none';</script>
         </div>
     </header>
 </body>

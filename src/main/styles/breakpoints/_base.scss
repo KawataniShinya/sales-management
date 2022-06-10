@@ -6,6 +6,7 @@ h1 {
 
 body {
   font-family: "Open Sans", "Noto Sans JP", sans-serif;
+  height: $bodyHeight;
 }
 
 .header {
@@ -18,7 +19,7 @@ body {
   display: flex;
   align-items: center;
   z-index: 100;
-  background-color: rgba($color: #e0ffff, $alpha: 0.5);
+  background-color: $cHeader;
   border: 1px solid $cDarkGray;
 
   &__inner {
@@ -32,7 +33,7 @@ body {
       display: flex;
       font-size: 38px;
       position: relative;
-  
+
       & a {
         position: absolute;
         width: 100%;
@@ -40,36 +41,36 @@ body {
         top: 0;
         left: 0;
       }
-  
+
       &__image {
         width: 0.8em;
       }
-  
+
       &__first {
         color: $cDarkGray;
       }
-  
+
       &__second {
         color: $cNavy;
       }
     }
 
     & .right-item {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: right;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: right;
 
-        & .user {
-            margin: 0 20px;
-            font-size: small;
-        }
-      
-        & .logout {
-          text-align: right;
-          width: auto;
-          margin: 0;
-        }
+      & .user {
+        margin: 0 20px;
+        font-size: small;
+      }
+
+      & .logout {
+        text-align: right;
+        width: auto;
+        margin: 0;
+      }
     }
   }
 }
@@ -79,13 +80,64 @@ body {
 }
 
 .content {
-  box-sizing: border-box;
-  padding-top: $navHeight;
-  width: 95%;
-  margin: 20px auto 0px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .login {
   width: 100%;
   margin: 0 auto;
+}
+
+.breadcrumb-wrap {
+  position: fixed;
+  top: $navHeight;
+  left: 0;
+  padding: 5px 0 -0 20px;
+  width: 100%;
+  height: $breadcrumbHeight;
+  z-index: 100;
+  background-color: $cBgLight;
+
+  &.dummy {
+    background-color: transparent;
+  }
+}
+
+.content {
+  display: flex;
+  height: 100%;
+
+  & .left-nav {
+    position: fixed;
+    top: $contentsHeight;
+    padding-top: 10px;
+    width: $leftnavWidth;
+    height: 100%;
+    z-index: 100;
+    background-color: $cBgLight;
+
+    ul {
+      list-style: none;
+    }
+  }
+
+  & .main {
+    margin: $contentsHeight 0 0 $leftnavWidth;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    &.login {
+      margin: $contentsHeight 0 0 0;
+    }
+
+    & .center {
+      padding: 10px 0 0 10px;
+    }
+
+    & .right {
+      padding: 10px 0 0 10px;
+    }
+  }
 }
