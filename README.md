@@ -9,10 +9,20 @@
 - MySQL
 - PostgreSQL
 - JUnit
+- SCSS
+- CSS
+- JavaScript
+- Bootstrap
+- Google Fonts
+
 
 ## Development Environment And Tools
 - Intellij IDEA
 - Gradle
+- Visual Studio Code
+- Live Server
+- Live Sass Compiler
+
 
 ## Demo
 
