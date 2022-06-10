@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${title}+' | TestApplication'">各ページタイトル | sample app</title>
+    <meta name="description" content="This site is a test site.">
+    <link rel="icon" th:href="@{/images/logo.png}">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Open+Sans&display=swap" rel="stylesheet">
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -38,7 +40,7 @@
                         <tr>
                             <td nowrap>部署名</td>
                             <td nowrap>:</td>
-                            <td nowrap th:text="${header.departmentName}">John Doe</td>
+                            <td nowrap th:text="${header.departmentName}">Engineering</td>
                         </tr>
                     </table>
                     <!-- <p>ユーザーID:<span th:text="${header.userId}">000</span></p>
@@ -55,5 +57,25 @@
             </div>
         </div>
     </header>
+    <div class="left-nav border-start border-bottom" th:fragment="left-nav">
+        <ul>
+            <li>
+                <a href="serch.html" th:href="@{serch}">
+                    社員管理
+                </a>
+                <ul>
+                    <li><a href="#">社員検索</a></li>
+                    <li><a href="#">社員登録</a></li>
+                </ul>
+            </li>
+            <li><a href="#">部署管理</a></li>
+            <li><a href="#">社内申請</a></li>
+            <li><a href="#">会議室予約</a></li>
+            <li><a href="#">顧客検索</a></li>
+            <li><a href="#">サービス管理</a></li>
+            <li><a href="#">受注管理</a></li>
+            <li><a href="#">契約管理</a></li>
+        </ul>
+    </div>
 </body>
 </html>
