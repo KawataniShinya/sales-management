@@ -26,31 +26,50 @@ body {
     align-items: center;
     width: 90%;
     margin: 0 auto;
-  }
+    justify-content: space-between;
 
-  & .logo {
-    display: flex;
-    font-size: 38px;
-    position: relative;
-
-    & a {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
+    & .logo {
+      display: flex;
+      font-size: 38px;
+      position: relative;
+  
+      & a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+  
+      &__image {
+        width: 0.8em;
+      }
+  
+      &__first {
+        color: $cDarkGray;
+      }
+  
+      &__second {
+        color: $cNavy;
+      }
     }
 
-    &__image {
-      width: 0.8em;
-    }
+    & .right-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: right;
 
-    &__first {
-      color: $cDarkGray;
-    }
-
-    &__second {
-      color: $cNavy;
+        & .user {
+            margin: 0 20px;
+            font-size: small;
+        }
+      
+        & .logout {
+          text-align: right;
+          width: auto;
+          margin: 0;
+        }
     }
   }
 }
