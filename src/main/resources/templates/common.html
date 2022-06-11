@@ -10,6 +10,18 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:inline="javascript">
+        window.addEventListener('load', function(){
+            const header = /*[[${header}]]*/ { };
+            if (header) {
+                if (header.role === 'ROLE_USER') {
+                    const element = document.querySelector('.tr-department-name');
+                    element.remove();
+                }
+                document.querySelector('.user').classList.remove('un-visible');
+            }
+        });
+    </script>
     <th:block th:replace="${links} ?: _" />
     <th:block th:replace="${scripts} ?: _" />
 </head>
