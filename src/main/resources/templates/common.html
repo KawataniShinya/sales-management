@@ -15,10 +15,13 @@
             const header = /*[[${header}]]*/ { };
             if (header) {
                 if (header.role === 'ROLE_USER') {
-                    const element = document.querySelector('.tr-department-name');
-                    element.remove();
+                    const staffItems = document.querySelectorAll(".staff-item");
+                    staffItems.forEach(function(staffItem) {
+                        staffItem.remove()
+                    })
                 }
-                document.querySelector('.user').classList.remove('un-visible');
+                document.querySelector('.header .user').classList.remove('un-visible');
+                document.querySelector('.left-nav__menu').classList.remove('un-visible');
             }
         });
     </script>
@@ -49,7 +52,7 @@
                             <td nowrap>:</td>
                             <td class="user-name" nowrap th:text="${header.userName}">John Doe</td>
                         </tr>
-                        <tr class="tr-department-name">
+                        <tr class="tr-department-name staff-item">
                             <td nowrap>部署名</td>
                             <td nowrap>:</td>
                             <td class="department-name" nowrap th:text="${header.departmentName}">Engineering</td>
@@ -67,23 +70,41 @@
         </div>
     </header>
     <div class="left-nav border-start border-bottom" th:fragment="left-nav">
-        <ul>
-            <li>
+        <ul class="left-nav__menu un-visible">
+            <li class="staff-item">
                 <a href="serch.html" th:href="@{serch}">
-                    社員管理
+                    社員情報
                 </a>
                 <ul>
-                    <li><a href="#">社員検索</a></li>
-                    <li><a href="#">社員登録</a></li>
+                    <li><a href="#">社員情報登録</a></li>
+                    <li><a href="#">社員情報検索</a></li>
                 </ul>
             </li>
-            <li><a href="#">部署管理</a></li>
-            <li><a href="#">社内申請</a></li>
-            <li><a href="#">会議室予約</a></li>
-            <li><a href="#">顧客検索</a></li>
-            <li><a href="#">サービス管理</a></li>
-            <li><a href="#">受注管理</a></li>
-            <li><a href="#">契約管理</a></li>
+            <li>
+                <a href="#">お客様情報</a>
+                <ul>
+                    <li><a href="#">お客様情報登録</a></li>
+                    <li><a href="#">お客様情報検索</a></li>
+                    <li><a href="#">パスワード変更</a></li>
+                    <li><a href="#">パスワード初期化依頼</a></li>
+                    <li><a href="#">パスワード初期化承認</a></li>
+                </ul>
+            </li>
+            <li class="staff-item"><a href="#">部署情報</a></li>
+            <li class="staff-item"><a href="#">役職情報</a></li>
+            <li class="staff-item"><a href="#">社内申請</a></li>
+            <li class="staff-item"><a href="#">会議室情報</a></li>
+            <li><a href="#">ご注文状況</a></li>
+            <li class="staff-item"><a href="#">受付情報</a></li>
+            <li><a href="#">商品サービス情報</a></li>
+            <li class="staff-item">
+                <a href="#">サービス工程管理</a>
+                <ul>
+                    <li><a href="#">提供工程管理</a></li>
+                    <li><a href="#">開発工程管理</a></li>
+                </ul>
+            </li>
+            <li><a href="#">サービスご利用状況</a></li>
         </ul>
     </div>
 </body>

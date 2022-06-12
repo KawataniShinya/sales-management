@@ -64,12 +64,8 @@ body {
       & .user {
         margin: 0 20px;
         font-size: small;
-
-        &.un-visible {
-          visibility: hidden;
-        }
       }
-
+      
       & .logout {
         text-align: right;
         width: auto;
@@ -77,6 +73,10 @@ body {
       }
     }
   }
+}
+
+.un-visible {
+  visibility: hidden;
 }
 
 .overall-message {
@@ -120,7 +120,8 @@ body {
     height: 100%;
     z-index: 100;
     background-color: $cBgLight;
-
+    font-size: small;
+    
     ul {
       list-style: none;
     }

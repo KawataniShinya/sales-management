@@ -17,13 +17,14 @@
         });
         $(function (){
             $.ajaxSetup({cache:false});
-            $('div.left-nav').load('./common.html .left-nav');
+            $('div.left-nav').load('./common.html .left-nav__menu');
         });
     </script>
     <script async>
         let timerId = setInterval(function(){
-            if (document.querySelector(".user-name")) {
-                document.querySelector('.user').classList.remove('un-visible');
+            if (document.querySelector('.user-id')) {
+                document.querySelector('.header .user').classList.remove('un-visible');
+                document.querySelector('.left-nav__menu').classList.remove('un-visible');
                 clearInterval(timerId);
             }
         },100);
@@ -41,7 +42,7 @@
         </ol>
     </nav>
     <div class="content">
-        <!--/* --><div class="left-nav"></div><!-- */-->
+        <!--/* --><div class="left-nav border-start border-bottom"></div><!-- */-->
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
             <div class="center col-10 border-start border-end border-bottom">
