@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+skinparam actorStyle awesome
+
+skinparam usecase {
+    BackgroundColor DarkSeaGreen
+    BorderColor DarkSlateGray
+}
+
+rectangle System(部署) #DDDDDD {
+    package 登録 {
+        usecase 部署を新規登録する as C1
+    }
+    package 照会 {
+        usecase 部署情報を照会する as R1
+    }
+    package 更新 {
+        usecase 部署情報を訂正する as U1
+        note bottom of U1 : 登録済み情報を直接更新する。\n更新情報は履歴として保持しない。
+        usecase 部署情報を更新 as U2
+        note top of U2 : 登録済み部署の更新を予約する。\n更新前情報は履歴として保持する。
+    }
+    package 削除 {
+        usecase 部署情報を削除する as D1
+    }
+}
+
+rectangle Staff {
+    actor staff_general #green
+    actor admin #red
+    rectangle 人事部 {
+        actor staff_hr #blue
+    }
+}
+
+C1 <-[#blue,bold]- staff_hr
+R1 <-- staff_general
+R1 <-[#blue,bold]- staff_hr
+R1 <-- admin
+U1 <-[#blue,bold]- staff_hr
+U2 <-[#blue,bold]- staff_hr
+D1 <-- admin
+
+
+@enduml
