@@ -20,11 +20,11 @@
             $('div.left-nav').load('./common.html .left-nav__menu');
         });
     </script>
-    <script async>
+    <script type="module">
+        import { initHeader } from "../static/js/header_template.js";
         let timerId = setInterval(function(){
             if (document.querySelector('.user-id')) {
-                document.querySelector('.header .user').classList.remove('un-visible');
-                document.querySelector('.left-nav__menu').classList.remove('un-visible');
+                initHeader();
                 clearInterval(timerId);
             }
         },100);

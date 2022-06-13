@@ -12,6 +12,7 @@
 - SCSS
 - CSS
 - JavaScript
+- TypeScript
 - Bootstrap
 - Google Fonts
 

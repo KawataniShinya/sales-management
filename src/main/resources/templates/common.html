@@ -10,19 +10,12 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <script th:inline="javascript">
+    <script th:src="@{/js/header.js}" type="module"></script>
+    <script th:inline="javascript" type="module">
+        import { initHeader } from '/js/header.js';
         window.addEventListener('load', function(){
-            const header = /*[[${header}]]*/ { };
-            if (header) {
-                if (header.role === 'ROLE_USER') {
-                    const staffItems = document.querySelectorAll(".staff-item");
-                    staffItems.forEach(function(staffItem) {
-                        staffItem.remove()
-                    })
-                }
-                document.querySelector('.header .user').classList.remove('un-visible');
-                document.querySelector('.left-nav__menu').classList.remove('un-visible');
-            }
+            const header = /*[[${header}]]*/ null;
+            initHeader(header);
         });
     </script>
     <th:block th:replace="${links} ?: _" />
