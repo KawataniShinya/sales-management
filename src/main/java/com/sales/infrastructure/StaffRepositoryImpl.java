@@ -4,6 +4,7 @@ import com.sales.common.LoggingDelegateRepository;
 import com.sales.domain.staff.Constant;
 import com.sales.domain.staff.Staff;
 import com.sales.domain.staff.StaffRepository;
+import com.sales.domain.staff.StaffDomainService;
 import com.sales.presentation.DepartmentController;
 import com.sales.presentation.dto.DepartmentGetRequest;
 import org.apache.commons.lang3.time.DateUtils;
@@ -24,6 +25,8 @@ import java.util.*;
 public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository implements StaffRepository {
 
     private final String APPLSQL002;
+    private final String APPLSQL005;
+    private final String APPLSQL006;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -32,9 +35,13 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Qualifier("applNpjdbc01") NamedParameterJdbcTemplate npJdbcTemplate,
             LoggingDelegateRepository loggingDelegateRepository,
             @Value("${APPLSQL002}") String applsql002,
+            @Value("${APPLSQL005}") String applsql005,
+            @Value("${APPLSQL006}") String applsql006,
             DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
+        this.APPLSQL005 = applsql005;
+        this.APPLSQL006 = applsql006;
         this.departmentController = departmentController;
     }
 
@@ -54,6 +61,24 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             departmentGetRequest.setDepartmentCd((String) map.get(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue()));
             map.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), this.departmentController.getDepartment(departmentGetRequest).getDepartmentNameJa());
         });
+        return resultList;
+    }
+
+    @Override
+    public long countAllUser(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL005",this.APPLSQL005 ,paramMap);
+        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL005, paramMap);
+        return (long) resultList.get(0).get(Constant.DATA_SOURCE_FIELD_NAME_STAFF.COUNT.getValue());
+    }
+
+    @Override
+    public List<Map<String, Object>> findAllUser(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), staffDomainService.getLimitSize());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.OFFSET_SIZE.getValue(), staffDomainService.getOffsetSize());
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL006",this.APPLSQL006 ,paramMap);
+        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL006, paramMap);
         return resultList;
     }
 }

@@ -25,7 +25,11 @@ public class Constant {
         INSERT_USER("INSERT_USER"),
         UPDATE_TIMESTAMP("UPDATE_TIMESTAMP"),
         UPDATE_USER("UPDATE_USER"),
-        EXPIRATION_DATE("EXPIRATION_DATE"); // Expansion
+        EXPIRATION_DATE("EXPIRATION_DATE"), // Expansion
+
+        COUNT("COUNT"),
+        LIMIT_SIZE("LIMIT_SIZE"),
+        OFFSET_SIZE("OFFSET_SIZE");
 
         private final String value;
         DATA_SOURCE_FIELD_NAME_STAFF(String value) {this.value = value;}
@@ -58,7 +62,11 @@ public class Constant {
         INSERT_USER("insertUser"),
         UPDATE_TIMESTAMP("updateTimestamp"),
         UPDATE_USER("updateUser"),
-        EXPIRATION_DATE("expirationDate"); // Expansion
+        EXPIRATION_DATE("expirationDate"), // Expansion
+
+        COUNT("count"),
+        LIMIT_SIZE("limitSize"),
+        OFFSET_SIZE("offsetSize");
 
         private final String value;
         API_FIELD_NAME_STAFF(String value) {this.value = value;}

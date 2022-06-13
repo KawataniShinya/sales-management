@@ -47,6 +47,11 @@
         <div class="row main">
             <div class="center col-10 border-start border-end border-bottom">
                 center
+                <table th:if="${staffs} != null">
+                    <tr th:each="staff : ${staffs}">
+                        <td th:text="${staff.familyName}"></td>
+                    </tr>
+                </table>
             </div>
             <div class="right col-2 border-end border-bottom">right</div>
         </div>

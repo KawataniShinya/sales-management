@@ -5,4 +5,6 @@ import java.util.Map;
 
 public interface StaffRepository {
     List<Map<String, Object>> findUserByUserIdInExpiration(Staff staff);
+    long countAllUser(StaffDomainService staffDomainService);
+    List<Map<String, Object>> findAllUser(StaffDomainService staffDomainService);
 }
