@@ -23,9 +23,11 @@ public class StaffServiceImpl implements StaffService{
     public StaffServiceBean findStaffs(Map<String, Object> map) {
         StaffServiceBean staffServiceBean = new StaffServiceBean();
         StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
-        staffDomainService.setLimitSize((Integer) map.get(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue()));
-        staffDomainService.setOffsetSize((Integer) map.get(Constant.API_FIELD_NAME_STAFF.OFFSET_SIZE.getValue()));
+        staffDomainService.setLimitSize(((Integer) map.get(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue())).longValue());
+        staffDomainService.setPage(((Integer) map.get(Constant.API_FIELD_NAME_STAFF.PAGE.getValue())).longValue());
         staffServiceBean.setStaffs(staffDomainService.findAllUser().getStaffs());
+        staffServiceBean.setPage(staffDomainService.getPage());
+        staffServiceBean.setLimitSize(staffDomainService.getLimitSize());
         return staffServiceBean;
     }
 }

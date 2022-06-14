@@ -29,6 +29,7 @@ public class Constant {
 
         COUNT("COUNT"),
         LIMIT_SIZE("LIMIT_SIZE"),
+        PAGE("PAGE"),
         OFFSET_SIZE("OFFSET_SIZE");
 
         private final String value;
@@ -66,6 +67,7 @@ public class Constant {
 
         COUNT("count"),
         LIMIT_SIZE("limitSize"),
+        PAGE("page"),
         OFFSET_SIZE("offsetSize");
 
         private final String value;

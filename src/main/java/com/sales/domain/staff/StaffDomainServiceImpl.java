@@ -19,11 +19,15 @@ public class StaffDomainServiceImpl implements StaffDomainService {
 
     @Getter
     @Setter
-    private int limitSize;
+    private long limitSize;
 
     @Getter
     @Setter
-    private int offsetSize;
+    private long offsetSize;
+
+    @Getter
+    @Setter
+    private long page;
 
     @Getter
     @Setter
@@ -57,6 +61,11 @@ public class StaffDomainServiceImpl implements StaffDomainService {
     @Override
     public StaffDomainService findAllUser() {
         this.count = this.staffRepository.countAllUser(this);
+
+        if (this.count < (this.page - 1) * this.limitSize) {
+            this.page = this.count / this.limitSize + 1;
+        }
+        this.offsetSize = (this.page - 1) * this.limitSize;
 
         ArrayList<Staff> staffs = new ArrayList<>();
         List<Map<String, Object>> findResult = this.staffRepository.findAllUser(this);

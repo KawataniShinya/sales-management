@@ -23,15 +23,23 @@ public class StaffController {
         this.staffService = staffService;
     }
 
-    @RequestMapping("/staffs")
+    @RequestMapping("/staff")
+    public String top(HttpServletRequest request, Model model) {
+        CommonDisplay.setHeaderParameter(request, model);
+        return "staff.html";
+    }
+
+    @RequestMapping("/staff/search")
     public String getStaffs(HttpServletRequest request, Model model) {
         CommonDisplay.setHeaderParameter(request, model);
 
         Map<String, Object> map = new HashMap<>();
         map.put(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), 20);
-        map.put(Constant.API_FIELD_NAME_STAFF.OFFSET_SIZE.getValue(), 10);
+        map.put(Constant.API_FIELD_NAME_STAFF.PAGE.getValue(), 8);
         StaffServiceBean staffServiceBean = this.staffService.findStaffs(map);
         model.addAttribute("staffs", staffServiceBean.getStaffs());
-        return "top.html";
+        model.addAttribute("page", staffServiceBean.getPage());
+        model.addAttribute("limitSize", staffServiceBean.getLimitSize());
+        return "staff-search.html";
     }
 }

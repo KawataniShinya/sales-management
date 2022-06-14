@@ -36,9 +36,8 @@
     <!--/*/<header th:replace="common :: header"></header>/*/-->
     <nav class="breadcrumb-wrap border" aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">Library</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Data</li>
+          <li class="breadcrumb-item"><a href="top.html" th:href="@{/top}">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Staff</li>
         </ol>
     </nav>
     <div class="content">
@@ -46,9 +45,10 @@
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
             <div class="center col-10 border-start border-end border-bottom">
-                center
+                <button type="button" class="btn btn-outline-primary">検索</button>
+                <button type="button" class="btn btn-outline-primary">新規登録</button>
             </div>
-            <div class="right col-2 border-end border-bottom">right</div>
+            <div class="right col-2 border-end border-bottom"></div>
         </div>
     </div>
 </body>
