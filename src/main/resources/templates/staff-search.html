@@ -30,90 +30,25 @@
         },100);
     </script>
     <!-- */-->
+    <!--/*/
+    <script th:src="@{/js/pagenation_maxpageselector.js}" type="module"></script>
     <script th:inline="javascript" type="module">
+        import { setPageNation, setMaxRowSelector, addEventSetRowLimitSizeToPageNationHrefParam } from "/js/pagenation_maxrowselector.js"
         window.addEventListener('load', function(){
             const staffs = /*[[${staffs}]]*/ null;
             if (staffs) {
                 const count = /*[[${count}]]*/ 0;
                 const limitSize = /*[[${limitSize}]]*/ 0;
                 const page = /*[[${page}]]*/ 0;
-                document.querySelectorAll('.page-item.num').forEach(function (e) {
-                    e.remove();
-                })
-                const maxPage = Math.ceil(count / limitSize);
-                const pagenationUl = document.querySelector('ul.pagination');
-                const nextLi = document.querySelector('ul.pagination .next');
-                const pagenationWidthOneSide = 2;
-                let pagenationStart = page - pagenationWidthOneSide;
-                if (pagenationStart <= 0) {
-                    pagenationStart = 1;
-                }
-                let pagenationEnd = page + pagenationWidthOneSide;
-                if (pagenationEnd > maxPage) {
-                    pagenationEnd = maxPage;
-                }
-                for (let i = pagenationStart; i < pagenationEnd + 1; i++) {
-                    let newPageNumberElement = document.createElement('li');
-                    newPageNumberElement.classList.add('page-item','num');
-                    if (i === page) {
-                        newPageNumberElement.classList.add('active');
-                    }
-                    let newLinkElement = document.createElement('a');
-                    newLinkElement.classList.add('page-link');
-                    let newUrl = new URL(location.href);
-                    newUrl.searchParams.set('page',i);
-                    if (i !== page) {
-                        newLinkElement.setAttribute('href',newUrl);
-                    }
-                    newLinkElement.innerHTML = i;
-                    newPageNumberElement.appendChild(newLinkElement);
-                    pagenationUl.insertBefore(newPageNumberElement,nextLi);
-                }
-                let previousElement = document.querySelector('.page-item.previous');
-                if (page === 1) {
-                    previousElement.classList.add('disabled');
-                } else {
-                    let newUrl = new URL(location.href);
-                    newUrl.searchParams.set('page',page - 1);
-                    document.querySelector('.page-item.previous .page-link').setAttribute('href',newUrl);
-                }
-                let nextElement = document.querySelector('.page-item.next');
-                if (page === maxPage) {
-                    document.querySelector('.page-item.next').classList.add('disabled');
-                } else {
-                    let newUrl = new URL(location.href);
-                    newUrl.searchParams.set('page',page + 1);
-                    document.querySelector('.page-item.next .page-link').setAttribute('href',newUrl);
-                }
 
-                document.querySelector('#maxPage').value = limitSize;
+                setPageNation(count, limitSize, page);
+                setMaxRowSelector(limitSize);
+                
+                addEventSetRowLimitSizeToPageNationHrefParam();
             }
         });
     </script>
-    <script th:inline="javascript" type="module">
-        window.addEventListener('load', function(){
-            let select = document.querySelector('#maxPage');
-            select.addEventListener('change', function () {
-                let newUrlPrevious = new URL(document.querySelector('.page-item.previous .page-link').getAttribute('href'));
-                newUrlPrevious.searchParams.set('limitSize', select.value);
-                document.querySelector('.page-item.previous .page-link').setAttribute('href', newUrlPrevious);
-                
-                let nums = document.querySelectorAll('.page-item.num .page-link');
-                nums.forEach(num => {
-                    let href = num.getAttribute('href');
-                    if (href) {
-                        let newUrlNum = new URL(num.getAttribute('href'));
-                        newUrlNum.searchParams.set('limitSize', select.value);
-                        num.setAttribute('href', newUrlNum);
-                    }
-                })
-                
-                let newUrlNext = new URL(document.querySelector('.page-item.next .page-link').getAttribute('href'));
-                newUrlNext.searchParams.set('limitSize', select.value);
-                document.querySelector('.page-item.next .page-link').setAttribute('href', newUrlNext);
-            })
-        });
-    </script>
+    /*/-->
 </head>
 <body>
     <!--/* --><header class="header"><div class="header__inner"></div></header><!-- */-->
@@ -195,7 +130,7 @@
                         <div class="staff-search__result__lower">
                             <div class="staff-search__result__lower__select-max-page">
                                 <div>表示行数</div>
-                                <select id="maxPage">
+                                <select id="maxRow">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
