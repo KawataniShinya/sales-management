@@ -149,21 +149,28 @@ body {
   font-weight: bold;
 }
 
-.content .main .center .staff-list {
-  overflow-x: scroll;
+.content .main .center .staff-search {
   width: 95%;
   margin: 0 auto;
 }
 
-.content .main .center .staff-list__table {
+.content .main .center .staff-search__result__count {
+  text-align: right;
+}
+
+.content .main .center .staff-search__result__list {
+  overflow-x: scroll;
+}
+
+.content .main .center .staff-search__result__list__table {
   font-size: small;
 }
 
-.content .main .center .staff-list__table th {
+.content .main .center .staff-search__result__list__table th {
   white-space: nowrap;
 }
 
-.content .main .center .staff-list__table td {
+.content .main .center .staff-search__result__list__table td {
   white-space: nowrap;
 }
 

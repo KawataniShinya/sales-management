@@ -26,8 +26,9 @@ public class StaffServiceImpl implements StaffService{
         staffDomainService.setLimitSize(((Integer) map.get(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue())).longValue());
         staffDomainService.setPage(((Integer) map.get(Constant.API_FIELD_NAME_STAFF.PAGE.getValue())).longValue());
         staffServiceBean.setStaffs(staffDomainService.findAllUser().getStaffs());
-        staffServiceBean.setPage(staffDomainService.getPage());
+        staffServiceBean.setCount(staffDomainService.getCount());
         staffServiceBean.setLimitSize(staffDomainService.getLimitSize());
+        staffServiceBean.setPage(staffDomainService.getPage());
         return staffServiceBean;
     }
 }

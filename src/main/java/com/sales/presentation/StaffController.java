@@ -38,8 +38,9 @@ public class StaffController {
         map.put(Constant.API_FIELD_NAME_STAFF.PAGE.getValue(), 8);
         StaffServiceBean staffServiceBean = this.staffService.findStaffs(map);
         model.addAttribute("staffs", staffServiceBean.getStaffs());
-        model.addAttribute("page", staffServiceBean.getPage());
+        model.addAttribute("count", staffServiceBean.getCount());
         model.addAttribute("limitSize", staffServiceBean.getLimitSize());
+        model.addAttribute("page", staffServiceBean.getPage());
         return "staff-search.html";
     }
 }

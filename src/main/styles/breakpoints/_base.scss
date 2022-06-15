@@ -148,24 +148,34 @@ body {
         font-weight: bold;
       }
 
-      & .staff-list {
-        overflow-x: scroll;
+      & .staff-search {
         width: 95%;
         margin: 0 auto;
 
-        &__table {
-          // table-layout: fixed;
-          font-size: small;
+        &__result {
 
-          & th {
-            white-space: nowrap;
+          &__count {
+            text-align: right;
           }
-          
-          & td {
-            white-space: nowrap;
+
+          &__list {
+            overflow-x: scroll;
+    
+            &__table {
+              font-size: small;
+    
+              & th {
+                white-space: nowrap;
+              }
+              
+              & td {
+                white-space: nowrap;
+              }
+            }
           }
         }
       }
+
     }
 
     & .right {

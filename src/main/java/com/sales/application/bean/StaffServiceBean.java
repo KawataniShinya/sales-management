@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class StaffServiceBean {
+    private long count;
     private long limitSize;
     private long page;
     private List<Staff> staffs;
