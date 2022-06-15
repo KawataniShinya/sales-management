@@ -85,6 +85,8 @@
                     newUrl.searchParams.set('page',page + 1);
                     document.querySelector('.page-item.next .page-link').setAttribute('href',newUrl);
                 }
+
+                document.querySelector('#maxPage').value = limitSize;
             }
         });
     </script>
@@ -92,7 +94,23 @@
         window.addEventListener('load', function(){
             let select = document.querySelector('#maxPage');
             select.addEventListener('change', function () {
-                console.log(select.value);
+                let newUrlPrevious = new URL(document.querySelector('.page-item.previous .page-link').getAttribute('href'));
+                newUrlPrevious.searchParams.set('limitSize', select.value);
+                document.querySelector('.page-item.previous .page-link').setAttribute('href', newUrlPrevious);
+                
+                let nums = document.querySelectorAll('.page-item.num .page-link');
+                nums.forEach(num => {
+                    let href = num.getAttribute('href');
+                    if (href) {
+                        let newUrlNum = new URL(num.getAttribute('href'));
+                        newUrlNum.searchParams.set('limitSize', select.value);
+                        num.setAttribute('href', newUrlNum);
+                    }
+                })
+                
+                let newUrlNext = new URL(document.querySelector('.page-item.next .page-link').getAttribute('href'));
+                newUrlNext.searchParams.set('limitSize', select.value);
+                document.querySelector('.page-item.next .page-link').setAttribute('href', newUrlNext);
             })
         });
     </script>
@@ -102,9 +120,9 @@
     <!--/*/<header th:replace="common :: header"></header>/*/-->
     <nav class="breadcrumb-wrap border" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="top.html" th:href="@{/top}">Home</a></li>
-            <li class="breadcrumb-item"><a href="staff.html" th:href="@{/staff}">Staff</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Search</li>
+            <li class="breadcrumb-item"><a href="top.html" th:href="@{/top}">トップ</a></li>
+            <li class="breadcrumb-item"><a href="staff.html" th:href="@{/staff}">社員情報</a></li>
+            <li class="breadcrumb-item active" aria-current="page">検索</li>
         </ol>
     </nav>
     <div class="content">
@@ -114,10 +132,10 @@
             <div class="center col-12 border-start border-end border-bottom">
                 <div class="page-header bg-light shadow-sm border tytle">社員情報検索</div>
                 <div class="staff-search">
-                    <div class="staff-search__result">
-                        <div class="staff-search__result__count" th:if="${staffs} != null" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件'">25 件目 / 135 件</div>
+                    <div class="staff-search__result"  th:if="${staffs} != null">
+                        <div class="staff-search__result__count" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件'">25 件目 / 135 件</div>
                         <div class="staff-search__result__list">
-                            <table class="table table-striped staff-search__result__list__table" th:if="${staffs} != null">
+                            <table class="table table-striped staff-search__result__list__table">
                                 <thead class="table-dark">
                                     <tr>
                                         <th scope="col">ユーザーID</th>

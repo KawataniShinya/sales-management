@@ -37,8 +37,8 @@ public class StaffController {
         CommonDisplay.setHeaderParameter(request, model);
 
         Map<String, Object> map = new HashMap<>();
-        map.put(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), 20);
-        map.put(Constant.API_FIELD_NAME_STAFF.PAGE.getValue(), 7);
+        map.put(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), 25);
+        map.put(Constant.API_FIELD_NAME_STAFF.PAGE.getValue(), 4);
         StaffServiceBean staffServiceBean = this.staffService.findStaffs(map);
         model.addAttribute(Constant.API_FIELD_NAME_STAFF.STAFFS.getValue(), staffServiceBean.getStaffs());
         model.addAttribute(Constant.API_FIELD_NAME_STAFF.COUNT.getValue(), staffServiceBean.getCount());

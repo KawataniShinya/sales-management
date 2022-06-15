@@ -9,4 +9,4 @@ $breadcrumbHeight: 40px;
 $contentsHeightOffset: $navHeight + $breadcrumbHeight;
 $leftnavWidth: 230px;
 $bodyHeight: calc(100vh - calc(100px + 40px));
-$mainWidth: calc(100vw - 230px);
+$mainWidth: calc(100% - 230px);
