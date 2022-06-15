@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: meta_header('トップ',~{::link},~{::script})">
+<head th:replace="common :: meta_header('社員情報検索',~{::link},~{::script})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>トップ | TestApplication</title>
+    <title>社員情報検索 | TestApplication</title>
     <!--/* -->
     <link rel="icon" href="../static/images/logo.png">
     <script src="../static/js/bootstrap.min.js"></script>
@@ -45,15 +45,68 @@
         <!--/* --><div class="left-nav border-start border-bottom"></div><!-- */-->
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
-            <div class="center col-10 border-start border-end border-bottom">
+            <div class="center col-12 border-start border-end border-bottom">
+                <div class="page-header bg-light shadow-sm border tytle">社員情報検索</div>
                 <p th:if="${staffs} != null" th:text="${page}"></p>
-                <table th:if="${staffs} != null">
-                    <tr th:each="staff : ${staffs}">
-                        <td th:text="${staff.userId}"></td>
-                    </tr>
-                </table>
+                <div class="staff-list">
+                    <table class="table table-striped staff-list__table" th:if="${staffs} != null">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">ユーザーID</th>
+                                <th scope="col">氏名</th>
+                                <th scope="col">部署</th>
+                                <th scope="col">性別</th>
+                                <th scope="col">生年月日</th>
+                                <th scope="col">血液型</th>
+                                <th scope="col">都道府県</th>
+                                <th scope="col">市町村</th>
+                                <th scope="col">電話番号(私用)</th>
+                                <th scope="col">Eメールアドレス(私用)</th>
+                                <th scope="col">電話番号(社内)</th>
+                                <th scope="col">Eメールアドレス(社内)</th>
+                                <th scope="col">有効開始日</th>
+                                <th scope="col">有効終了日</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="staff : ${staffs}">
+                                <td th:text="${staff.userId}">STF0000002</td>
+                                <td th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
+                                <td th:text="${staff.departmentName}">D30001</td>
+                                <td th:text="${staff.genderName}">0001</td>
+                                <td th:text="${staff.birthdate}">1873-11-09</td>
+                                <td th:text="${staff.bloodTypeName}">0001</td>
+                                <td th:text="${staff.addressPrefectureName}">0006</td>
+                                <td th:text="${staff.addressMunicipality}">南陽市長岡</td>
+                                <td th:text="${staff.privateTelNo}">07727301437</td>
+                                <td th:text="${staff.privateEmail}">user2@private.com</td>
+                                <td th:text="${staff.workplaceTelNo}">06041084375</td>
+                                <td th:text="${staff.workplaceEmail}">user2@sales.com</td>
+                                <td th:text="${staff.expirationStart}">2022-06-01</td>
+                                <td th:text="${staff.expirationEnd}">2022-09-01</td>
+                            </tr>
+                            <!--/* -->
+                            <tr th:each="staff : ${staffs}">
+                                <td>STF0000003</td>
+                                <td>沼田 花恋</td>
+                                <td>D20001</td>
+                                <td>0002</td>
+                                <td>1980-05-02</td>
+                                <td>0002</td>
+                                <td>0029</td>
+                                <td>奈良市生琉里町4-11-18生琉里町シティ205</td>
+                                <td>03758596249</td>
+                                <td>user3@private.com</td>
+                                <td>04850116018</td>
+                                <td>user3@sales.com</td>
+                                <td>2022-06-01</td>
+                                <td>2022-09-01</td>
+                            </tr>
+                            <!-- */-->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="right col-2 border-end border-bottom"></div>
         </div>
     </div>
 </body>

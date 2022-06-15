@@ -114,7 +114,7 @@ body {
 
   & .left-nav {
     position: fixed;
-    top: $contentsHeight;
+    top: $contentsHeightOffset;
     padding-top: 10px;
     width: $leftnavWidth;
     height: 100%;
@@ -128,17 +128,44 @@ body {
   }
 
   & .main {
-    margin: $contentsHeight 0 0 $leftnavWidth;
-    width: 100%;
+    margin: $contentsHeightOffset 0 0 $leftnavWidth;
+    width: $mainWidth;
     height: 100%;
     z-index: 0;
 
     &.login {
-      margin: $contentsHeight 0 0 0;
+      margin: $contentsHeightOffset 0 0 0;
     }
 
     & .center {
-      padding: 10px 0 0 10px;
+      padding: 10px 10px 0 10px;
+
+      & .tytle {
+        text-align: center;
+        margin-bottom: 10px;
+        vertical-align: middle;
+        font-size: x-large;
+        font-weight: bold;
+      }
+
+      & .staff-list {
+        overflow-x: scroll;
+        width: 95%;
+        margin: 0 auto;
+
+        &__table {
+          // table-layout: fixed;
+          font-size: small;
+
+          & th {
+            white-space: nowrap;
+          }
+          
+          & td {
+            white-space: nowrap;
+          }
+        }
+      }
     }
 
     & .right {

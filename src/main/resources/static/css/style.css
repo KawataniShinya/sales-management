@@ -4,7 +4,7 @@ h1.title {
 
 body {
   font-family: "Open Sans", "Noto Sans JP", sans-serif;
-  height: calc(100vh - 140px);
+  height: calc(100vh - calc(100px + 40px));
 }
 
 .header {
@@ -128,7 +128,7 @@ body {
 
 .content .main {
   margin: 140px 0 0 230px;
-  width: 100%;
+  width: calc(100vw - 230px);
   height: 100%;
   z-index: 0;
 }
@@ -138,7 +138,33 @@ body {
 }
 
 .content .main .center {
-  padding: 10px 0 0 10px;
+  padding: 10px 10px 0 10px;
+}
+
+.content .main .center .tytle {
+  text-align: center;
+  margin-bottom: 10px;
+  vertical-align: middle;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.content .main .center .staff-list {
+  overflow-x: scroll;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.content .main .center .staff-list__table {
+  font-size: small;
+}
+
+.content .main .center .staff-list__table th {
+  white-space: nowrap;
+}
+
+.content .main .center .staff-list__table td {
+  white-space: nowrap;
 }
 
 .content .main .right {

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: meta_header('トップ',~{::link},~{::script})">
+<head th:replace="common :: meta_header('社員情報',~{::link},~{::script})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>トップ | TestApplication</title>
+    <title>社員情報 | TestApplication</title>
     <!--/* -->
     <link rel="icon" href="../static/images/logo.png">
     <script src="../static/js/bootstrap.min.js"></script>
@@ -44,11 +44,11 @@
         <!--/* --><div class="left-nav border-start border-bottom"></div><!-- */-->
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
-            <div class="center col-10 border-start border-end border-bottom">
-                <button type="button" class="btn btn-outline-primary">検索</button>
-                <button type="button" class="btn btn-outline-primary">新規登録</button>
+            <div class="center col-12 border-start border-end border-bottom">
+                <div class="page-header bg-light shadow-sm border tytle">社員情報</div>
+                <a class="btn btn-outline-primary" href="staff-search.html" th:href="@{staff/search}">検索</a>
+                <a class="btn btn-outline-primary" href="#" th:href="#">新規登録</a>
             </div>
-            <div class="right col-2 border-end border-bottom"></div>
         </div>
     </div>
 </body>
