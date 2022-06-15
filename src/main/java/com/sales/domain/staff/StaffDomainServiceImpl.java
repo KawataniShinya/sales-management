@@ -64,6 +64,8 @@ public class StaffDomainServiceImpl implements StaffDomainService {
 
         if (this.count < (this.page - 1) * this.limitSize) {
             this.page = this.count / this.limitSize + 1;
+        } else if (this.count == (this.page - 1) * this.limitSize) {
+            this.page--;
         }
         this.offsetSize = (this.page - 1) * this.limitSize;
 

@@ -30,6 +30,72 @@
         },100);
     </script>
     <!-- */-->
+    <script th:inline="javascript" type="module">
+        window.addEventListener('load', function(){
+            const staffs = /*[[${staffs}]]*/ null;
+            if (staffs) {
+                const count = /*[[${count}]]*/ 0;
+                const limitSize = /*[[${limitSize}]]*/ 0;
+                const page = /*[[${page}]]*/ 0;
+                document.querySelectorAll('.page-item.num').forEach(function (e) {
+                    e.remove();
+                })
+                const maxPage = Math.ceil(count / limitSize);
+                const pagenationUl = document.querySelector('ul.pagination');
+                const nextLi = document.querySelector('ul.pagination .next');
+                const pagenationWidthOneSide = 2;
+                let pagenationStart = page - pagenationWidthOneSide;
+                if (pagenationStart <= 0) {
+                    pagenationStart = 1;
+                }
+                let pagenationEnd = page + pagenationWidthOneSide;
+                if (pagenationEnd > maxPage) {
+                    pagenationEnd = maxPage;
+                }
+                for (let i = pagenationStart; i < pagenationEnd + 1; i++) {
+                    let newPageNumberElement = document.createElement('li');
+                    newPageNumberElement.classList.add('page-item','num');
+                    if (i === page) {
+                        newPageNumberElement.classList.add('active');
+                    }
+                    let newLinkElement = document.createElement('a');
+                    newLinkElement.classList.add('page-link');
+                    let newUrl = new URL(location.href);
+                    newUrl.searchParams.set('page',i);
+                    if (i !== page) {
+                        newLinkElement.setAttribute('href',newUrl);
+                    }
+                    newLinkElement.innerHTML = i;
+                    newPageNumberElement.appendChild(newLinkElement);
+                    pagenationUl.insertBefore(newPageNumberElement,nextLi);
+                }
+                let previousElement = document.querySelector('.page-item.previous');
+                if (page === 1) {
+                    previousElement.classList.add('disabled');
+                } else {
+                    let newUrl = new URL(location.href);
+                    newUrl.searchParams.set('page',page - 1);
+                    document.querySelector('.page-item.previous .page-link').setAttribute('href',newUrl);
+                }
+                let nextElement = document.querySelector('.page-item.next');
+                if (page === maxPage) {
+                    document.querySelector('.page-item.next').classList.add('disabled');
+                } else {
+                    let newUrl = new URL(location.href);
+                    newUrl.searchParams.set('page',page + 1);
+                    document.querySelector('.page-item.next .page-link').setAttribute('href',newUrl);
+                }
+            }
+        });
+    </script>
+    <script th:inline="javascript" type="module">
+        window.addEventListener('load', function(){
+            let select = document.querySelector('#maxPage');
+            select.addEventListener('change', function () {
+                console.log(select.value);
+            })
+        });
+    </script>
 </head>
 <body>
     <!--/* --><header class="header"><div class="header__inner"></div></header><!-- */-->
@@ -49,11 +115,7 @@
                 <div class="page-header bg-light shadow-sm border tytle">社員情報検索</div>
                 <div class="staff-search">
                     <div class="staff-search__result">
-                        <div class="staff-search__result__count" th:if="${staffs} != null" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件'">135 件</div>
-                        <!-- <div class="staff-search__result__count" th:if="${staffs} != null">
-                            <p th:text="${limitSize} * ${page}"></p>
-                            <p th:text="${count} + ' 件'"></p>
-                        </div> -->
+                        <div class="staff-search__result__count" th:if="${staffs} != null" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件'">25 件目 / 135 件</div>
                         <div class="staff-search__result__list">
                             <table class="table table-striped staff-search__result__list__table" th:if="${staffs} != null">
                                 <thead class="table-dark">
@@ -112,23 +174,33 @@
                                 </tbody>
                             </table>
                         </div>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination pagination-sm justify-content-end">
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li class="page-item"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
-                              <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                        </nav>
+                        <div class="staff-search__result__lower">
+                            <div class="staff-search__result__lower__select-max-page">
+                                <div>表示行数</div>
+                                <select id="maxPage">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination pagination-sm">
+                                  <li class="page-item previous">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                      <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                  </li>
+                                  <li class="page-item num"><a class="page-link" href="#">1</a></li>
+                                  <li class="page-item num active"><a class="page-link" href="#">2</a></li>
+                                  <li class="page-item num"><a class="page-link" href="#">3</a></li>
+                                  <li class="page-item next">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                      <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>

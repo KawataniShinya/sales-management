@@ -68,7 +68,8 @@ public class Constant {
         COUNT("count"),
         LIMIT_SIZE("limitSize"),
         PAGE("page"),
-        OFFSET_SIZE("offsetSize");
+        OFFSET_SIZE("offsetSize"),
+        STAFFS("staffs");
 
         private final String value;
         API_FIELD_NAME_STAFF(String value) {this.value = value;}

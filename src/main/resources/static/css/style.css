@@ -154,6 +154,10 @@ body {
   margin: 0 auto;
 }
 
+.content .main .center .staff-search__result {
+  width: 100%;
+}
+
 .content .main .center .staff-search__result__count {
   text-align: right;
 }
@@ -172,6 +176,26 @@ body {
 
 .content .main .center .staff-search__result__list__table td {
   white-space: nowrap;
+}
+
+.content .main .center .staff-search__result__lower {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.content .main .center .staff-search__result__lower__select-max-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content .main .center .staff-search__result__lower__select-max-page #maxPage {
+  margin: 0 10px;
+}
+
+.content .main .center .staff-search__result__lower nav ul {
+  margin: 0;
 }
 
 .content .main .right {
