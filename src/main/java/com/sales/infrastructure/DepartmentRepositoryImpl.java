@@ -37,7 +37,7 @@ public class DepartmentRepositoryImpl extends AbstractBaseApplicationDbRepositor
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_DEPARTMENT.DEPARTMENT_CD.getValue(), department.getDepartmentCd());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_DEPARTMENT.EXPIRATION_DATE.getValue(), DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
 
-        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL003", this.APPLSQL003 ,paramMap);
+//        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL003", this.APPLSQL003 ,paramMap);
         return npJdbcTemplate.queryForList(this.APPLSQL003, paramMap);
     }
 }

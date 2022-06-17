@@ -1,5 +1,7 @@
 package com.sales.domain.staff;
 
+import com.sales.common.DomainRuleIllegalException;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +20,9 @@ public interface StaffDomainService {
     String getUserName();
     void setDepartmentCd(String departmentCd);
     String getDepartmentCd();
-    void setParamExpirationStart(Date paramExpirationStart);
+    void setParamExpirationStart(Date paramExpirationStart) throws DomainRuleIllegalException;
     Date getParamExpirationStart();
-    void setParamExpirationEnd(Date expirationEnd);
+    void setParamExpirationEnd(Date expirationEnd) throws DomainRuleIllegalException;
     Date getParamExpirationEnd();
     void setStaffs(List<Staff> staffs);
     List<Staff> getStaffs();

@@ -1,15 +1,14 @@
 package com.sales.domain.staff;
 
+import com.sales.common.DomainRuleIllegalException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Scope("prototype")
@@ -56,16 +55,19 @@ public class StaffDomainServiceImpl implements StaffDomainService {
 
     private final StaffRepository staffRepository;
 
+    private final MessageSource messageSource;
+
     @Autowired
-    public StaffDomainServiceImpl(Staff staff, StaffRepository staffRepository) {
+    public StaffDomainServiceImpl(Staff staff, StaffRepository staffRepository, MessageSource messageSource) {
         this.staff = staff;
         this.staffRepository = staffRepository;
+        this.messageSource = messageSource;
         this.init();
     }
 
     @Override
     public StaffDomainService createStaffService() {
-        return new StaffDomainServiceImpl(staff, this.staffRepository);
+        return new StaffDomainServiceImpl(staff, this.staffRepository, this.messageSource);
     }
 
     @Override
@@ -84,8 +86,7 @@ public class StaffDomainServiceImpl implements StaffDomainService {
 
     @Override
     public StaffDomainService findAllUser() {
-        this.count = this.staffRepository.countAllUser(this);
-        this.staffRepository.countUser(this);
+        this.count = this.staffRepository.countUser(this);
 
         if (this.count < (this.page - 1) * this.limitSize) {
             this.page = this.count / this.limitSize + 1;
@@ -95,7 +96,7 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         this.offsetSize = (this.page - 1) * this.limitSize;
 
         ArrayList<Staff> staffs = new ArrayList<>();
-        List<Map<String, Object>> findResult = this.staffRepository.findAllUser(this);
+        List<Map<String, Object>> findResult = this.staffRepository.findUser(this);
         findResult.forEach(map -> {
             Staff staff = this.staff.createStaff();
             staff.setFieldsByMapFromDataSource(map);
@@ -106,13 +107,23 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         return this;
     }
 
-    public void setParamExpirationStart(Date paramExpirationStart) {
+    public void setParamExpirationStart(Date paramExpirationStart) throws DomainRuleIllegalException {
         this.paramExpirationStart = paramExpirationStart;
         if (this.paramExpirationEnd == null) this.paramExpirationEnd = paramExpirationStart;
+        if (this.paramExpirationEnd.before(this.paramExpirationStart)) {
+            throw new DomainRuleIllegalException(
+                    this.messageSource.getMessage("MSG0001", new String[]{"有効開始日","有効終了日"}, Locale.JAPANESE)
+            );
+        }
     }
 
-    public void setParamExpirationEnd(Date paramExpirationEnd) {
+    public void setParamExpirationEnd(Date paramExpirationEnd) throws DomainRuleIllegalException {
         this.paramExpirationEnd = paramExpirationEnd;
         if (this.paramExpirationStart == null) this.paramExpirationStart = paramExpirationEnd;
+        if (this.paramExpirationEnd.before(this.paramExpirationStart)) {
+            throw new DomainRuleIllegalException(
+                    this.messageSource.getMessage("MSG0001", new String[]{"有効開始日","有効終了日"}, Locale.JAPANESE)
+            );
+        }
     }
 }

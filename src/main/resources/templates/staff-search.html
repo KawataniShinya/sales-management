@@ -68,10 +68,10 @@
                 <div class="page-header bg-light shadow-sm border tytle">社員情報検索</div>
                 <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
                     <ul th:each="i : ${#numbers.sequence(0, 2)}">
-                        <li th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>
+                        <li th:if="__${i}__ < ${globalErrorMessages.size()}" th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>
                         <!--/* -->
-                        <li th:text="${globalErrorMessages[__${i}__]}">global message test 2</li>
-                        <li th:text="${globalErrorMessages[__${i}__]}">global message test 3</li>
+                        <li>global message test 2</li>
+                        <li>global message test 3</li>
                         <!-- */-->
                         <li th:if="${i == 2} and ${globalErrorMessages.size()} > 3" th:text="...">...</li>
                     </ul>
