@@ -34,14 +34,16 @@ public class ControllerIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        request.getSession().setAttribute("CURRENT_URI", request.getRequestURI());
+        if( handler instanceof HandlerMethod ) {
+            request.getSession().setAttribute("CURRENT_URI", request.getRequestURI());
 
-        if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
-            this.setUserDataToThreadVariables(request);
-        }
+            if (request.getSession().getAttribute("SPRING_SECURITY_CONTEXT") != null) {
+                this.setUserDataToThreadVariables(request);
+            }
 
-        if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.PRE_HANDLE.getValue());
+            if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
+                printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.PRE_HANDLE.getValue());
+            }
         }
 
         return true;
@@ -50,20 +52,24 @@ public class ControllerIntercepter implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) {
-        if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.POST_HANDLE.getValue());
+        if( handler instanceof HandlerMethod ) {
+            if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
+                printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.POST_HANDLE.getValue());
+            }
         }
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                                 @Nullable Exception ex) {
-        if (request.getSession().getAttribute("CURRENT_URI") != null) {
-            request.getSession().setAttribute("PREVIOUS_URI", request.getSession().getAttribute("CURRENT_URI").toString());
-        }
+        if( handler instanceof HandlerMethod ) {
+            if (request.getSession().getAttribute("CURRENT_URI") != null) {
+                request.getSession().setAttribute("PREVIOUS_URI", request.getSession().getAttribute("CURRENT_URI").toString());
+            }
 
-        if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
-            printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
+            if (isLoggingController(this.getProcessName(handler) + "." + this.getMethodName(handler))) {
+                printLog(handler, ApplicationLogConstant.INTERCEPT_POINT.AFTER_COMPLETION.getValue());
+            }
         }
     }
 

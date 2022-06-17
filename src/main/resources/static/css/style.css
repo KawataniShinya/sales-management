@@ -77,8 +77,20 @@ body {
   visibility: hidden;
 }
 
-.overall-message {
+.error-message-grobal {
   color: red;
+  font-size: smaller;
+}
+
+.error-message-grobal ul {
+  list-style: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.error-message-field {
+  color: red;
+  font-size: smaller;
 }
 
 .content {

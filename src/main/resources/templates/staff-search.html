@@ -66,9 +66,21 @@
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
                 <div class="page-header bg-light shadow-sm border tytle">社員情報検索</div>
+                <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
+                    <ul th:each="i : ${#numbers.sequence(0, 2)}">
+                        <li th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>
+                        <!--/* -->
+                        <li th:text="${globalErrorMessages[__${i}__]}">global message test 2</li>
+                        <li th:text="${globalErrorMessages[__${i}__]}">global message test 3</li>
+                        <!-- */-->
+                        <li th:if="${i == 2} and ${globalErrorMessages.size()} > 3" th:text="...">...</li>
+                    </ul>
+                </div>
+                <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'page')}" th:text="${fieldErrorMessages.page}">0 より大きな値にしてください</div>
+                <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'limitSize')}" th:text="${fieldErrorMessages.limitSize}">0 より大きな値にしてください</div>
                 <div class="staff-search">
                     <div class="staff-search__result"  th:if="${staffs} != null">
-                        <div class="staff-search__result__count" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件'">25 件目 / 135 件</div>
+                        <div class="staff-search__result__count" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件 (' + ${limitSize} + '件表示)'">25 件目 / 135 件 (25件表示)</div>
                         <div class="staff-search__result__list">
                             <table class="table table-striped staff-search__result__list__table">
                                 <thead class="table-dark">

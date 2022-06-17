@@ -27,14 +27,16 @@ public class LoggingAspect {
         this.loggingController = loggingController;
     }
 
-    @Before("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
+//    @Before("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
+    @Before("execution(* com.sales.application.*.*(..))")
     public void loggingBefore(JoinPoint jp) {
         if (isLoggingJointPoint(jp)) {
             printLog(jp, ApplicationLogConstant.INTERCEPT_POINT.PRE_SERVICE.getValue());
         }
     }
 
-    @After("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
+//    @After("execution(* com.sales.application.*.*(..)) || execution(* com.sales.domain..*.*(..)) || execution(* com.sales.infrastructure.*.*(..))")
+    @After("execution(* com.sales.application.*.*(..))")
     public void loggingAfter(JoinPoint jp) {
         if (isLoggingJointPoint(jp)) {
             printLog(jp, ApplicationLogConstant.INTERCEPT_POINT.POST_SERVICE.getValue());
