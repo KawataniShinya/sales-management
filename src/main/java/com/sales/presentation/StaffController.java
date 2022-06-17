@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.desktop.SystemEventListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,14 +57,25 @@ public class StaffController {
         errors.getGlobal().add("global message test 4");
 
         Map<String, Object> map = new HashMap<>();
-        map.put(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), 25);
-        map.put(Constant.API_FIELD_NAME_STAFF.PAGE.getValue(), 4);
+        map.put(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), 25);
+        map.put(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), 4);
+//        map.put(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), "STF0000081");
+//        map.put(Constant.API_SEARCH_PARAM_STAFF.USER_NAME.getValue(), "瀬菜");
+//        map.put(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), "D10001");
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), simpleDateFormat.parse("2022-06-01"));
+//            map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), simpleDateFormat.parse("2022-09-01"));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
         StaffServiceBean staffServiceBean = this.staffService.findStaffs(map);
 
-        model.addAttribute(Constant.API_FIELD_NAME_STAFF.STAFFS.getValue(), staffServiceBean.getStaffs());
-        model.addAttribute(Constant.API_FIELD_NAME_STAFF.COUNT.getValue(), staffServiceBean.getCount());
-        model.addAttribute(Constant.API_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), staffServiceBean.getLimitSize());
-        model.addAttribute(Constant.API_FIELD_NAME_STAFF.PAGE.getValue(), staffServiceBean.getPage());
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.STAFFS.getValue(), staffServiceBean.getStaffs());
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.COUNT.getValue(), staffServiceBean.getCount());
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), staffServiceBean.getLimitSize());
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), staffServiceBean.getPage());
         model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.FIELD_ERROR_MESSAGES.getValue(), errors.getField());
         model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
 

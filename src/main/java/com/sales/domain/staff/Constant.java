@@ -25,12 +25,7 @@ public class Constant {
         INSERT_USER("INSERT_USER"),
         UPDATE_TIMESTAMP("UPDATE_TIMESTAMP"),
         UPDATE_USER("UPDATE_USER"),
-        EXPIRATION_DATE("EXPIRATION_DATE"), // Expansion
-
-        COUNT("COUNT"),
-        LIMIT_SIZE("LIMIT_SIZE"),
-        PAGE("PAGE"),
-        OFFSET_SIZE("OFFSET_SIZE");
+        EXPIRATION_DATE("EXPIRATION_DATE"); // Expansion
 
         private final String value;
         DATA_SOURCE_FIELD_NAME_STAFF(String value) {this.value = value;}
@@ -63,16 +58,47 @@ public class Constant {
         INSERT_USER("insertUser"),
         UPDATE_TIMESTAMP("updateTimestamp"),
         UPDATE_USER("updateUser"),
-        EXPIRATION_DATE("expirationDate"), // Expansion
+        EXPIRATION_DATE("expirationDate"); // Expansion
 
+        private final String value;
+        API_FIELD_NAME_STAFF(String value) {this.value = value;}
+        public String getValue() {
+            return this.value;
+        }
+    }
+
+    public enum DATA_SOURCE_SEARCH_PARAM_STAFF {
+        COUNT("COUNT"),
+        LIMIT_SIZE("LIMIT_SIZE"),
+        PAGE("PAGE"),
+        OFFSET_SIZE("OFFSET_SIZE"),
+        USER_ID("USER_ID"),
+        USER_NAME("USER_NAME"),
+        DEPARTMENT_CD("DEPARTMENT_CD"),
+        PARAM_EXPIRATION_START("PARAM_EXPIRATION_START"),
+        PARAM_EXPIRATION_END("PARAM_EXPIRATION_END");
+
+        private final String value;
+        DATA_SOURCE_SEARCH_PARAM_STAFF(String value) {this.value = value;}
+        public String getValue() {
+            return this.value;
+        }
+    }
+
+    public enum API_SEARCH_PARAM_STAFF {
         COUNT("count"),
         LIMIT_SIZE("limitSize"),
         PAGE("page"),
         OFFSET_SIZE("offsetSize"),
+        USER_ID("userId"),
+        USER_NAME("userName"),
+        DEPARTMENT_CD("departmentCd"),
+        PARAM_EXPIRATION_START("paramExpirationStart"),
+        PARAM_EXPIRATION_END("paramExpirationEnd"),
         STAFFS("staffs");
 
         private final String value;
-        API_FIELD_NAME_STAFF(String value) {this.value = value;}
+        API_SEARCH_PARAM_STAFF(String value) {this.value = value;}
         public String getValue() {
             return this.value;
         }

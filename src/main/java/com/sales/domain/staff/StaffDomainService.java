@@ -1,5 +1,6 @@
 package com.sales.domain.staff;
 
+import java.util.Date;
 import java.util.List;
 
 public interface StaffDomainService {
@@ -7,10 +8,20 @@ public interface StaffDomainService {
     long getCount();
     void setLimitSize(long limitSize);
     long getLimitSize();
-    void setPage(long page);
-    long getPage();
     void setOffsetSize(long offsetSize);
     long getOffsetSize();
+    void setPage(long page);
+    long getPage();
+    void setUserId(String userId);
+    String getUserId();
+    void setUserName(String userName);
+    String getUserName();
+    void setDepartmentCd(String departmentCd);
+    String getDepartmentCd();
+    void setParamExpirationStart(Date paramExpirationStart);
+    Date getParamExpirationStart();
+    void setParamExpirationEnd(Date expirationEnd);
+    Date getParamExpirationEnd();
     void setStaffs(List<Staff> staffs);
     List<Staff> getStaffs();
 

@@ -27,6 +27,8 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     private final String APPLSQL002;
     private final String APPLSQL005;
     private final String APPLSQL006;
+    private final String APPLSQL007;
+    private final String APPLSQL008;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -37,11 +39,14 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Value("${APPLSQL002}") String applsql002,
             @Value("${APPLSQL005}") String applsql005,
             @Value("${APPLSQL006}") String applsql006,
-            DepartmentController departmentController) {
+            @Value("${APPLSQL007}") String applsql007,
+            @Value("${APPLSQL008}") String applsql008, DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
         this.APPLSQL005 = applsql005;
         this.APPLSQL006 = applsql006;
+        this.APPLSQL007 = applsql007;
+        this.APPLSQL008 = applsql008;
         this.departmentController = departmentController;
     }
 
@@ -69,7 +74,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         Map<String, Object> paramMap = new HashMap<>();
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL005",this.APPLSQL005 ,paramMap);
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL005, paramMap);
-        return (long) resultList.get(0).get(Constant.DATA_SOURCE_FIELD_NAME_STAFF.COUNT.getValue());
+        return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
     }
 
     @Override
@@ -78,8 +83,9 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_GENDER.getValue(), Constant.CATEGORY.GENDER.getValue());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_BLOOD_TYPE.getValue(), Constant.CATEGORY.BLOOD_TYPE.getValue());
         paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_ADDRESS_PREFECTURE.getValue(), Constant.CATEGORY.ADDRESS_PREFECTURE.getValue());
-        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.LIMIT_SIZE.getValue(), staffDomainService.getLimitSize());
-        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.OFFSET_SIZE.getValue(), staffDomainService.getOffsetSize());
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), staffDomainService.getLimitSize());
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.OFFSET_SIZE.getValue(), staffDomainService.getOffsetSize());
+
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL006",this.APPLSQL006 ,paramMap);
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL006, paramMap);
         resultList.forEach(map -> {
@@ -88,5 +94,50 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             map.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), this.departmentController.getDepartment(departmentGetRequest).getDepartmentNameJa());
         });
         return resultList;
+    }
+
+    @Override
+    public long countUser(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        String editSql = this.APPLSQL007;
+        if (staffDomainService.getUserId().equals("")) {
+            editSql = editSql.replace("STAFF.USER_ID = :USER_ID and", "");
+        } else {
+            paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.USER_ID.getValue(), staffDomainService.getUserId());
+        }
+        if (staffDomainService.getUserName().equals("")) {
+            editSql = editSql.replace("concat(STAFF.FAMILY_NAME, STAFF.FIRST_NAME) like :USER_NAME and", "");
+        } else {
+            paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.USER_NAME.getValue(), "%" + staffDomainService.getUserName() + "%");
+        }
+        if (staffDomainService.getDepartmentCd().equals("")) {
+            editSql = editSql.replace("STAFF.DEPARTMENT_CD = :DEPARTMENT_CD and", "");
+        } else {
+            paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), staffDomainService.getDepartmentCd());
+        }
+        if (staffDomainService.getParamExpirationStart() == null || staffDomainService.getParamExpirationEnd() == null) {
+            editSql = editSql.replace(
+                    "(:PARAM_EXPIRATION_START between STAFF.EXPIRATION_START and STAFF.EXPIRATION_END or :PARAM_EXPIRATION_END between STAFF.EXPIRATION_START and STAFF.EXPIRATION_END) and",
+                    "");
+        } else {
+            paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), staffDomainService.getParamExpirationStart());
+            paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), staffDomainService.getParamExpirationEnd());
+        }
+
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL007", editSql, paramMap);
+        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(editSql, paramMap);
+
+        return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
+    }
+
+    @Override
+    public List<Map<String, Object>> findUser(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        String editSql = this.APPLSQL008;
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_GENDER.getValue(), Constant.CATEGORY.GENDER.getValue());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_BLOOD_TYPE.getValue(), Constant.CATEGORY.BLOOD_TYPE.getValue());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_ADDRESS_PREFECTURE.getValue(), Constant.CATEGORY.ADDRESS_PREFECTURE.getValue());
+
+        return null;
     }
 }

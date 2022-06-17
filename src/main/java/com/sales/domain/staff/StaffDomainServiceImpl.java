@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,24 @@ public class StaffDomainServiceImpl implements StaffDomainService {
     @Getter
     @Setter
     private long page;
+
+    @Getter
+    @Setter
+    private String userId;
+
+    @Getter
+    @Setter
+    private String userName;
+
+    @Getter
+    @Setter
+    private String departmentCd;
+
+    @Getter
+    private Date paramExpirationStart;
+
+    @Getter
+    private Date paramExpirationEnd;
 
     @Getter
     @Setter
@@ -56,11 +75,17 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         this.offsetSize = 0;
         this.staffs = new ArrayList<>();
         this.staffs.add(this.staff.createStaff());
+        this.userId = "";
+        this.userName = "";
+        this.departmentCd = "";
+        this.paramExpirationStart = null;
+        this.paramExpirationEnd = null;
     }
 
     @Override
     public StaffDomainService findAllUser() {
         this.count = this.staffRepository.countAllUser(this);
+        this.staffRepository.countUser(this);
 
         if (this.count < (this.page - 1) * this.limitSize) {
             this.page = this.count / this.limitSize + 1;
@@ -79,5 +104,15 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         this.staffs = staffs;
         
         return this;
+    }
+
+    public void setParamExpirationStart(Date paramExpirationStart) {
+        this.paramExpirationStart = paramExpirationStart;
+        if (this.paramExpirationEnd == null) this.paramExpirationEnd = paramExpirationStart;
+    }
+
+    public void setParamExpirationEnd(Date paramExpirationEnd) {
+        this.paramExpirationEnd = paramExpirationEnd;
+        if (this.paramExpirationStart == null) this.paramExpirationStart = paramExpirationEnd;
     }
 }
