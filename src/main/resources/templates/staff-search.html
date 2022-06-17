@@ -88,7 +88,7 @@
                                 <label class="search__row__separate__label" for="department">部署</label>
                                 <select name="departmentCd" id="departmentCd" class="search__row__separate__input form-select">
                                     <option value="" selected>部署を選択してください</option>
-                                    <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd} == ${departmentCd}">人事部</option>
+                                    <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd == departmentCd}">人事部</option>
                                     <!--/* -->
                                     <option value="D20001">技術開発部</option>
                                     <option value="D30001">営業部</option>
@@ -111,8 +111,8 @@
                                 <input class="search__row__date-range__date" th:value="${paramExpirationEnd}" type="date" name="paramExpirationEnd" id="paramExpirationEnd">
                             </div>
                         </div>
-                        <input type="hidden" name="limitSize" value="25">
-                        <input type="hidden" name="page" value="1">
+                        <input class="search__hiddle__limitSize" type="hidden" name="limitSize" value="25">
+                        <input class="search__hiddle__page" type="hidden" name="page" value="1">
                         <div class="btn-search">
                             <!--/* --><button type="button" class="btn btn-primary mt-4" onclick="location.href='staff-search.html'">検索</button><!-- */-->
                             <!--/*/<button type="submit" class="btn btn-primary mt-4">検索</button>/*/-->

@@ -96,6 +96,8 @@ function setNextElement(page: number, maxPage: number, nextElement: Element | nu
 export function setMaxRowSelector(limitSize: number) {
     const selectorElement: HTMLSelectElement | null = document.querySelector('#maxRow');
     selectorElement!.value = String(limitSize);
+    const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.search__hiddle__limitSize');
+    limitSizeDefineElementInForm!.value = String(limitSize);
 }
 
 export function addEventSetRowLimitSizeToPageNationHrefParam() {
@@ -104,11 +106,18 @@ export function addEventSetRowLimitSizeToPageNationHrefParam() {
         changePreviousHrefParamLimitSize(selectorElement);
         changeNumbersHrefParamLimitSize(selectorElement);
         changeNextHrefParamLimitSize(selectorElement);
+        changeLimitSizeInSubmitForm(selectorElement);
     })
 }
 
 function changePreviousHrefParamLimitSize(selectorElement: HTMLSelectElement | null) {
-    let newUrlPrevious: URL = new URL(document.querySelector('.page-item.previous .page-link')!.getAttribute('href')!);
+    let attributeHref: string | null = document.querySelector('.page-item.previous .page-link')!.getAttribute('href');
+    let newUrlPrevious: URL;
+    if (attributeHref === '#') {
+        newUrlPrevious = new URL(location.href);
+    } else {
+        newUrlPrevious = new URL(attributeHref!);
+    }
     newUrlPrevious.searchParams.set('limitSize', selectorElement!.value);
     document.querySelector('.page-item.previous .page-link')!.setAttribute('href', String(newUrlPrevious));
 }
@@ -126,7 +135,18 @@ function changeNumbersHrefParamLimitSize(selectorElement: HTMLSelectElement | nu
 }
 
 function changeNextHrefParamLimitSize(selectorElement: HTMLSelectElement | null) {
-    let newUrlNext: URL = new URL(document.querySelector('.page-item.next .page-link')!.getAttribute('href')!);
+    let attributeHref: string | null = document.querySelector('.page-item.next .page-link')!.getAttribute('href');
+    let newUrlNext: URL;
+    if (attributeHref === '#') {
+        newUrlNext = new URL(location.href);
+    } else {
+        newUrlNext = new URL(attributeHref!);
+    }
     newUrlNext.searchParams.set('limitSize', selectorElement!.value);
     document.querySelector('.page-item.next .page-link')!.setAttribute('href', String(newUrlNext));
+}
+
+function changeLimitSizeInSubmitForm(selectorElement: HTMLSelectElement | null) {
+    const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.search__hiddle__limitSize');
+    limitSizeDefineElementInForm!.value = selectorElement!.value;
 }

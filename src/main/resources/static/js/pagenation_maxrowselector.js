@@ -84,6 +84,8 @@ function setNextElement(page, maxPage, nextElement) {
 export function setMaxRowSelector(limitSize) {
     const selectorElement = document.querySelector('#maxRow');
     selectorElement.value = String(limitSize);
+    const limitSizeDefineElementInForm = document.querySelector('.search__hiddle__limitSize');
+    limitSizeDefineElementInForm.value = String(limitSize);
 }
 export function addEventSetRowLimitSizeToPageNationHrefParam() {
     const selectorElement = document.querySelector('#maxRow');
@@ -91,10 +93,18 @@ export function addEventSetRowLimitSizeToPageNationHrefParam() {
         changePreviousHrefParamLimitSize(selectorElement);
         changeNumbersHrefParamLimitSize(selectorElement);
         changeNextHrefParamLimitSize(selectorElement);
+        changeLimitSizeInSubmitForm(selectorElement);
     });
 }
 function changePreviousHrefParamLimitSize(selectorElement) {
-    let newUrlPrevious = new URL(document.querySelector('.page-item.previous .page-link').getAttribute('href'));
+    let attributeHref = document.querySelector('.page-item.previous .page-link').getAttribute('href');
+    let newUrlPrevious;
+    if (attributeHref === '#') {
+        newUrlPrevious = new URL(location.href);
+    }
+    else {
+        newUrlPrevious = new URL(attributeHref);
+    }
     newUrlPrevious.searchParams.set('limitSize', selectorElement.value);
     document.querySelector('.page-item.previous .page-link').setAttribute('href', String(newUrlPrevious));
 }
@@ -110,8 +120,19 @@ function changeNumbersHrefParamLimitSize(selectorElement) {
     });
 }
 function changeNextHrefParamLimitSize(selectorElement) {
-    let newUrlNext = new URL(document.querySelector('.page-item.next .page-link').getAttribute('href'));
+    let attributeHref = document.querySelector('.page-item.next .page-link').getAttribute('href');
+    let newUrlNext;
+    if (attributeHref === '#') {
+        newUrlNext = new URL(location.href);
+    }
+    else {
+        newUrlNext = new URL(attributeHref);
+    }
     newUrlNext.searchParams.set('limitSize', selectorElement.value);
     document.querySelector('.page-item.next .page-link').setAttribute('href', String(newUrlNext));
+}
+function changeLimitSizeInSubmitForm(selectorElement) {
+    const limitSizeDefineElementInForm = document.querySelector('.search__hiddle__limitSize');
+    limitSizeDefineElementInForm.value = selectorElement.value;
 }
 //# sourceMappingURL=pagenation_maxrowselector.js.map
