@@ -146,7 +146,7 @@ body {
     z-index: 0;
 
     &.login {
-      margin: $contentsHeightOffset 0 0 0;
+      margin: $contentsHeightOffset auto;
     }
 
     & .center {
