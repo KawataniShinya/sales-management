@@ -30,11 +30,9 @@ public class StaffDomainServiceImpl implements StaffDomainService {
     private long page;
 
     @Getter
-    @Setter
     private String userId;
 
     @Getter
-    @Setter
     private String userName;
 
     @Getter
@@ -75,6 +73,7 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         this.count = 0;
         this.limitSize = 0;
         this.offsetSize = 0;
+        this.page = 0;
         this.staffs = new ArrayList<>();
         this.staffs.add(this.staff.createStaff());
         this.userId = "";
@@ -88,10 +87,12 @@ public class StaffDomainServiceImpl implements StaffDomainService {
     public StaffDomainService findAllUser() {
         this.count = this.staffRepository.countUser(this);
 
-        if (this.count < (this.page - 1) * this.limitSize) {
-            this.page = this.count / this.limitSize + 1;
-        } else if (this.count == (this.page - 1) * this.limitSize) {
-            this.page--;
+        if (this.page > 1) {
+            if (this.count < (this.page - 1) * this.limitSize) {
+                this.page = this.count / this.limitSize + 1;
+            } else if (this.count == (this.page - 1) * this.limitSize) {
+                this.page--;
+            }
         }
         this.offsetSize = (this.page - 1) * this.limitSize;
 
@@ -105,6 +106,14 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         this.staffs = staffs;
         
         return this;
+    }
+
+    public void setUserId(String userId){
+        this.userId = userId.trim().strip();
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName.trim().strip();
     }
 
     public void setParamExpirationStart(Date paramExpirationStart) throws DomainRuleIllegalException {

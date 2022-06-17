@@ -81,7 +81,7 @@
                         <div class="search__row">
                             <div class="search__row__separate">
                                 <label class="search__row__separate__label" for="userId">ユーザーID</label>
-                                <input class="search__row__separate__input form-control" type="text" id="userId" name="userId" placeholder="STF0000000">
+                                <input class="search__row__separate__input form-control" th:value="${userId}" type="text" id="userId" name="userId" placeholder="STF0000000">
                             </div>
                             <div class="search__row__center"></div>
                             <div class="search__row__separate">
@@ -100,15 +100,15 @@
                         <div class="search__row">
                             <div class="search__row__single">
                                 <label class="search__row__single__label" for="userName">ユーザー名</label>
-                                <input class="search__row__single__input form-control" type="text" id="userName" name="userName" placeholder="山田 太郎 (部分一致)">
+                                <input class="search__row__single__input form-control" th:value="${userName}" type="text" id="userName" name="userName" placeholder="山田 太郎 (部分一致)">
                             </div>
                         </div>
                         <div class="search__row">
                             <div class="search__row__date-range">
                                 <label class="search__row__date-range__label" for="userName">有効期間</label>
-                                <input class="search__row__date-range__date" type="date" name="paramExpirationStart" id="paramExpirationStart">
+                                <input class="search__row__date-range__date" th:value="${paramExpirationStart}" type="date" name="paramExpirationStart" id="paramExpirationStart">
                                 <div class="search__row__date-range__connect">～</div>
-                                <input class="search__row__date-range__date" type="date" name="paramExpirationEnd" id="paramExpirationEnd">
+                                <input class="search__row__date-range__date" th:value="${paramExpirationEnd}" type="date" name="paramExpirationEnd" id="paramExpirationEnd">
                             </div>
                         </div>
                         <input type="hidden" name="limitSize" value="25">

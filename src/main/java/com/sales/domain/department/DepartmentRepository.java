@@ -5,4 +5,5 @@ import java.util.Map;
 
 public interface DepartmentRepository {
     List<Map<String, Object>> findByDepartmentCd(Department department);
+    List<Map<String, Object>> findAllDepartmentInExpiration(DepartmentDomainService departmentDomainService);
 }

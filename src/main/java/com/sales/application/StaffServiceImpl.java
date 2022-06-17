@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Scope("prototype")
@@ -25,8 +24,29 @@ public class StaffServiceImpl implements StaffService{
     @Override
     public StaffServiceBean findStaffs(Map<String, Object> map) throws DomainRuleIllegalException {
         final List<String> errorMessages = new ArrayList<>();
-
         StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
+
+        setParameterOrSetErrorMessages(map, errorMessages, staffDomainService);
+        if (!errorMessages.isEmpty()) {
+            throw new DomainRuleIllegalException(errorMessages);
+        }
+
+        List<Staff> staffs = staffDomainService.findAllUser().getStaffs();
+
+        StaffServiceBean staffServiceBean = new StaffServiceBean();
+        setResultToBean(staffDomainService, staffs, staffServiceBean);
+
+        return staffServiceBean;
+    }
+
+    private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {
+        staffServiceBean.setStaffs(staffs);
+        staffServiceBean.setCount(staffDomainService.getCount());
+        staffServiceBean.setLimitSize(staffDomainService.getLimitSize());
+        staffServiceBean.setPage(staffDomainService.getPage());
+    }
+
+    private void setParameterOrSetErrorMessages(Map<String, Object> map, List<String> errorMessages, StaffDomainService staffDomainService) {
         Optional.ofNullable(map.getOrDefault(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), null))
                 .ifPresent(object -> staffDomainService.setLimitSize(((Integer) object).longValue()));
         Optional.ofNullable(map.getOrDefault(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), null))
@@ -53,19 +73,5 @@ public class StaffServiceImpl implements StaffService{
                         errorMessages.add(e.getMessage());
                     }
                 });
-
-        if (!errorMessages.isEmpty()) {
-            throw new DomainRuleIllegalException(errorMessages);
-        }
-
-        List<Staff> staffs = staffDomainService.findAllUser().getStaffs();
-
-        StaffServiceBean staffServiceBean = new StaffServiceBean();
-        staffServiceBean.setStaffs(staffs);
-        staffServiceBean.setCount(staffDomainService.getCount());
-        staffServiceBean.setLimitSize(staffDomainService.getLimitSize());
-        staffServiceBean.setPage(staffDomainService.getPage());
-
-        return staffServiceBean;
     }
 }

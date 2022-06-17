@@ -6,4 +6,5 @@ import java.util.Map;
 
 public interface DepartmentService {
     DepartmentServiceBean getDepartmentByCd(Map<String, Object> map);
+    DepartmentServiceBean getAllDepartments();
 }
