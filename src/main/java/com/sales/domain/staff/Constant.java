@@ -95,7 +95,8 @@ public class Constant {
         DEPARTMENT_CD("departmentCd"),
         PARAM_EXPIRATION_START("paramExpirationStart"),
         PARAM_EXPIRATION_END("paramExpirationEnd"),
-        STAFFS("staffs");
+        STAFFS("staffs"),
+        DEPARTMENTS("departments");
 
         private final String value;
         API_SEARCH_PARAM_STAFF(String value) {this.value = value;}

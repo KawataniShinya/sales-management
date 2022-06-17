@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Scope("prototype")
@@ -73,6 +71,24 @@ public class StaffController {
             setResultAsAttribute(model, staffServiceBean);
         }
 
+        List<Map<String, String>> deptList = new ArrayList<>();
+        Map<String, String> deptMap = new HashMap<>();
+        deptMap.put("departmentCd", "D10001");
+        deptMap.put("departmentNameJa", "人事部");
+        deptList.add(deptMap);
+        deptMap = new HashMap<>();
+        deptMap.put("departmentCd", "D20001");
+        deptMap.put("departmentNameJa", "技術開発部");
+        deptList.add(deptMap);
+        deptMap = new HashMap<>();
+        deptMap.put("departmentCd", "D30001");
+        deptMap.put("departmentNameJa", "営業部");
+        deptList.add(deptMap);
+        deptMap = new HashMap<>();
+        deptMap.put("departmentCd", "D40001");
+        deptMap.put("departmentNameJa", "総務部");
+        deptList.add(deptMap);
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENTS.getValue(), deptList);
         return "staff-search.html";
     }
 
@@ -102,8 +118,12 @@ public class StaffController {
         map.put(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), param.getUserId());
         map.put(Constant.API_SEARCH_PARAM_STAFF.USER_NAME.getValue(), param.getUserName());
         map.put(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
-        map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), DateUtils.truncate(param.getParamExpirationStart(), Calendar.DAY_OF_MONTH));
-        map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), DateUtils.truncate(param.getParamExpirationStart(), Calendar.DAY_OF_MONTH));
+        if (param.getParamExpirationStart() != null) {
+            map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), DateUtils.truncate(param.getParamExpirationStart(), Calendar.DAY_OF_MONTH));
+        }
+        if (param.getParamExpirationStart() != null) {
+            map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), DateUtils.truncate(param.getParamExpirationStart(), Calendar.DAY_OF_MONTH));
+        }
     }
 
     private boolean checkBeanValidationAndSetErrorMessages(Model model, BindingResult result, Errors errors) {

@@ -210,8 +210,96 @@ body {
   margin: 0;
 }
 
+.content .main .center__end {
+  width: 100%;
+  height: 50px;
+}
+
 .content .main .right {
   padding: 10px 0 0 10px;
+}
+
+.search {
+  border: 1px solid;
+  margin: 10px;
+  font-size: small;
+}
+
+.search__row {
+  width: 95%;
+  display: flex;
+  margin: 10px auto;
+}
+
+.search__row__separate {
+  width: 48%;
+  display: flex;
+}
+
+.search__row__separate__label {
+  margin: auto;
+  width: 30%;
+  text-align: center;
+}
+
+.search__row__separate__input {
+  width: 70%;
+}
+
+.search__row__center {
+  width: 4%;
+}
+
+.search__row__single {
+  width: 100%;
+  display: flex;
+}
+
+.search__row__single__label {
+  margin: auto;
+  width: 14.4%;
+  text-align: center;
+}
+
+.search__row__single__input {
+  width: 85.6%;
+}
+
+.search__row__date-range {
+  width: 100%;
+  display: flex;
+  height: 38px;
+}
+
+.search__row__date-range__label {
+  margin: auto;
+  width: 14.4%;
+  text-align: center;
+}
+
+.search__row__date-range__date {
+  width: 40%;
+  text-align: center;
+  border: 1px solid silver;
+  border-radius: 0.25em;
+  font-size: large;
+}
+
+.search__row__date-range__connect {
+  width: 5.6%;
+  text-align: center;
+  margin: auto;
+  font-size: large;
+  color: gray;
+}
+
+.search .btn-search {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.search .btn-search button {
+  width: 30%;
 }
 
 @media (min-width: 600px) {

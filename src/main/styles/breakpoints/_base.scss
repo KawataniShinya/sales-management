@@ -209,10 +209,97 @@ body {
         }
       }
 
+      &__end {
+        width: 100%;
+        height: 50px;
+      }
     }
 
     & .right {
       padding: 10px 0 0 10px;
+    }
+  }
+}
+
+.search {
+  border: 1px solid;
+  margin: 10px;
+  font-size: small;
+
+  &__row {
+    width: 95%;
+    display: flex;
+    margin: 10px auto;
+
+    &__separate {
+      width: 48%;
+      display: flex;
+
+      &__label {
+        margin: auto;
+        width: 30%;
+        text-align: center;
+      }
+
+      &__input {
+        width: 70%;
+      }
+    }
+
+    &__center {
+      width: 4%
+    }
+
+    &__single {
+      width: 100%;
+      display: flex;
+
+      &__label {
+        margin: auto;
+        width: 14.4%;
+        text-align: center;
+      }
+
+      &__input {
+        width: 85.6%;
+      }
+    }
+    
+    &__date-range {
+      width: 100%;
+      display: flex;
+      height: 38px;
+
+      &__label {
+        margin: auto;
+        width: 14.4%;
+        text-align: center;
+      }
+
+      &__date {
+        width: 40%;
+        text-align: center;
+        border: 1px solid silver;
+        border-radius: 0.25em;
+        font-size: large;
+      }
+  
+      &__connect {
+        width: 5.6%;
+        text-align: center;
+        margin: auto;
+        font-size: large;
+        color: gray;
+      }
+    }
+  }
+
+  & .btn-search {
+    margin-bottom: 10px;
+    text-align: center;
+
+    & button {
+      width: 30%;
     }
   }
 }

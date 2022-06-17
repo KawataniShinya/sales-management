@@ -76,6 +76,49 @@
                         <li th:if="${i == 2} and ${globalErrorMessages.size()} > 3" th:text="...">...</li>
                     </ul>
                 </div>
+                <form method="get" action="staff-search.html" th:action="@{/staff/search}">
+                    <div class="search shadow">
+                        <div class="search__row">
+                            <div class="search__row__separate">
+                                <label class="search__row__separate__label" for="userId">ユーザーID</label>
+                                <input class="search__row__separate__input form-control" type="text" id="userId" name="userId" placeholder="STF0000000">
+                            </div>
+                            <div class="search__row__center"></div>
+                            <div class="search__row__separate">
+                                <label class="search__row__separate__label" for="department">部署</label>
+                                <select name="departmentCd" id="departmentCd" class="search__row__separate__input form-select">
+                                    <option value="" selected>部署を選択してください</option>
+                                    <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd} == ${departmentCd}">人事部</option>
+                                    <!--/* -->
+                                    <option value="D20001">技術開発部</option>
+                                    <option value="D30001">営業部</option>
+                                    <option value="D40001">総務部</option>
+                                    <!-- */-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="search__row">
+                            <div class="search__row__single">
+                                <label class="search__row__single__label" for="userName">ユーザー名</label>
+                                <input class="search__row__single__input form-control" type="text" id="userName" name="userName" placeholder="山田 太郎 (部分一致)">
+                            </div>
+                        </div>
+                        <div class="search__row">
+                            <div class="search__row__date-range">
+                                <label class="search__row__date-range__label" for="userName">有効期間</label>
+                                <input class="search__row__date-range__date" type="date" name="paramExpirationStart" id="paramExpirationStart">
+                                <div class="search__row__date-range__connect">～</div>
+                                <input class="search__row__date-range__date" type="date" name="paramExpirationEnd" id="paramExpirationEnd">
+                            </div>
+                        </div>
+                        <input type="hidden" name="limitSize" value="25">
+                        <input type="hidden" name="page" value="1">
+                        <div class="btn-search">
+                            <!--/* --><button type="button" class="btn btn-primary mt-4" onclick="location.href='staff-search.html'">検索</button><!-- */-->
+                            <!--/*/<button type="submit" class="btn btn-primary mt-4">検索</button>/*/-->
+                        </div>
+                    </div>
+                </form>
                 <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'page')}" th:text="${fieldErrorMessages.page}">0 より大きな値にしてください</div>
                 <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'limitSize')}" th:text="${fieldErrorMessages.limitSize}">0 より大きな値にしてください</div>
                 <div class="staff-search">
@@ -168,6 +211,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="center__end"></div>
             </div>
         </div>
     </div>
