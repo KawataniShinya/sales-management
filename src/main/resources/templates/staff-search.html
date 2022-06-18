@@ -146,7 +146,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td th:text="${staff.userId}">STF0000002</td>
+                                        <td><a th:text="${staff.userId}" href="" th:href="@{/staff/__${staff.userId}__(expirationStart=${staff.expirationStart})}">STF0000002</a></td>
                                         <td th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
                                         <td th:text="${staff.departmentName}">D30001</td>
                                         <td th:text="${staff.genderName}">0001</td>
