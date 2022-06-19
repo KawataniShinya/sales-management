@@ -210,6 +210,27 @@ body {
         }
       }
 
+      & .staff-detail {
+        width: 95%;
+        margin: 30px auto 0;
+        
+        &__title {
+          font-weight: 600;
+        }
+
+        &__table {
+          font-size: small;
+
+          & td {
+            vertical-align: middle;
+          }
+
+          &__separate {
+            display: flex;
+          }
+        }
+      }
+
       &__end {
         width: 100%;
         height: 50px;

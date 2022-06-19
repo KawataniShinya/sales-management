@@ -211,6 +211,27 @@ body {
   margin: 0;
 }
 
+.content .main .center .staff-detail {
+  width: 95%;
+  margin: 30px auto 0;
+}
+
+.content .main .center .staff-detail__title {
+  font-weight: 600;
+}
+
+.content .main .center .staff-detail__table {
+  font-size: small;
+}
+
+.content .main .center .staff-detail__table td {
+  vertical-align: middle;
+}
+
+.content .main .center .staff-detail__table__separate {
+  display: flex;
+}
+
 .content .main .center__end {
   width: 100%;
   height: 50px;

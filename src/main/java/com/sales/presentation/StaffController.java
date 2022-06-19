@@ -148,7 +148,8 @@ public class StaffController {
 
         setResultAsAttribute(model, staffServiceBean);
 
-        if (param.getParamExpirationStart() != null) {
+        if (staffServiceBean.getCount() > 0) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staffServiceBean.getStaffs().get(0));
         }
 
         return "staff-detail.html";

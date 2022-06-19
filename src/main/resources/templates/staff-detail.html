@@ -95,7 +95,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary disabled" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
                                         <td th:text="${staff.userId}">STF0000002</td>
                                         <td th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
                                         <td th:text="${staff.departmentName}">D30001</td>
@@ -163,64 +163,67 @@
                     </div>
                 </div>
                 <div class="staff-detail" th:if="${detail} != null">
+                    <div class="staff-detail__title">&lt;&lt; ユーザー情報詳細 &gt;&gt;</div>
                     <table class="table table-striped staff-detail__table">
                         <tbody>
                             <tr>
                                 <td>ユーザーID</td>
-                                <td th:text="${detail.userId}">STF0000002</td>
+                                <td><input class="form-control" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" disabled></td>
                             </tr>
                             <tr>
                                 <td>氏名</td>
-                                <td th:text="${detail.familyName}">楠</td>
-                                <td th:text="${detail.firstName}">圭二</td>
+                                <td class="staff-detail__table__separate">
+                                    <input class="form-control" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓" disabled>
+                                    <input class="form-control" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名" disabled>
+                                </td>
                             </tr>
                             <tr>
                                 <td>部署</td>
-                                <td th:text="${detail.departmentName}">営業部</td>
+                                <td><input class="form-control" th:value="${detail.departmentName}" type="text" value="営業部" disabled></td>
                             </tr>
                             <tr>
                                 <td>性別</td>
-                                <td th:text="${detail.genderName}">男性</td>
+                                <td><input class="form-control" th:value="${detail.genderName}" type="text" value="男性" disabled></td>
                             </tr>
                             <tr>
                                 <td>生年月日</td>
-                                <td th:text="${detail.birthdate}">1873-11-09</td>
+                                <td><input class="form-control" th:value="${detail.birthdate}" type="text" value="1873-11-09" disabled></td>
                             </tr>
                             <tr>
                                 <td>血液型</td>
-                                <td th:text="${detail.bloodTypeName}">A</td>
+                                <td><input class="form-control" th:value="${detail.bloodTypeName}" type="text" value="A" disabled></td>
                             </tr>
                             <tr>
                                 <td>都道府県</td>
-                                <td th:text="${detail.addressPrefectureName}">山形県</td>
+                                <td><input class="form-control" th:value="${detail.addressPrefectureName}" type="text" value="山形県" disabled></td>
                             </tr>
                             <tr>
                                 <td>市町村</td>
-                                <td th:text="${detail.addressMunicipality}">南陽市長岡</td>
+                                <td><input class="form-control" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡" disabled></td>
                             </tr>
                             <tr>
                                 <td>電話番号(私用)</td>
-                                <td th:text="${detail.privateTelNo}">07727301437</td>
+                                <td><input class="form-control" th:value="${detail.privateTelNo}" type="text" value="07727301437" disabled></td>
                             </tr>
                             <tr>
                                 <td>Eメールアドレス(私用)</td>
-                                <td th:text="${detail.privateEmail}">user2@private.com</td>
+                                <td><input class="form-control" th:value="${detail.privateEmail}" type="text" value="user2@private.com" disabled></td>
                             </tr>
                             <tr>
                                 <td>電話番号(職場)</td>
-                                <td th:text="${detail.workplaceTelNo}">06041084375</td>
+                                <td><input class="form-control" th:value="${detail.workplaceTelNo}" type="text" value="06041084375" disabled></td>
                             </tr>
                             <tr>
                                 <td>Eメールアドレス(職場)</td>
-                                <td th:text="${detail.workplaceEmail}">user2@sales.com</td>
+                                <td><input class="form-control" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com" disabled></td>
                             </tr>
                             <tr>
                                 <td>有効開始日</td>
-                                <td th:text="${detail.expirationStart}">2022-06-01</td>
+                                <td><input class="form-control" th:value="${detail.expirationStart}" type="text" value="2022-06-01" disabled></td>
                             </tr>
                             <tr>
                                 <td>有効終了日</td>
-                                <td th:text="${detail.expirationEnd}">2022-09-01</td>
+                                <td><input class="form-control" th:value="${detail.expirationEnd}" type="text" value="2022-09-01" disabled></td>
                             </tr>
                         </tbody>
                     </table>
