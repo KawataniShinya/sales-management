@@ -18,6 +18,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -128,5 +129,28 @@ public class StaffController {
             isPassed = false;
         }
         return isPassed;
+    }
+
+    @RequestMapping(value = "/staff/{pathUserId}", method = RequestMethod.GET)
+    public String getStaffsById(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+
+        Errors errors = new Errors();
+
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
+
+        Map<String, Object> map = new HashMap<>();
+        param.setUserId(pathUserId);
+        setFindStaffsParameter(param, map);
+
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, map);
+        if (staffServiceBean == null) return "staff-search.html";
+
+        setResultAsAttribute(model, staffServiceBean);
+
+        if (param.getParamExpirationStart() != null) {
+        }
+
+        return "staff-detail.html";
     }
 }

@@ -188,6 +188,7 @@ body {
 
 .content .main .center .staff-search__result__list__table td {
   white-space: nowrap;
+  vertical-align: middle;
 }
 
 .content .main .center .staff-search__result__lower {

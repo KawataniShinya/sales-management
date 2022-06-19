@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: meta_header('社員情報検索',~{::link},~{::script})">
+<head th:replace="common :: meta_header('社員情報照会',~{::link},~{::script})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>社員情報検索 | TestApplication</title>
+    <title>社員情報照会 | TestApplication</title>
     <!--/* -->
     <link rel="icon" href="../static/images/logo.png">
     <script src="../static/js/bootstrap.min.js"></script>
@@ -57,7 +57,8 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="top.html" th:href="@{/top}">トップ</a></li>
             <li class="breadcrumb-item"><a href="staff.html" th:href="@{/staff}">社員情報</a></li>
-            <li class="breadcrumb-item active" aria-current="page">検索</li>
+            <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/search}">検索</a></li>
+            <li class="breadcrumb-item active" aria-current="page">照会</li>
         </ol>
     </nav>
     <div class="content">
@@ -65,62 +66,9 @@
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
-                <div class="page-header bg-light shadow-sm border tytle">社員情報検索</div>
-                <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
-                    <ul th:each="i : ${#numbers.sequence(0, 2)}">
-                        <li th:if="__${i}__ < ${globalErrorMessages.size()}" th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>
-                        <!--/* -->
-                        <li>global message test 2</li>
-                        <li>global message test 3</li>
-                        <!-- */-->
-                        <li th:if="${i == 2} and ${globalErrorMessages.size()} > 3" th:text="...">...</li>
-                    </ul>
-                </div>
-                <form method="get" action="staff-search.html" th:action="@{/staff/search}">
-                    <div class="search shadow">
-                        <div class="search__row">
-                            <div class="search__row__separate">
-                                <label class="search__row__separate__label" for="userId">ユーザーID</label>
-                                <input class="search__row__separate__input form-control" th:value="${userId}" type="text" id="userId" name="userId" placeholder="STF0000000">
-                            </div>
-                            <div class="search__row__center"></div>
-                            <div class="search__row__separate">
-                                <label class="search__row__separate__label" for="department">部署</label>
-                                <select name="departmentCd" id="departmentCd" class="search__row__separate__input form-select">
-                                    <option value="" selected>部署を選択してください</option>
-                                    <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd == departmentCd}">人事部</option>
-                                    <!--/* -->
-                                    <option value="D20001">技術開発部</option>
-                                    <option value="D30001">営業部</option>
-                                    <option value="D40001">総務部</option>
-                                    <!-- */-->
-                                </select>
-                            </div>
-                        </div>
-                        <div class="search__row">
-                            <div class="search__row__single">
-                                <label class="search__row__single__label" for="userName">ユーザー名</label>
-                                <input class="search__row__single__input form-control" th:value="${userName}" type="text" id="userName" name="userName" placeholder="山田 太郎 (部分一致)">
-                            </div>
-                        </div>
-                        <div class="search__row">
-                            <div class="search__row__date-range">
-                                <label class="search__row__date-range__label" for="userName">有効期間</label>
-                                <input class="search__row__date-range__date" th:value="${paramExpirationStart}" type="date" name="paramExpirationStart" id="paramExpirationStart">
-                                <div class="search__row__date-range__connect">～</div>
-                                <input class="search__row__date-range__date" th:value="${paramExpirationEnd}" type="date" name="paramExpirationEnd" id="paramExpirationEnd">
-                            </div>
-                        </div>
-                        <input class="search__hiddle__limitSize" type="hidden" name="limitSize" value="25">
-                        <input class="search__hiddle__page" type="hidden" name="page" value="1">
-                        <div class="btn-search">
-                            <!--/* --><button type="button" class="btn btn-primary mt-4" onclick="location.href='staff-search.html'">検索</button><!-- */-->
-                            <!--/*/<button type="submit" class="btn btn-primary mt-4">検索</button>/*/-->
-                        </div>
-                    </div>
-                </form>
-                <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'page')}" th:text="${fieldErrorMessages.page}">0 より大きな値にしてください</div>
-                <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'limitSize')}" th:text="${fieldErrorMessages.limitSize}">0 より大きな値にしてください</div>
+                <div class="page-header bg-light shadow-sm border tytle">社員情報照会</div>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">更新</a>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">削除</a>
                 <div class="staff-search">
                     <div class="staff-search__result" th:if="${staffs} != null">
                         <div class="staff-search__result__count" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件 (' + ${limitSize} + '件表示)'">25 件目 / 135 件 (25件表示)</div>
@@ -147,8 +95,8 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td><a class="btn btn-sm btn-outline-primary" href="staff-detail.html" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
-                                        <td><a th:text="${staff.userId}" href="staff-detail.html" th:href="@{/staff/__${staff.userId}__(page=1,limitSize=25)}">STF0000002</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
+                                        <td th:text="${staff.userId}">STF0000002</td>
                                         <td th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
                                         <td th:text="${staff.departmentName}">D30001</td>
                                         <td th:text="${staff.genderName}">0001</td>
@@ -166,20 +114,20 @@
                                     <!--/* -->
                                     <tr th:each="staff : ${staffs}">
                                         <td><a class="btn btn-sm btn-outline-primary" href="">照会</a></td>
-                                        <td><a href="">STF0000003</a></td>
-                                        <td>沼田 花恋</td>
-                                        <td>D20001</td>
-                                        <td>0002</td>
-                                        <td>1980-05-02</td>
-                                        <td>0002</td>
-                                        <td>0029</td>
-                                        <td>奈良市生琉里町4-11-18生琉里町シティ205</td>
-                                        <td>03758596249</td>
-                                        <td>user3@private.com</td>
-                                        <td>04850116018</td>
-                                        <td>user3@sales.com</td>
-                                        <td>2022-06-01</td>
-                                        <td>2022-09-01</td>
+                                        <td>STF0000002</td>
+                                        <td>楠 圭二</td>
+                                        <td>D30001</td>
+                                        <td>0001</td>
+                                        <td>1873-11-09</td>
+                                        <td>0001</td>
+                                        <td>0006</td>
+                                        <td>南陽市長岡</td>
+                                        <td>07727301437</td>
+                                        <td>user2@private.com</td>
+                                        <td>06041084375</td>
+                                        <td>user2@sales.com</td>
+                                        <td>2022-09-02</td>
+                                        <td>2023-12-31</td>
                                     </tr>
                                     <!-- */-->
                                 </tbody>
@@ -213,6 +161,69 @@
                             </nav>
                         </div>
                     </div>
+                </div>
+                <div class="staff-detail" th:if="${detail} != null">
+                    <table class="table table-striped staff-detail__table">
+                        <tbody>
+                            <tr>
+                                <td>ユーザーID</td>
+                                <td th:text="${detail.userId}">STF0000002</td>
+                            </tr>
+                            <tr>
+                                <td>氏名</td>
+                                <td th:text="${detail.familyName}">楠</td>
+                                <td th:text="${detail.firstName}">圭二</td>
+                            </tr>
+                            <tr>
+                                <td>部署</td>
+                                <td th:text="${detail.departmentName}">営業部</td>
+                            </tr>
+                            <tr>
+                                <td>性別</td>
+                                <td th:text="${detail.genderName}">男性</td>
+                            </tr>
+                            <tr>
+                                <td>生年月日</td>
+                                <td th:text="${detail.birthdate}">1873-11-09</td>
+                            </tr>
+                            <tr>
+                                <td>血液型</td>
+                                <td th:text="${detail.bloodTypeName}">A</td>
+                            </tr>
+                            <tr>
+                                <td>都道府県</td>
+                                <td th:text="${detail.addressPrefectureName}">山形県</td>
+                            </tr>
+                            <tr>
+                                <td>市町村</td>
+                                <td th:text="${detail.addressMunicipality}">南陽市長岡</td>
+                            </tr>
+                            <tr>
+                                <td>電話番号(私用)</td>
+                                <td th:text="${detail.privateTelNo}">07727301437</td>
+                            </tr>
+                            <tr>
+                                <td>Eメールアドレス(私用)</td>
+                                <td th:text="${detail.privateEmail}">user2@private.com</td>
+                            </tr>
+                            <tr>
+                                <td>電話番号(職場)</td>
+                                <td th:text="${detail.workplaceTelNo}">06041084375</td>
+                            </tr>
+                            <tr>
+                                <td>Eメールアドレス(職場)</td>
+                                <td th:text="${detail.workplaceEmail}">user2@sales.com</td>
+                            </tr>
+                            <tr>
+                                <td>有効開始日</td>
+                                <td th:text="${detail.expirationStart}">2022-06-01</td>
+                            </tr>
+                            <tr>
+                                <td>有効終了日</td>
+                                <td th:text="${detail.expirationEnd}">2022-09-01</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="center__end"></div>
             </div>
