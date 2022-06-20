@@ -104,9 +104,7 @@ public class StaffController {
     }
 
     private void setFindStaffsParameter(StaffControllerGetStaffsRequest param, Map<String, Object> map) {
-        map.put(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), param.getLimitSize());
-        map.put(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), param.getPage());
-        map.put(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), param.getUserId());
+        this.setFindStaffsParamOnlyUserId(param, map);
         map.put(Constant.API_SEARCH_PARAM_STAFF.USER_NAME.getValue(), param.getUserName());
         map.put(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
         if (param.getParamExpirationStart() != null) {
@@ -116,6 +114,13 @@ public class StaffController {
             map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), DateUtils.truncate(param.getParamExpirationEnd(), Calendar.DAY_OF_MONTH));
         }
     }
+
+    private void setFindStaffsParamOnlyUserId(StaffControllerGetStaffsRequest param, Map<String, Object> map) {
+        map.put(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), param.getLimitSize());
+        map.put(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), param.getPage());
+        map.put(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), param.getUserId());
+    }
+
 
     private boolean checkBeanValidationAndSetErrorMessages(Model model, BindingResult result, Errors errors) {
         boolean isPassed = true;
@@ -141,7 +146,7 @@ public class StaffController {
 
         Map<String, Object> map = new HashMap<>();
         param.setUserId(pathUserId);
-        setFindStaffsParameter(param, map);
+        setFindStaffsParamOnlyUserId(param, map);
 
         StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, map);
         if (staffServiceBean == null) return "staff-search.html";
@@ -149,7 +154,15 @@ public class StaffController {
         setResultAsAttribute(model, staffServiceBean);
 
         if (staffServiceBean.getCount() > 0) {
-            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staffServiceBean.getStaffs().get(0));
+            if (param.getParamExpirationStart() == null) {
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staffServiceBean.getStaffs().get(0));
+            } else {
+                staffServiceBean.getStaffs().forEach(staff -> {
+                    if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
+                        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
+                    }
+                });
+            }
         }
 
         return "staff-detail.html";

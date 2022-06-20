@@ -48,6 +48,13 @@
             }
         });
     </script>
+    <script th:src="@{/js/disable_inquiry_button.js}" type="module"></script>
+    <script th:inline="javascript" type="module">
+        import { disableInquiryButtonInStaffDetail } from "/js/disable_inquiry_button.js"
+        window.addEventListener('load', function(){
+            disableInquiryButtonInStaffDetail();
+        });
+    </script>
     /*/-->
 </head>
 <body>
@@ -67,7 +74,8 @@
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
                 <div class="page-header bg-light shadow-sm border tytle">社員情報照会</div>
-                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">更新</a>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">変更登録</a>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">訂正</a>
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">削除</a>
                 <div class="staff-search">
                     <div class="staff-search__result" th:if="${staffs} != null">
@@ -77,6 +85,8 @@
                                 <thead class="table-dark">
                                     <tr>   
                                         <th scope="col">照会</th>
+                                        <th scope="col">有効開始日</th>
+                                        <th scope="col">有効終了日</th>
                                         <th scope="col">ユーザーID</th>
                                         <th scope="col">氏名</th>
                                         <th scope="col">部署</th>
@@ -89,31 +99,31 @@
                                         <th scope="col">Eメールアドレス(私用)</th>
                                         <th scope="col">電話番号(社内)</th>
                                         <th scope="col">Eメールアドレス(社内)</th>
-                                        <th scope="col">有効開始日</th>
-                                        <th scope="col">有効終了日</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td><a class="btn btn-sm btn-outline-primary disabled" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
-                                        <td th:text="${staff.userId}">STF0000002</td>
-                                        <td th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
-                                        <td th:text="${staff.departmentName}">D30001</td>
-                                        <td th:text="${staff.genderName}">0001</td>
-                                        <td th:text="${staff.birthdate}">1873-11-09</td>
-                                        <td th:text="${staff.bloodTypeName}">0001</td>
-                                        <td th:text="${staff.addressPrefectureName}">0006</td>
-                                        <td th:text="${staff.addressMunicipality}">南陽市長岡</td>
-                                        <td th:text="${staff.privateTelNo}">07727301437</td>
-                                        <td th:text="${staff.privateEmail}">user2@private.com</td>
-                                        <td th:text="${staff.workplaceTelNo}">06041084375</td>
-                                        <td th:text="${staff.workplaceEmail}">user2@sales.com</td>
-                                        <td th:text="${staff.expirationStart}">2022-06-01</td>
-                                        <td th:text="${staff.expirationEnd}">2022-09-01</td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
+                                        <td class="expirationStart" th:text="${staff.expirationStart}">2022-06-01</td>
+                                        <td class="expirationEnd" th:text="${staff.expirationEnd}">2022-09-01</td>
+                                        <td class="userId" th:text="${staff.userId}">STF0000002</td>
+                                        <td class="familyName" th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
+                                        <td class="departmentName" th:text="${staff.departmentName}">D30001</td>
+                                        <td class="genderName" th:text="${staff.genderName}">0001</td>
+                                        <td class="birthdate" th:text="${staff.birthdate}">1873-11-09</td>
+                                        <td class="bloodTypeName" th:text="${staff.bloodTypeName}">0001</td>
+                                        <td class="addressPrefectureName" th:text="${staff.addressPrefectureName}">0006</td>
+                                        <td class="addressMunicipality" th:text="${staff.addressMunicipality}">南陽市長岡</td>
+                                        <td class="privateTelNo" th:text="${staff.privateTelNo}">07727301437</td>
+                                        <td class="privateEmail" th:text="${staff.privateEmail}">user2@private.com</td>
+                                        <td class="workplaceTelNo" th:text="${staff.workplaceTelNo}">06041084375</td>
+                                        <td class="workplaceEmail" th:text="${staff.workplaceEmail}">user2@sales.com</td>
                                     </tr>
                                     <!--/* -->
                                     <tr th:each="staff : ${staffs}">
                                         <td><a class="btn btn-sm btn-outline-primary" href="">照会</a></td>
+                                        <td>2022-09-02</td>
+                                        <td>2023-12-31</td>
                                         <td>STF0000002</td>
                                         <td>楠 圭二</td>
                                         <td>D30001</td>
@@ -126,8 +136,6 @@
                                         <td>user2@private.com</td>
                                         <td>06041084375</td>
                                         <td>user2@sales.com</td>
-                                        <td>2022-09-02</td>
-                                        <td>2023-12-31</td>
                                     </tr>
                                     <!-- */-->
                                 </tbody>
@@ -168,62 +176,62 @@
                         <tbody>
                             <tr>
                                 <td>ユーザーID</td>
-                                <td><input class="form-control" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" disabled></td>
+                                <td><input class="form-control staff-detail__table__userId" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>有効開始日</td>
+                                <td><input class="form-control staff-detail__table__expirationStart" th:value="${detail.expirationStart}" type="text" value="2022-06-01" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>有効終了日</td>
+                                <td><input class="form-control staff-detail__table__expirationEnd" th:value="${detail.expirationEnd}" type="text" value="2022-09-01" disabled></td>
                             </tr>
                             <tr>
                                 <td>氏名</td>
                                 <td class="staff-detail__table__separate">
-                                    <input class="form-control" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓" disabled>
-                                    <input class="form-control" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名" disabled>
+                                    <input class="form-control staff-detail__table__familyName" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓" disabled>
+                                    <input class="form-control staff-detail__table__firstName" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名" disabled>
                                 </td>
                             </tr>
                             <tr>
                                 <td>部署</td>
-                                <td><input class="form-control" th:value="${detail.departmentName}" type="text" value="営業部" disabled></td>
+                                <td><input class="form-control staff-detail__table__departmentName" th:value="${detail.departmentName}" type="text" value="営業部" disabled></td>
                             </tr>
                             <tr>
                                 <td>性別</td>
-                                <td><input class="form-control" th:value="${detail.genderName}" type="text" value="男性" disabled></td>
+                                <td><input class="form-control staff-detail__table__genderName" th:value="${detail.genderName}" type="text" value="男性" disabled></td>
                             </tr>
                             <tr>
                                 <td>生年月日</td>
-                                <td><input class="form-control" th:value="${detail.birthdate}" type="text" value="1873-11-09" disabled></td>
+                                <td><input class="form-control staff-detail__table__birthdate" th:value="${detail.birthdate}" type="text" value="1873-11-09" disabled></td>
                             </tr>
                             <tr>
                                 <td>血液型</td>
-                                <td><input class="form-control" th:value="${detail.bloodTypeName}" type="text" value="A" disabled></td>
+                                <td><input class="form-control staff-detail__table__bloodTypeName" th:value="${detail.bloodTypeName}" type="text" value="A" disabled></td>
                             </tr>
                             <tr>
                                 <td>都道府県</td>
-                                <td><input class="form-control" th:value="${detail.addressPrefectureName}" type="text" value="山形県" disabled></td>
+                                <td><input class="form-control staff-detail__table__addressPrefectureName" th:value="${detail.addressPrefectureName}" type="text" value="山形県" disabled></td>
                             </tr>
                             <tr>
                                 <td>市町村</td>
-                                <td><input class="form-control" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡" disabled></td>
+                                <td><input class="form-control staff-detail__table__addressMunicipality" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡" disabled></td>
                             </tr>
                             <tr>
                                 <td>電話番号(私用)</td>
-                                <td><input class="form-control" th:value="${detail.privateTelNo}" type="text" value="07727301437" disabled></td>
+                                <td><input class="form-control staff-detail__table__privateTelNo" th:value="${detail.privateTelNo}" type="text" value="07727301437" disabled></td>
                             </tr>
                             <tr>
                                 <td>Eメールアドレス(私用)</td>
-                                <td><input class="form-control" th:value="${detail.privateEmail}" type="text" value="user2@private.com" disabled></td>
+                                <td><input class="form-control staff-detail__table__privateEmail" th:value="${detail.privateEmail}" type="text" value="user2@private.com" disabled></td>
                             </tr>
                             <tr>
                                 <td>電話番号(職場)</td>
-                                <td><input class="form-control" th:value="${detail.workplaceTelNo}" type="text" value="06041084375" disabled></td>
+                                <td><input class="form-control staff-detail__table__workplaceTelNo" th:value="${detail.workplaceTelNo}" type="text" value="06041084375" disabled></td>
                             </tr>
                             <tr>
                                 <td>Eメールアドレス(職場)</td>
-                                <td><input class="form-control" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>有効開始日</td>
-                                <td><input class="form-control" th:value="${detail.expirationStart}" type="text" value="2022-06-01" disabled></td>
-                            </tr>
-                            <tr>
-                                <td>有効終了日</td>
-                                <td><input class="form-control" th:value="${detail.expirationEnd}" type="text" value="2022-09-01" disabled></td>
+                                <td><input class="form-control staff-detail__table__workplaceEmail" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com" disabled></td>
                             </tr>
                         </tbody>
                     </table>

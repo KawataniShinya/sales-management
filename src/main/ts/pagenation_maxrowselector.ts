@@ -96,6 +96,9 @@ function setNextElement(page: number, maxPage: number, nextElement: Element | nu
 export function setMaxRowSelector(limitSize: number) {
     const selectorElement: HTMLSelectElement | null = document.querySelector('#maxRow');
     selectorElement!.value = String(limitSize);
+}
+
+export function setMaxRowInForm(limitSize: number) {
     const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.search__hiddle__limitSize');
     limitSizeDefineElementInForm!.value = String(limitSize);
 }
@@ -106,6 +109,12 @@ export function addEventSetRowLimitSizeToPageNationHrefParam() {
         changePreviousHrefParamLimitSize(selectorElement);
         changeNumbersHrefParamLimitSize(selectorElement);
         changeNextHrefParamLimitSize(selectorElement);
+    })
+}
+
+export function addEventSetRowLimitSizeToSubmitForm() {
+    const selectorElement: HTMLSelectElement | null = document.querySelector('#maxRow');
+    selectorElement!.addEventListener('change', function () {
         changeLimitSizeInSubmitForm(selectorElement);
     })
 }

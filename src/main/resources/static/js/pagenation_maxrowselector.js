@@ -84,6 +84,8 @@ function setNextElement(page, maxPage, nextElement) {
 export function setMaxRowSelector(limitSize) {
     const selectorElement = document.querySelector('#maxRow');
     selectorElement.value = String(limitSize);
+}
+export function setMaxRowInForm(limitSize) {
     const limitSizeDefineElementInForm = document.querySelector('.search__hiddle__limitSize');
     limitSizeDefineElementInForm.value = String(limitSize);
 }
@@ -93,6 +95,11 @@ export function addEventSetRowLimitSizeToPageNationHrefParam() {
         changePreviousHrefParamLimitSize(selectorElement);
         changeNumbersHrefParamLimitSize(selectorElement);
         changeNextHrefParamLimitSize(selectorElement);
+    });
+}
+export function addEventSetRowLimitSizeToSubmitForm() {
+    const selectorElement = document.querySelector('#maxRow');
+    selectorElement.addEventListener('change', function () {
         changeLimitSizeInSubmitForm(selectorElement);
     });
 }
