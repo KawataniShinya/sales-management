@@ -1,8 +1,10 @@
 package com.sales.presentation;
 
 import com.sales.application.DepartmentService;
+import com.sales.application.GenericCodeService;
 import com.sales.application.StaffService;
 import com.sales.application.bean.DepartmentServiceBean;
+import com.sales.application.bean.GenericCodeServiceBean;
 import com.sales.application.bean.StaffServiceBean;
 import com.sales.common.DomainRuleIllegalException;
 import com.sales.common.Errors;
@@ -31,11 +33,13 @@ import java.util.*;
 public class StaffController {
     private final StaffService staffService;
     private final DepartmentService departmentService;
+    private final GenericCodeService genericCodeService;
 
     @Autowired
-    public StaffController(StaffService staffService, DepartmentService departmentService) {
+    public StaffController(StaffService staffService, DepartmentService departmentService, GenericCodeService genericCodeService) {
         this.staffService = staffService;
         this.departmentService = departmentService;
+        this.genericCodeService = genericCodeService;
     }
 
     @RequestMapping(value = "/staff", method = RequestMethod.GET)
@@ -154,6 +158,13 @@ public class StaffController {
         setResultAsAttribute(model, staffServiceBean);
 
         if (staffServiceBean.getCount() > 0) {
+            DepartmentServiceBean departmentServiceBean = this.departmentService.getAllDepartments();
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENTS.getValue(), departmentServiceBean.getDepartments());
+            GenericCodeServiceBean genericCodeServiceBean = this.genericCodeService.getGenericCodeListInStaff();
+            model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.GENDERS.getValue(), genericCodeServiceBean.getGenders());
+            model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.BLOOD_TYPES.getValue(), genericCodeServiceBean.getBloodTypes());
+            model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.ADDRESS_PREFECTURES.getValue(), genericCodeServiceBean.getAddressPrefectures());
+
             if (param.getParamExpirationStart() == null) {
                 model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staffServiceBean.getStaffs().get(0));
             } else {

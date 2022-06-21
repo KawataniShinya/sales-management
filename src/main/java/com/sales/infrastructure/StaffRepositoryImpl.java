@@ -64,33 +64,6 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         return resultList;
     }
 
-//    @Override
-//    public long countAllUser(StaffDomainService staffDomainService) {
-//        Map<String, Object> paramMap = new HashMap<>();
-//        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL005",this.APPLSQL005 ,paramMap);
-//        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL005, paramMap);
-//        return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
-//    }
-//
-//    @Override
-//    public List<Map<String, Object>> findAllUser(StaffDomainService staffDomainService) {
-//        Map<String, Object> paramMap = new HashMap<>();
-//        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_GENDER.getValue(), Constant.CATEGORY.GENDER.getValue());
-//        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_BLOOD_TYPE.getValue(), Constant.CATEGORY.BLOOD_TYPE.getValue());
-//        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_GENERIC_CD.CATEGORY_ADDRESS_PREFECTURE.getValue(), Constant.CATEGORY.ADDRESS_PREFECTURE.getValue());
-//        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), staffDomainService.getLimitSize());
-//        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.OFFSET_SIZE.getValue(), staffDomainService.getOffsetSize());
-//
-//        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL006",this.APPLSQL006 ,paramMap);
-//        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL006, paramMap);
-//        resultList.forEach(map -> {
-//            DepartmentGetRequest departmentGetRequest = new DepartmentGetRequest();
-//            departmentGetRequest.setDepartmentCd((String) map.get(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue()));
-//            map.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), this.departmentController.getDepartment(departmentGetRequest).getDepartmentNameJa());
-//        });
-//        return resultList;
-//    }
-
     @Override
     public long countUser(StaffDomainService staffDomainService) {
         Map<String, Object> paramMap = new HashMap<>();

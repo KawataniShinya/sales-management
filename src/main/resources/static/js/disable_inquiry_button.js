@@ -3,6 +3,7 @@ export function disableInquiryButtonInStaffDetail() {
     details.forEach(detail => {
         if (detail.querySelector('.expirationStart').innerHTML === document.querySelector('.staff-detail__table__expirationStart').value) {
             detail.querySelector('.btn').classList.add('disabled');
+            detail.classList.add('table-primary');
         }
     });
 }

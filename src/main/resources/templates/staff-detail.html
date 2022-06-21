@@ -195,11 +195,31 @@
                             </tr>
                             <tr>
                                 <td>部署</td>
-                                <td><input class="form-control staff-detail__table__departmentName" th:value="${detail.departmentName}" type="text" value="営業部" disabled></td>
+                                <!-- <td><input class="form-control staff-detail__table__departmentName" th:value="${detail.departmentName}" type="text" value="営業部" disabled></td> -->
+                                <td>
+                                    <select name="departmentCd" id="departmentCd" class="form-select staff-detail__table__departmentCd" disabled>
+                                        <option value="" selected>部署を選択してください</option>
+                                        <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd == detail.departmentCd}">人事部</option>
+                                        <!--/* -->
+                                        <option value="D20001">技術開発部</option>
+                                        <option value="D30001">営業部</option>
+                                        <option value="D40001">総務部</option>
+                                        <!-- */-->
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>性別</td>
-                                <td><input class="form-control staff-detail__table__genderName" th:value="${detail.genderName}" type="text" value="男性" disabled></td>
+                                <td>
+                                    <select name="genderCd" id="genderCd" class="form-select staff-detail__table__genderCd" disabled>
+                                        <option value="" selected>性別を選択してください</option>
+                                        <option value="0001" th:each="gender : *{genders}" th:value="${gender.cd}" th:text="${gender.displayValue2}" th:selected="${gender.cd == detail.genderCd}">男性</option>
+                                        <!--/* -->
+                                        <option value="0002">女性</option>
+                                        <option value="0003">その他</option>
+                                        <!-- */-->
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>生年月日</td>
@@ -207,11 +227,31 @@
                             </tr>
                             <tr>
                                 <td>血液型</td>
-                                <td><input class="form-control staff-detail__table__bloodTypeName" th:value="${detail.bloodTypeName}" type="text" value="A" disabled></td>
+                                <td>
+                                    <select name="bloodTypeCd" id="bloodTypeCd" class="form-select staff-detail__table__bloodTypeCd" disabled>
+                                        <option value="" selected>血液型を選択してください</option>
+                                        <option value="0001" th:each="bloodType : *{bloodTypes}" th:value="${bloodType.cd}" th:text="${bloodType.displayValue1}" th:selected="${bloodType.cd == detail.bloodTypeCd}">A</option>
+                                        <!--/* -->
+                                        <option value="0002">B</option>
+                                        <option value="0003">O</option>
+                                        <option value="0004">AB</option>
+                                        <!-- */-->
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>都道府県</td>
-                                <td><input class="form-control staff-detail__table__addressPrefectureName" th:value="${detail.addressPrefectureName}" type="text" value="山形県" disabled></td>
+                                <td>
+                                    <select name="addressPrefectureCd" id="addressPrefectureCd" class="form-select staff-detail__table__addressPrefectureCd" disabled>
+                                        <option value="" selected>都道府県を選択してください</option>
+                                        <option value="0001" th:each="addressPrefecture : *{addressPrefectures}" th:value="${addressPrefecture.cd}" th:text="${addressPrefecture.displayValue2}" th:selected="${addressPrefecture.cd == detail.addressPrefectureCd}">北海道</option>
+                                        <!--/* -->
+                                        <option value="0002">青森県</option>
+                                        <option value="0003">岩手県</option>
+                                        <option value="0004">宮城県</option>
+                                        <!-- */-->
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>市町村</td>

@@ -9,12 +9,14 @@
 - MySQL
 - PostgreSQL
 - JUnit
+- DBUnit
 - SCSS
 - CSS
 - JavaScript
 - TypeScript
 - Bootstrap
 - Google Fonts
+- PlantUML
 
 
 ## Development Environment And Tools
