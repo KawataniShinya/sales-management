@@ -156,6 +156,6 @@ function changeNextHrefParamLimitSize(selectorElement: HTMLSelectElement | null)
 }
 
 function changeLimitSizeInSubmitForm(selectorElement: HTMLSelectElement | null) {
-    const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.search__hiddle__limitSize');
+    const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.hidden_limitSize');
     limitSizeDefineElementInForm!.value = selectorElement!.value;
 }

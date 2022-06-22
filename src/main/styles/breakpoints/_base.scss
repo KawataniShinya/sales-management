@@ -229,6 +229,18 @@ body {
             display: flex;
           }
         }
+
+        & .btn-detail {
+          margin-bottom: 10px;
+          text-align: center;
+      
+          & button {
+            width: 30%;
+            max-width: 200px;
+            margin: auto 50px;
+          }
+        }
+
       }
 
       &__end {

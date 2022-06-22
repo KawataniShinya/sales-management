@@ -9,6 +9,7 @@ import com.sales.application.bean.StaffServiceBean;
 import com.sales.common.DomainRuleIllegalException;
 import com.sales.common.Errors;
 import com.sales.domain.staff.Constant;
+import com.sales.presentation.dto.StaffControllerDetailRequest;
 import com.sales.presentation.dto.StaffControllerGetStaffsRequest;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,8 +207,9 @@ public class StaffController {
     }
 
     @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.GET)
-    public String addStaffDetail(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+    public String addStaffDetailAddInit(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
         CommonDisplay.setHeaderParameter(request, model);
+        setRequestedSearchParam(model, param, pathUserId);
 
         Errors errors = new Errors();
 
@@ -233,6 +235,13 @@ public class StaffController {
             });
         }
 
+        model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+        return "staff-add.html";
+    }
+
+    @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.POST)
+    public String addStaffDetailAddExecute(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerDetailRequest param, BindingResult result) {
         return "staff-add.html";
     }
 }

@@ -232,6 +232,17 @@ body {
   display: flex;
 }
 
+.content .main .center .staff-detail .btn-detail {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.content .main .center .staff-detail .btn-detail button {
+  width: 30%;
+  max-width: 200px;
+  margin: auto 50px;
+}
+
 .content .main .center__end {
   width: 100%;
   height: 50px;

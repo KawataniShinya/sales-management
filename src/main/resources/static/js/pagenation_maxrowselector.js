@@ -139,7 +139,7 @@ function changeNextHrefParamLimitSize(selectorElement) {
     document.querySelector('.page-item.next .page-link').setAttribute('href', String(newUrlNext));
 }
 function changeLimitSizeInSubmitForm(selectorElement) {
-    const limitSizeDefineElementInForm = document.querySelector('.search__hiddle__limitSize');
+    const limitSizeDefineElementInForm = document.querySelector('.hidden_limitSize');
     limitSizeDefineElementInForm.value = selectorElement.value;
 }
 //# sourceMappingURL=pagenation_maxrowselector.js.map
