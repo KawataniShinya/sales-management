@@ -128,9 +128,17 @@ public class StaffController {
 
     private boolean checkBeanValidationAndSetErrorMessages(Model model, BindingResult result, Errors errors) {
         boolean isPassed = true;
+        List<Map<String, String>> messageTransformList = getAlternativeErrorMessages();
+
         for (ObjectError error : result.getAllErrors()) {
             if (error instanceof FieldError) {
-                errors.getField().put(((FieldError) error).getField(), error.getDefaultMessage());
+                String message = error.getDefaultMessage();
+                for (Map<String, String> map : messageTransformList) {
+                    if (error.getDefaultMessage().equals(map.get("before"))) {
+                        message = map.get("after");
+                    }
+                }
+                errors.getField().put(((FieldError) error).getField(), message);
             }
         }
         if (!errors.getField().isEmpty()) {
@@ -138,6 +146,15 @@ public class StaffController {
             isPassed = false;
         }
         return isPassed;
+    }
+
+    private List<Map<String, String>> getAlternativeErrorMessages() {
+        List<Map<String, String>> messageTransformList = new ArrayList<>();
+        Map<String, String> halfWidthAlphanumeric = new HashMap<>();
+        halfWidthAlphanumeric.put("before", "正規表現 \"^[a-zA-Z0-9]+$\" にマッチさせてください");
+        halfWidthAlphanumeric.put("after", "半角英数字で入力してください");
+        messageTransformList.add(halfWidthAlphanumeric);
+        return messageTransformList;
     }
 
     @RequestMapping(value = "/staff/{pathUserId}", method = RequestMethod.GET)
