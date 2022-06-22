@@ -32,4 +32,5 @@ public interface StaffDomainService {
     void init();
 
     StaffDomainService findAllUser();
+    void checkAddStaff() throws DomainRuleIllegalException;
 }

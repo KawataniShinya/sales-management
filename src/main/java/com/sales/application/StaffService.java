@@ -7,4 +7,5 @@ import java.util.Map;
 
 public interface StaffService {
     StaffServiceBean findStaffs(Map<String, Object> map) throws DomainRuleIllegalException;
+    void checkAddStaff(Map<String, Object> map) throws DomainRuleIllegalException;
 }

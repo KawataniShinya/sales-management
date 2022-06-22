@@ -55,4 +55,6 @@ public class StaffControllerDetailRequest {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expirationEnd;
+
+    private String submitType;
 }

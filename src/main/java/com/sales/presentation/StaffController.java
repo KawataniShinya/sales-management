@@ -9,6 +9,7 @@ import com.sales.application.bean.StaffServiceBean;
 import com.sales.common.DomainRuleIllegalException;
 import com.sales.common.Errors;
 import com.sales.domain.staff.Constant;
+import com.sales.domain.staff.Staff;
 import com.sales.presentation.dto.StaffControllerDetailRequest;
 import com.sales.presentation.dto.StaffControllerGetStaffsRequest;
 import org.apache.commons.lang3.time.DateUtils;
@@ -32,12 +33,14 @@ import java.util.*;
 @Controller
 @Scope("prototype")
 public class StaffController {
+    private final Staff staff;
     private final StaffService staffService;
     private final DepartmentService departmentService;
     private final GenericCodeService genericCodeService;
 
     @Autowired
-    public StaffController(StaffService staffService, DepartmentService departmentService, GenericCodeService genericCodeService) {
+    public StaffController(Staff staff, StaffService staffService, DepartmentService departmentService, GenericCodeService genericCodeService) {
+        this.staff = staff;
         this.staffService = staffService;
         this.departmentService = departmentService;
         this.genericCodeService = genericCodeService;
@@ -61,10 +64,10 @@ public class StaffController {
 
             if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
 
-            Map<String, Object> map = new HashMap<>();
-            setFindStaffsParameter(param, map);
+            Map<String, Object> findStaffsParamMap = new HashMap<>();
+            setFindStaffsParameter(param, findStaffsParamMap);
 
-            StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, map);
+            StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
             if (staffServiceBean == null) return "staff-search.html";
 
             setResultAsAttribute(model, staffServiceBean);
@@ -95,10 +98,10 @@ public class StaffController {
         model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), staffServiceBean.getPage());
     }
 
-    private StaffServiceBean getStaffServiceBeanOrSetErrorMessages(Model model, Errors errors, Map<String, Object> map) {
+    private StaffServiceBean getStaffServiceBeanOrSetErrorMessages(Model model, Errors errors, Map<String, Object> findStaffsParamMap) {
         StaffServiceBean staffServiceBean = null;
         try {
-            staffServiceBean = this.staffService.findStaffs(map);
+            staffServiceBean = this.staffService.findStaffs(findStaffsParamMap);
         } catch (DomainRuleIllegalException e) {
             errors.getGlobal().addAll(e.getMessages());
         }
@@ -108,22 +111,22 @@ public class StaffController {
         return staffServiceBean;
     }
 
-    private void setFindStaffsParameter(StaffControllerGetStaffsRequest param, Map<String, Object> map) {
-        this.setFindStaffsParamOnlyUserId(param, map);
-        map.put(Constant.API_SEARCH_PARAM_STAFF.USER_NAME.getValue(), param.getUserName());
-        map.put(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
+    private void setFindStaffsParameter(StaffControllerGetStaffsRequest param, Map<String, Object> findStaffsParamMap) {
+        this.setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), param.getUserId(), findStaffsParamMap);
+        findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.USER_NAME.getValue(), param.getUserName());
+        findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
         if (param.getParamExpirationStart() != null) {
-            map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), DateUtils.truncate(param.getParamExpirationStart(), Calendar.DAY_OF_MONTH));
+            findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), DateUtils.truncate(param.getParamExpirationStart(), Calendar.DAY_OF_MONTH));
         }
         if (param.getParamExpirationEnd() != null) {
-            map.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), DateUtils.truncate(param.getParamExpirationEnd(), Calendar.DAY_OF_MONTH));
+            findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_END.getValue(), DateUtils.truncate(param.getParamExpirationEnd(), Calendar.DAY_OF_MONTH));
         }
     }
 
-    private void setFindStaffsParamOnlyUserId(StaffControllerGetStaffsRequest param, Map<String, Object> map) {
-        map.put(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), param.getLimitSize());
-        map.put(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), param.getPage());
-        map.put(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), param.getUserId());
+    private void setFindStaffsParamUserId(int limitSize, int page, String userId, Map<String, Object> findStaffsParamMap) {
+        findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), limitSize);
+        findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), page);
+        findStaffsParamMap.put(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), userId);
     }
 
 
@@ -167,11 +170,10 @@ public class StaffController {
 
         if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
 
-        Map<String, Object> map = new HashMap<>();
-        param.setUserId(pathUserId);
-        setFindStaffsParamOnlyUserId(param, map);
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
 
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, map);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
         if (staffServiceBean == null) return "staff-search.html";
 
         setResultAsAttribute(model, staffServiceBean);
@@ -182,6 +184,7 @@ public class StaffController {
 
             if (param.getParamExpirationStart() == null) {
                 model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staffServiceBean.getStaffs().get(0));
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), staffServiceBean.getStaffs().get(0).getExpirationStart());
             } else {
                 staffServiceBean.getStaffs().forEach(staff -> {
                     if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
@@ -215,11 +218,10 @@ public class StaffController {
 
         if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-add.html";
 
-        Map<String, Object> map = new HashMap<>();
-        param.setUserId(pathUserId);
-        setFindStaffsParamOnlyUserId(param, map);
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
 
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, map);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
         if (staffServiceBean == null) return "staff-add.html";
 
         setResultAsAttribute(model, staffServiceBean);
@@ -242,6 +244,84 @@ public class StaffController {
 
     @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.POST)
     public String addStaffDetailAddExecute(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerDetailRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+        setRequestedStaffParam(model, param);
+
+        Errors errors = new Errors();
+
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-add.html";
+
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), param.getUserId(), findStaffsParamMap);
+
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+        if (staffServiceBean == null) return "staff-add.html";
+
+        setResultAsAttribute(model, staffServiceBean);
+
+        if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CONFIRM.getValue())) {
+
+            Map<String, Object> addStaffsParamMap = new HashMap<>();
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue(), param.getUserId());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.FAMILY_NAME.getValue(), param.getFamilyName());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.FIRST_NAME.getValue(), param.getFirstName());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.GENDER_CD.getValue(), param.getGenderCd());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.BIRTHDATE.getValue(), param.getBirthdate());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.BLOOD_TYPE_CD.getValue(), param.getBloodTypeCd());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.ADDRESS_PREFECTURE_CD.getValue(), param.getAddressPrefectureCd());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.ADDRESS_MUNICIPALITY.getValue(), param.getAddressMunicipality());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.PRIVATE_TEL_NO.getValue(), param.getPrivateTelNo());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.PRIVATE_EMAIL.getValue(), param.getPrivateEmail());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_TEL_NO.getValue(), param.getWorkplaceTelNo());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_EMAIL.getValue(), param.getWorkplaceEmail());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), new java.sql.Date(param.getExpirationStart().getTime()));
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), new java.sql.Date(param.getExpirationEnd().getTime()));
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.INSERT_USER.getValue(), param.getUserId());
+            addStaffsParamMap.put(Constant.API_FIELD_NAME_STAFF.UPDATE_USER.getValue(), param.getUserId());
+            try {
+                // TODO add domein check
+                this.staffService.checkAddStaff(addStaffsParamMap);
+            } catch (DomainRuleIllegalException e) {
+                errors.getGlobal().addAll(e.getMessages());
+            }
+
+            if (!errors.getGlobal().isEmpty()) {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+            } else {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_CONFIRM.getValue());
+            }
+        } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CANCEL.getValue())) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+        }
+
         return "staff-add.html";
+    }
+
+    private void setRequestedStaffParam(Model model, StaffControllerDetailRequest param) {
+        Staff staff = this.staff.createStaff();
+
+        staff.setUserId(param.getUserId());
+        staff.setFamilyName(param.getFamilyName());
+        staff.setFirstName(param.getFirstName());
+        staff.setDepartmentCd(param.getDepartmentCd());
+        staff.setGenderCd(param.getGenderCd());
+        staff.setBirthdate(new java.sql.Date(param.getBirthdate().getTime()));
+        staff.setBloodTypeCd(param.getBloodTypeCd());
+        staff.setAddressPrefectureCd(param.getAddressPrefectureCd());
+        staff.setAddressMunicipality(param.getAddressMunicipality());
+        staff.setPrivateTelNo(param.getPrivateTelNo());
+        staff.setPrivateEmail(param.getPrivateEmail());
+        staff.setWorkplaceTelNo(param.getWorkplaceTelNo());
+        staff.setWorkplaceEmail(param.getWorkplaceEmail());
+        staff.setExpirationStart(new java.sql.Date(param.getExpirationStart().getTime()));
+        staff.setExpirationEnd(new java.sql.Date(param.getExpirationEnd().getTime()));
+
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
     }
 }

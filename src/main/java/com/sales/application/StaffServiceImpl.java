@@ -26,7 +26,7 @@ public class StaffServiceImpl implements StaffService{
         final List<String> errorMessages = new ArrayList<>();
         StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
 
-        setParameterOrSetErrorMessages(map, errorMessages, staffDomainService);
+        setFindParameterOrSetErrorMessages(map, errorMessages, staffDomainService);
         if (!errorMessages.isEmpty()) {
             throw new DomainRuleIllegalException(errorMessages);
         }
@@ -39,6 +39,14 @@ public class StaffServiceImpl implements StaffService{
         return staffServiceBean;
     }
 
+    @Override
+    public void checkAddStaff(Map<String, Object> map) throws DomainRuleIllegalException {
+        StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
+        staffDomainService.setUserId((String) map.get(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue()));
+        staffDomainService.setParamExpirationStart((Date) map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
+        staffDomainService.checkAddStaff();
+    }
+
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {
         staffServiceBean.setStaffs(staffs);
         staffServiceBean.setCount(staffDomainService.getCount());
@@ -46,7 +54,7 @@ public class StaffServiceImpl implements StaffService{
         staffServiceBean.setPage(staffDomainService.getPage());
     }
 
-    private void setParameterOrSetErrorMessages(Map<String, Object> map, List<String> errorMessages, StaffDomainService staffDomainService) {
+    private void setFindParameterOrSetErrorMessages(Map<String, Object> map, List<String> errorMessages, StaffDomainService staffDomainService) {
         Optional.ofNullable(map.getOrDefault(Constant.API_SEARCH_PARAM_STAFF.LIMIT_SIZE.getValue(), null))
                 .ifPresent(object -> staffDomainService.setLimitSize(((Integer) object).longValue()));
         Optional.ofNullable(map.getOrDefault(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), null))

@@ -27,6 +27,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     private final String APPLSQL002;
     private final String APPLSQL005;
     private final String APPLSQL006;
+    private final String APPLSQL009;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -37,11 +38,13 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Value("${APPLSQL002}") String applsql002,
             @Value("${APPLSQL005}") String applsql005,
             @Value("${APPLSQL006}") String applsql006,
+            @Value("${APPLSQL009}") String applsql009,
             DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
         this.APPLSQL005 = applsql005;
         this.APPLSQL006 = applsql006;
+        APPLSQL009 = applsql009;
         this.departmentController = departmentController;
     }
 
@@ -96,6 +99,18 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         });
 
         return resultList;
+    }
+
+    @Override
+    public long countUserNewer(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.USER_ID.getValue(), staffDomainService.getUserId());
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), staffDomainService.getParamExpirationStart());
+
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL005", APPLSQL009, paramMap);
+        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL009, paramMap);
+
+        return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
     }
 
     private String removeWhereClausesOrSetParams(StaffDomainService staffDomainService, Map<String, Object> paramMap, String editSql) {

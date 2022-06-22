@@ -177,7 +177,7 @@ public class StaffImpl implements Staff{
                 .ifPresent(object -> this.setFirstName(object.toString()));
 
         Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue(), null))
-                .ifPresent(object -> this.setDepartmentCd(object.toString()));Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue(), null));
+                .ifPresent(object -> this.setDepartmentCd(object.toString()));
 
         Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), null))
                 .ifPresent(object -> this.setDepartmentName(object.toString()));

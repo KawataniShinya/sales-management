@@ -76,6 +76,16 @@
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
                 <div class="page-header bg-light shadow-sm border tytle">社員情報変更登録</div>
+                <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
+                    <ul th:each="i : ${#numbers.sequence(0, 2)}">
+                        <li th:if="__${i}__ < ${globalErrorMessages.size()}" th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>
+                        <!--/* -->
+                        <li>global message test 2</li>
+                        <li>global message test 3</li>
+                        <!-- */-->
+                        <li th:if="${i == 2} and ${globalErrorMessages.size()} > 3" th:text="...">...</li>
+                    </ul>
+                </div>
                 <div class="staff-search">
                     <div class="staff-search__result" th:if="${staffs} != null">
                         <div class="staff-search__result__count" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件 (' + ${limitSize} + '件表示)'">25 件目 / 135 件 (25件表示)</div>
@@ -176,15 +186,15 @@
                             <tbody>
                                 <tr>
                                     <td>ユーザーID</td>
-                                    <td><input name="userId" class="form-control staff-detail__table__userId" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001"></td>
+                                    <td><input name="userId" class="form-control staff-detail__table__userId" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" readonly></td>
                                 </tr>
                                 <tr>
                                     <td>有効開始日</td>
-                                    <td><input name="expirationStart" class="form-control staff-detail__table__expirationStart" th:value="${detail.expirationStart}" type="text" value="2022-06-01"></td>
+                                    <td><input name="expirationStart" class="form-control staff-detail__table__expirationStart" th:value="${detail.expirationStart}" type="date" value="2022-06-01"></td>
                                 </tr>
                                 <tr>
                                     <td>有効終了日</td>
-                                    <td><input name="expirationEnd" class="form-control staff-detail__table__expirationEnd" th:value="${detail.expirationEnd}" type="text" value="2022-09-01"></td>
+                                    <td><input name="expirationEnd" class="form-control staff-detail__table__expirationEnd" th:value="${detail.expirationEnd}" type="date" value="2022-09-01"></td>
                                 </tr>
                                 <tr>
                                     <td>氏名</td>
@@ -222,7 +232,7 @@
                                 </tr>
                                 <tr>
                                     <td>生年月日</td>
-                                    <td><input name="birthdate" class="form-control staff-detail__table__birthdate" th:value="${detail.birthdate}" type="text" value="1873-11-09"></td>
+                                    <td><input name="birthdate" class="form-control staff-detail__table__birthdate" th:value="${detail.birthdate}" type="date" value="1873-11-09"></td>
                                 </tr>
                                 <tr>
                                     <td>血液型</td>

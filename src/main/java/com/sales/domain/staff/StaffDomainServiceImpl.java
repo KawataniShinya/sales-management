@@ -108,6 +108,17 @@ public class StaffDomainServiceImpl implements StaffDomainService {
         return this;
     }
 
+    @Override
+    public void checkAddStaff() throws DomainRuleIllegalException {
+        this.paramExpirationEnd = java.sql.Date.valueOf("9999-12-31");
+        this.count = this.staffRepository.countUserNewer(this);
+        if (this.count > 0) {
+            throw new DomainRuleIllegalException(
+                    this.messageSource.getMessage("MSG0002", new String[]{"有効開始日"}, Locale.JAPANESE)
+            );
+        }
+    }
+
     public void setUserId(String userId){
         this.userId = userId.trim().strip();
     }
