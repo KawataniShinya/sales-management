@@ -97,7 +97,9 @@ public class Constant {
         PARAM_EXPIRATION_END("paramExpirationEnd"),
         STAFFS("staffs"),
         DEPARTMENTS("departments"),
-        DETAIL("detail");
+        DETAIL("detail"),
+
+        PATH_PARAM_USER_ID("pathParamUserId");
 
         private final String value;
         API_SEARCH_PARAM_STAFF(String value) {this.value = value;}

@@ -51,7 +51,7 @@ public class StaffController {
     @RequestMapping(value = "/staff/search", method = RequestMethod.GET)
     public String getStaffs(HttpServletRequest request, Model model, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
         CommonDisplay.setHeaderParameter(request, model);
-        setRequestedParam(model, param);
+        setRequestedSearchParam(model, param, "");
 
         setDepartmentToModel(model);
 
@@ -72,10 +72,11 @@ public class StaffController {
         return "staff-search.html";
     }
 
-    private void setRequestedParam(Model model, StaffControllerGetStaffsRequest param) {
+    private void setRequestedSearchParam(Model model, StaffControllerGetStaffsRequest param, String pathParamUserId) {
         model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.USER_ID.getValue(), param.getUserId());
         model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.USER_NAME.getValue(), param.getUserName());
         model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), pathParamUserId);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         if (param.getParamExpirationStart() != null) {
@@ -159,6 +160,7 @@ public class StaffController {
     @RequestMapping(value = "/staff/{pathUserId}", method = RequestMethod.GET)
     public String getStaffsById(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
         CommonDisplay.setHeaderParameter(request, model);
+        setRequestedSearchParam(model, param, pathUserId);
 
         Errors errors = new Errors();
 
@@ -201,5 +203,36 @@ public class StaffController {
     private void setDepartmentToModel(Model model) {
         DepartmentServiceBean departmentServiceBean = this.departmentService.getAllDepartments();
         model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENTS.getValue(), departmentServiceBean.getDepartments());
+    }
+
+    @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.GET)
+    public String addStaffDetail(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+
+        Errors errors = new Errors();
+
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-add.html";
+
+        Map<String, Object> map = new HashMap<>();
+        param.setUserId(pathUserId);
+        setFindStaffsParamOnlyUserId(param, map);
+
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, map);
+        if (staffServiceBean == null) return "staff-add.html";
+
+        setResultAsAttribute(model, staffServiceBean);
+
+        if (staffServiceBean.getCount() > 0) {
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
+
+            staffServiceBean.getStaffs().forEach(staff -> {
+                if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
+                    model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
+                }
+            });
+        }
+
+        return "staff-add.html";
     }
 }
