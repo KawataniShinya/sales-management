@@ -15,7 +15,7 @@ public class StaffControllerGetStaffsRequest {
     @Positive
     private int page;
 
-    @Pattern(regexp = "^[a-zA-Z0-9]+$")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$")
     private String userId;
 
     private String userName;

@@ -53,8 +53,7 @@ public class StaffController {
         CommonDisplay.setHeaderParameter(request, model);
         setRequestedParam(model, param);
 
-        DepartmentServiceBean departmentServiceBean = this.departmentService.getAllDepartments();
-        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENTS.getValue(), departmentServiceBean.getDepartments());
+        setDepartmentToModel(model);
 
         if (param.getPage() > 0) {
             Errors errors = new Errors();
@@ -151,7 +150,7 @@ public class StaffController {
     private List<Map<String, String>> getAlternativeErrorMessages() {
         List<Map<String, String>> messageTransformList = new ArrayList<>();
         Map<String, String> halfWidthAlphanumeric = new HashMap<>();
-        halfWidthAlphanumeric.put("before", "正規表現 \"^[a-zA-Z0-9]+$\" にマッチさせてください");
+        halfWidthAlphanumeric.put("before", "正規表現 \"^[a-zA-Z0-9]*$\" にマッチさせてください");
         halfWidthAlphanumeric.put("after", "半角英数字で入力してください");
         messageTransformList.add(halfWidthAlphanumeric);
         return messageTransformList;
@@ -175,12 +174,8 @@ public class StaffController {
         setResultAsAttribute(model, staffServiceBean);
 
         if (staffServiceBean.getCount() > 0) {
-            DepartmentServiceBean departmentServiceBean = this.departmentService.getAllDepartments();
-            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENTS.getValue(), departmentServiceBean.getDepartments());
-            GenericCodeServiceBean genericCodeServiceBean = this.genericCodeService.getGenericCodeListInStaff();
-            model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.GENDERS.getValue(), genericCodeServiceBean.getGenders());
-            model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.BLOOD_TYPES.getValue(), genericCodeServiceBean.getBloodTypes());
-            model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.ADDRESS_PREFECTURES.getValue(), genericCodeServiceBean.getAddressPrefectures());
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
 
             if (param.getParamExpirationStart() == null) {
                 model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staffServiceBean.getStaffs().get(0));
@@ -194,5 +189,17 @@ public class StaffController {
         }
 
         return "staff-detail.html";
+    }
+
+    private void setGenericCodeToModel(Model model) {
+        GenericCodeServiceBean genericCodeServiceBean = this.genericCodeService.getGenericCodeListInStaff();
+        model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.GENDERS.getValue(), genericCodeServiceBean.getGenders());
+        model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.BLOOD_TYPES.getValue(), genericCodeServiceBean.getBloodTypes());
+        model.addAttribute(com.sales.domain.genericcode.Constant.API_FIELD_NAME_GENERIC_CD.ADDRESS_PREFECTURES.getValue(), genericCodeServiceBean.getAddressPrefectures());
+    }
+
+    private void setDepartmentToModel(Model model) {
+        DepartmentServiceBean departmentServiceBean = this.departmentService.getAllDepartments();
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DEPARTMENTS.getValue(), departmentServiceBean.getDepartments());
     }
 }
