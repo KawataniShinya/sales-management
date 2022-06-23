@@ -48,27 +48,16 @@
             }
         });
     </script>
-    /*/-->
-    <script th:src="@{/js/visible_staff_detail_button.js}" type="module"></script>
+    <script th:src="@{/js/staff_detail.js}" type="module"></script>
     <script th:inline="javascript" type="module">
-        import { visibleStaffDetailButton } from '/js/visible_staff_detail_button.js'
+        import { visibleStaffDetailButton, disableStaffDetailFields } from '/js/staff_detail.js'
         window.addEventListener('load', function(){
             const formState = /*[[${formState}]]*/ null;
             visibleStaffDetailButton(formState);
-
-            if (formState === 'stateAddConfirm') {
-                document.querySelector('.messageConfirmation').classList.remove('un-visible');
-                document.querySelectorAll('.staff-detail__table__item').forEach(detailItem => detailItem.readOnly = true);
-                document.querySelectorAll('.staff-detail__table__select option').forEach(selectOption => selectOption.disabled = !selectOption.selected);
-                document.querySelectorAll('.staff-detail__table__select').forEach(select => select.classList.add('bg-readonly'));
-            } else if (formState === 'stateAddExecute') {
-                document.querySelector('.messageExecuted').classList.remove('un-visible');
-                document.querySelectorAll('.staff-detail__table__item').forEach(detailItem => detailItem.readOnly = true);
-                document.querySelectorAll('.staff-detail__table__select option').forEach(selectOption => selectOption.disabled = !selectOption.selected);
-                document.querySelectorAll('.staff-detail__table__select').forEach(select => select.classList.add('bg-readonly'));
-            }
+            disableStaffDetailFields(formState);
         });
     </script>
+    /*/-->
 </head>
 <body>
     <!--/* --><header class="header"><div class="header__inner"></div></header><!-- */-->
