@@ -33,14 +33,12 @@ import java.util.*;
 @Controller
 @Scope("prototype")
 public class StaffController {
-    private final Staff staff;
     private final StaffService staffService;
     private final DepartmentService departmentService;
     private final GenericCodeService genericCodeService;
 
     @Autowired
-    public StaffController(Staff staff, StaffService staffService, DepartmentService departmentService, GenericCodeService genericCodeService) {
-        this.staff = staff;
+    public StaffController(StaffService staffService, DepartmentService departmentService, GenericCodeService genericCodeService) {
         this.staffService = staffService;
         this.departmentService = departmentService;
         this.genericCodeService = genericCodeService;
@@ -280,7 +278,6 @@ public class StaffController {
             }
 
             try {
-                // TODO add domein check
                 this.staffService.checkAddStaff(getStaffParamByRequestParam(param));
             } catch (DomainRuleIllegalException e) {
                 errors.getGlobal().addAll(e.getMessages());

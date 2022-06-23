@@ -43,10 +43,25 @@ public class StaffServiceImpl implements StaffService{
 
     @Override
     public void checkAddStaff(Map<String, Object> map) throws DomainRuleIllegalException {
+        List<String> errorMessages = new ArrayList<>();
+
         StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
         staffDomainService.setUserId((String) map.get(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue()));
         staffDomainService.setParamExpirationStart((Date) map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
-        staffDomainService.checkAddStaff();
+        try {
+            staffDomainService.checkAddStaff();
+        } catch (DomainRuleIllegalException e) {
+            errorMessages.addAll(e.getMessages());
+        }
+
+        Staff staff = this.staff.createStaff();
+        try {
+            staff.setFieldsByMapFromApi(map);
+        } catch (DomainRuleIllegalException e) {
+            errorMessages.addAll(e.getMessages());
+        }
+
+        throw new DomainRuleIllegalException(errorMessages);
     }
 
     @Override
