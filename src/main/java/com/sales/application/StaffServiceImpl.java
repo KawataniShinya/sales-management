@@ -88,6 +88,14 @@ public class StaffServiceImpl implements StaffService{
         this.checkAddStaff(map);
         Staff staff = this.getStaffByParam(map);
         staff.addStaff();
+
+
+        System.out.println(map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime((Date) map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
+        System.out.println(date);
     }
 
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {

@@ -132,7 +132,7 @@
                         <input class="hidden_page" type="hidden" name="page" value="1">
                         <div class="btn-search">
                             <!--/* --><button type="button" class="btn btn-primary mt-4" onclick="location.href='staff-search.html'">検索</button><!-- */-->
-                            <!--/*/<button type="submit" class="btn btn-primary mt-4">検索</button>/*/-->
+                            <!--/*/<button type="submit" class="btn btn-primary mt-4" name="submitType" value="searchExecute">検索</button>/*/-->
                         </div>
                     </div>
                 </form>
@@ -162,8 +162,8 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td><a class="btn btn-sm btn-outline-primary" href="staff-detail.html" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
-                                        <td><a th:text="${staff.userId}" href="staff-detail.html" th:href="@{/staff/__${staff.userId}__(page=1,limitSize=25)}">STF0000002</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="staff-detail.html" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart})}">照会</a></td>
+                                        <td><a th:text="${staff.userId}" href="staff-detail.html" th:href="@{/staff/__${staff.userId}__}">STF0000002</a></td>
                                         <td th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
                                         <td th:text="${staff.departmentName}">D30001</td>
                                         <td th:text="${staff.genderName}">0001</td>

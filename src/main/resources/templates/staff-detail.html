@@ -75,7 +75,7 @@
             <div class="center col-12 border-start border-end border-bottom">
                 <div class="page-header bg-light shadow-sm border tytle">社員情報照会</div>
                 <!-- <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">変更登録</a> -->
-                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/add(paramExpirationStart=${paramExpirationStart},page=1,limitSize=25)}">変更登録</a>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/add(paramExpirationStart=${paramExpirationStart})}">変更登録</a>
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">訂正</a>
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">削除</a>
                 <div class="staff-search">
@@ -104,7 +104,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart})}">照会</a></td>
                                         <td class="expirationStart" th:text="${staff.expirationStart}">2022-06-01</td>
                                         <td class="expirationEnd" th:text="${staff.expirationEnd}">2022-09-01</td>
                                         <td class="userId" th:text="${staff.userId}">STF0000002</td>

@@ -10,10 +10,10 @@ import java.util.Date;
 @Setter
 public class StaffControllerGetStaffsRequest {
     @Positive
-    private int limitSize;
+    private int limitSize = 25;
 
     @Positive
-    private int page;
+    private int page = 1;
 
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     private String userId;
@@ -27,4 +27,6 @@ public class StaffControllerGetStaffsRequest {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date paramExpirationEnd;
+
+    private String submitType;
 }

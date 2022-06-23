@@ -13,10 +13,10 @@ import java.util.Date;
 public class StaffControllerDetailRequest {
 
     @Positive
-    private int limitSize;
+    private int limitSize = 25;
 
     @Positive
-    private int page;
+    private int page = 1;
 
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
     private String userId;

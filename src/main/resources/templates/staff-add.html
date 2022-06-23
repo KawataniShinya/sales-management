@@ -67,7 +67,7 @@
             <li class="breadcrumb-item"><a href="top.html" th:href="@{/top}">トップ</a></li>
             <li class="breadcrumb-item"><a href="staff.html" th:href="@{/staff}">社員情報</a></li>
             <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/search}">検索</a></li>
-            <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/__${pathParamUserId}__(page=1,limitSize=25)}">照会</a></li>
+            <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/__${pathParamUserId}__}">照会</a></li>
             <li class="breadcrumb-item active" aria-current="page">社員情報変更登録</li>
         </ol>
     </nav>
@@ -115,7 +115,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="staff : ${staffs}">
-                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart},page=1,limitSize=25)}">照会</a></td>
+                                        <td><a class="btn btn-sm btn-outline-primary" href="" th:href="@{/staff/__${staff.userId}__(paramExpirationStart=${staff.expirationStart})}">照会</a></td>
                                         <td class="expirationStart" th:text="${staff.expirationStart}">2022-06-01</td>
                                         <td class="expirationEnd" th:text="${staff.expirationEnd}">2022-09-01</td>
                                         <td class="userId" th:text="${staff.userId}">STF0000002</td>

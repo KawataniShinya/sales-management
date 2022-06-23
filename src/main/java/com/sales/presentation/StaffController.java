@@ -57,7 +57,7 @@ public class StaffController {
 
         setDepartmentToModel(model);
 
-        if (param.getPage() > 0) {
+        if (com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SEARCH_EXECUTE.getValue().equals(param.getSubmitType())) {
             Errors errors = new Errors();
 
             if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
@@ -240,11 +240,20 @@ public class StaffController {
                     model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
                 }
             });
+            if (model.getAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue()) == null) {
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), getBlankStaffWithUserId(param.getUserId()));
+            }
         }
 
         model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                 com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
         return "staff-add.html";
+    }
+
+    private Staff getBlankStaffWithUserId(String userId) {
+        Map<String, Object> staffParams = new HashMap<>();
+        staffParams.put(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue(), userId);
+        return this.staffService.getStaffByParamWithoutValidation(staffParams);
     }
 
     @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.POST)

@@ -27,6 +27,7 @@ public class Constant {
 
     public enum REQUEST_SUBMIT_TYPE {
         SUBMIT_TYPE("submitType"),
+        SEARCH_EXECUTE("searchExecute"),
         SUBMIT_TYPE_ADD_CONFIRM("submitAddConfirm"),
         SUBMIT_TYPE_ADD_CANCEL("submitAddCancel"),
         SUBMIT_TYPE_ADD_EXECUTE("submitAddExecute");
