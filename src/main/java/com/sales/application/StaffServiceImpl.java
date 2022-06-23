@@ -54,14 +54,22 @@ public class StaffServiceImpl implements StaffService{
             errorMessages.addAll(e.getMessages());
         }
 
-        Staff staff = this.staff.createStaff();
         try {
-            staff.setFieldsByMapFromApi(map);
+            getStaffByParam(map);
         } catch (DomainRuleIllegalException e) {
             errorMessages.addAll(e.getMessages());
         }
 
-        throw new DomainRuleIllegalException(errorMessages);
+        if (!errorMessages.isEmpty()) {
+            throw new DomainRuleIllegalException(errorMessages);
+        }
+    }
+
+    @Override
+    public Staff getStaffByParam(Map<String, Object> map) throws DomainRuleIllegalException {
+        Staff staff = this.staff.createStaff();
+        staff.setFieldsByMapFromApi(map);
+        return staff;
     }
 
     @Override
@@ -73,6 +81,13 @@ public class StaffServiceImpl implements StaffService{
             e.printStackTrace();
         }
         return staff;
+    }
+
+    @Override
+    public void addStaff(Map<String, Object> map) throws DomainRuleIllegalException {
+        this.checkAddStaff(map);
+        Staff staff = this.getStaffByParam(map);
+        staff.addStaff();
     }
 
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {
