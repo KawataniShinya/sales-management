@@ -1,5 +1,7 @@
 package com.sales.domain.staff;
 
+import com.sales.common.DomainRuleIllegalException;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
@@ -39,9 +41,9 @@ public interface Staff {
     String getWorkplaceTelNo();
     void setWorkplaceEmail(String workplaceEmail);
     String getWorkplaceEmail();
-    void setExpirationStart(Date expirationStart);
+    void setExpirationStart(Date expirationStart) throws DomainRuleIllegalException;
     Date getExpirationStart();
-    void setExpirationEnd(Date expirationEnd);
+    void setExpirationEnd(Date expirationEnd) throws DomainRuleIllegalException;
     Date getExpirationEnd();
     void setInsertTimestamp(Timestamp insertTimestamp);
     Timestamp getInsertTimestamp();
@@ -61,5 +63,5 @@ public interface Staff {
     Staff setStaffByUserId(String userId);
 
     void setFieldsByMapFromDataSource(Map<String, Object> map);
-    void setFieldsByMapFromApi(Map<String, Object> map);
+    void setFieldsByMapFromApi(Map<String, Object> map) throws DomainRuleIllegalException;
 }

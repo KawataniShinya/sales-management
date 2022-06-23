@@ -227,6 +227,10 @@ body {
 
           &__separate {
             display: flex;
+
+            &__column {
+              width: 50%;
+            }
           }
         }
 

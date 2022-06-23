@@ -232,6 +232,10 @@ body {
   display: flex;
 }
 
+.content .main .center .staff-detail__table__separate__column {
+  width: 50%;
+}
+
 .content .main .center .staff-detail .btn-detail {
   margin-bottom: 10px;
   text-align: center;

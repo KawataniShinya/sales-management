@@ -1,16 +1,15 @@
 package com.sales.domain.staff;
 
+import com.sales.common.DomainRuleIllegalException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Scope("prototype")
@@ -85,11 +84,9 @@ public class StaffImpl implements Staff{
     private String workplaceEmail;
 
     @Getter
-    @Setter
     private Date expirationStart;
 
     @Getter
-    @Setter
     private Date expirationEnd;
 
     @Getter
@@ -114,15 +111,38 @@ public class StaffImpl implements Staff{
 
     private final StaffRepository staffRepository;
 
+    private final MessageSource messageSource;
+
     @Autowired
-    public StaffImpl(StaffRepository staffRepository) {
+    public StaffImpl(StaffRepository staffRepository, MessageSource messageSource) {
         this.staffRepository = staffRepository;
+        this.messageSource = messageSource;
         this.init();
     }
 
     @Override
+    public void setExpirationStart(Date expirationStart) throws DomainRuleIllegalException {
+        this.expirationStart = expirationStart;
+        if (this.expirationEnd != null && this.expirationEnd.before(this.expirationStart)) {
+            throw new DomainRuleIllegalException(
+                    this.messageSource.getMessage("MSG0001", new String[]{"有効開始日","有効終了日"}, Locale.JAPANESE)
+            );
+        }
+    }
+
+    @Override
+    public void setExpirationEnd(Date expirationEnd) throws DomainRuleIllegalException {
+        this.expirationEnd = expirationEnd;
+        if (this.expirationEnd != null && this.expirationEnd.before(this.expirationStart)) {
+            throw new DomainRuleIllegalException(
+                    this.messageSource.getMessage("MSG0001", new String[]{"有効開始日","有効終了日"}, Locale.JAPANESE)
+            );
+        }
+    }
+
+    @Override
     public Staff createStaff() {
-        return new StaffImpl(this.staffRepository);
+        return new StaffImpl(this.staffRepository, messageSource);
     }
 
     @Override
@@ -134,7 +154,7 @@ public class StaffImpl implements Staff{
         this.departmentName = "";
         this.genderCd = "";
         this.genderName = "";
-        this.birthdate = new Date(0);
+        this.birthdate = null;
         this.bloodTypeCd = "";
         this.bloodTypeName = "";
         this.addressPrefectureCd = "";
@@ -144,13 +164,13 @@ public class StaffImpl implements Staff{
         this.privateEmail = "";
         this.workplaceTelNo = "";
         this.workplaceEmail = "";
-        this.expirationStart = new Date(0);
-        this.expirationEnd = new Date(0);
-        this.insertTimestamp = new Timestamp(0);
+        this.expirationStart = null;
+        this.expirationEnd = null;
+        this.insertTimestamp = null;
         this.insertUser = "";
-        this.updateTimestamp = new Timestamp(0);
+        this.updateTimestamp = null;
         this.updateUser = "";
-        this.expirationDate = new Date(0);
+        this.expirationDate = null;
     }
 
     @Override
@@ -219,10 +239,22 @@ public class StaffImpl implements Staff{
                 .ifPresent(object -> this.setWorkplaceEmail(object.toString()));
 
         Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), null))
-                .ifPresent(object -> this.setExpirationStart((Date) object));
+                .ifPresent(object -> {
+                    try {
+                        this.setExpirationStart((Date) object);
+                    } catch (DomainRuleIllegalException e) {
+                        e.printStackTrace();
+                    }
+                });
 
         Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), null))
-                .ifPresent(object -> this.setExpirationEnd((Date) object));
+                .ifPresent(object -> {
+                    try {
+                        this.setExpirationEnd((Date) object);
+                    } catch (DomainRuleIllegalException e) {
+                        e.printStackTrace();
+                    }
+                });
 
         Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.INSERT_TIMESTAMP.getValue(), null))
                 .ifPresent(object -> this.setInsertTimestamp((Timestamp) object));
@@ -238,7 +270,9 @@ public class StaffImpl implements Staff{
     }
 
     @Override
-    public void setFieldsByMapFromApi(Map<String, Object> map) {
+    public void setFieldsByMapFromApi(Map<String, Object> map) throws DomainRuleIllegalException {
+        List<String> errorMessages = new ArrayList<>();
+
         Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue(), null))
                 .ifPresent(object -> this.setUserId(object.toString()));
 
@@ -291,10 +325,22 @@ public class StaffImpl implements Staff{
                 .ifPresent(object -> this.setWorkplaceEmail(object.toString()));
 
         Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), null))
-                .ifPresent(object -> this.setExpirationStart((Date) object));
+                .ifPresent(object -> {
+                    try {
+                        this.setExpirationStart((Date) object);
+                    } catch (DomainRuleIllegalException e) {
+                        errorMessages.add(e.getMessage());
+                    }
+                });
 
         Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), null))
-                .ifPresent(object -> this.setExpirationEnd((Date) object));
+                .ifPresent(object -> {
+                    try {
+                        this.setExpirationEnd((Date) object);
+                    } catch (DomainRuleIllegalException e) {
+                        errorMessages.add(e.getMessage());
+                    }
+                });
 
         Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.INSERT_TIMESTAMP.getValue(), null))
                 .ifPresent(object -> this.setInsertTimestamp((Timestamp) object));
@@ -310,5 +356,10 @@ public class StaffImpl implements Staff{
 
         Optional.ofNullable(map.getOrDefault(Constant.API_FIELD_NAME_STAFF.EXPIRATION_DATE.getValue(), null))
                 .ifPresent(object -> this.setExpirationDate((Date) object));
+
+        if (!errorMessages.isEmpty()) {
+            throw new DomainRuleIllegalException(errorMessages);
+        }
     }
+
 }

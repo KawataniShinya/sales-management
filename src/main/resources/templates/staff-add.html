@@ -186,101 +186,164 @@
                             <tbody>
                                 <tr>
                                     <td>ユーザーID</td>
-                                    <td><input name="userId" class="form-control staff-detail__table__userId" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" readonly></td>
+                                    <div>
+                                        <td>
+                                            <input name="userId" class="form-control staff-detail__table__userId" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" readonly>
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'userId')}" th:text="${fieldErrorMessages.userId}">0 より大きな値にしてください</div>
+                                        </td>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <td>有効開始日</td>
-                                    <td><input name="expirationStart" class="form-control staff-detail__table__expirationStart" th:value="${detail.expirationStart}" type="date" value="2022-06-01"></td>
+                                    <div>
+                                        <td>
+                                            <input name="expirationStart" class="form-control staff-detail__table__expirationStart" th:value="${detail.expirationStart}" type="date" value="2022-06-01">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'expirationStart')}" th:text="${fieldErrorMessages.expirationStart}">0 より大きな値にしてください</div>
+                                        </td>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <td>有効終了日</td>
-                                    <td><input name="expirationEnd" class="form-control staff-detail__table__expirationEnd" th:value="${detail.expirationEnd}" type="date" value="2022-09-01"></td>
+                                    <div>
+                                        <td>
+                                            <input name="expirationEnd" class="form-control staff-detail__table__expirationEnd" th:value="${detail.expirationEnd}" type="date" value="2022-09-01">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'expirationEnd')}" th:text="${fieldErrorMessages.expirationEnd}">0 より大きな値にしてください</div>
+                                        </td>
+                                    </div>
                                 </tr>
                                 <tr>
                                     <td>氏名</td>
                                     <td class="staff-detail__table__separate">
-                                        <input name="familyName" class="form-control staff-detail__table__familyName" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓">
-                                        <input name="firstName" class="form-control staff-detail__table__firstName" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名">
+                                        <div class="staff-detail__table__separate__column">
+                                            <input name="familyName" class="form-control staff-detail__table__familyName" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'familyName')}" th:text="${fieldErrorMessages.familyName}">0 より大きな値にしてください</div>
+                                        </div>
+                                        <div class="staff-detail__table__separate__column">
+                                            <input name="firstName" class="form-control staff-detail__table__firstName" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'firstName')}" th:text="${fieldErrorMessages.firstName}">0 より大きな値にしてください</div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>部署</td>
                                     <td>
-                                        <select name="departmentCd" id="departmentCd" class="form-select staff-detail__table__departmentCd">
-                                            <option value="" selected>部署を選択してください</option>
-                                            <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd == detail.departmentCd}">人事部</option>
-                                            <!--/* -->
-                                            <option value="D20001">技術開発部</option>
-                                            <option value="D30001">営業部</option>
-                                            <option value="D40001">総務部</option>
-                                            <!-- */-->
-                                        </select>
+                                        <div>
+                                            <select name="departmentCd" id="departmentCd" class="form-select staff-detail__table__departmentCd">
+                                                <option value="" selected>部署を選択してください</option>
+                                                <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd == detail.departmentCd}">人事部</option>
+                                                <!--/* -->
+                                                <option value="D20001">技術開発部</option>
+                                                <option value="D30001">営業部</option>
+                                                <option value="D40001">総務部</option>
+                                                <!-- */-->
+                                            </select>
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'departmentCd')}" th:text="${fieldErrorMessages.departmentCd}">0 より大きな値にしてください</div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>性別</td>
                                     <td>
-                                        <select name="genderCd" id="genderCd" class="form-select staff-detail__table__genderCd">
-                                            <option value="" selected>性別を選択してください</option>
-                                            <option value="0001" th:each="gender : *{genders}" th:value="${gender.cd}" th:text="${gender.displayValue2}" th:selected="${gender.cd == detail.genderCd}">男性</option>
-                                            <!--/* -->
-                                            <option value="0002">女性</option>
-                                            <option value="0003">その他</option>
-                                            <!-- */-->
-                                        </select>
+                                        <div>
+                                            <select name="genderCd" id="genderCd" class="form-select staff-detail__table__genderCd">
+                                                <option value="" selected>性別を選択してください</option>
+                                                <option value="0001" th:each="gender : *{genders}" th:value="${gender.cd}" th:text="${gender.displayValue2}" th:selected="${gender.cd == detail.genderCd}">男性</option>
+                                                <!--/* -->
+                                                <option value="0002">女性</option>
+                                                <option value="0003">その他</option>
+                                                <!-- */-->
+                                            </select>
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'genderCd')}" th:text="${fieldErrorMessages.genderCd}">0 より大きな値にしてください</div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>生年月日</td>
-                                    <td><input name="birthdate" class="form-control staff-detail__table__birthdate" th:value="${detail.birthdate}" type="date" value="1873-11-09"></td>
+                                    <td>
+                                        <div>
+                                            <input name="birthdate" class="form-control staff-detail__table__birthdate" th:value="${detail.birthdate}" type="date" value="1873-11-09">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'birthdate')}" th:text="${fieldErrorMessages.birthdate}">0 より大きな値にしてください</div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>血液型</td>
                                     <td>
-                                        <select name="bloodTypeCd" id="bloodTypeCd" class="form-select staff-detail__table__bloodTypeCd">
-                                            <option value="" selected>血液型を選択してください</option>
-                                            <option value="0001" th:each="bloodType : *{bloodTypes}" th:value="${bloodType.cd}" th:text="${bloodType.displayValue1}" th:selected="${bloodType.cd == detail.bloodTypeCd}">A</option>
-                                            <!--/* -->
-                                            <option value="0002">B</option>
-                                            <option value="0003">O</option>
-                                            <option value="0004">AB</option>
-                                            <!-- */-->
-                                        </select>
+                                        <div>
+                                            <select name="bloodTypeCd" id="bloodTypeCd" class="form-select staff-detail__table__bloodTypeCd">
+                                                <option value="" selected>血液型を選択してください</option>
+                                                <option value="0001" th:each="bloodType : *{bloodTypes}" th:value="${bloodType.cd}" th:text="${bloodType.displayValue1}" th:selected="${bloodType.cd == detail.bloodTypeCd}">A</option>
+                                                <!--/* -->
+                                                <option value="0002">B</option>
+                                                <option value="0003">O</option>
+                                                <option value="0004">AB</option>
+                                                <!-- */-->
+                                            </select>
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'bloodTypeCd')}" th:text="${fieldErrorMessages.bloodTypeCd}">0 より大きな値にしてください</div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>都道府県</td>
                                     <td>
-                                        <select name="addressPrefectureCd" id="addressPrefectureCd" class="form-select staff-detail__table__addressPrefectureCd">
-                                            <option value="" selected>都道府県を選択してください</option>
-                                            <option value="0001" th:each="addressPrefecture : *{addressPrefectures}" th:value="${addressPrefecture.cd}" th:text="${addressPrefecture.displayValue2}" th:selected="${addressPrefecture.cd == detail.addressPrefectureCd}">北海道</option>
-                                            <!--/* -->
-                                            <option value="0002">青森県</option>
-                                            <option value="0003">岩手県</option>
-                                            <option value="0004">宮城県</option>
-                                            <!-- */-->
-                                        </select>
+                                        <div>
+                                            <select name="addressPrefectureCd" id="addressPrefectureCd" class="form-select staff-detail__table__addressPrefectureCd">
+                                                <option value="" selected>都道府県を選択してください</option>
+                                                <option value="0001" th:each="addressPrefecture : *{addressPrefectures}" th:value="${addressPrefecture.cd}" th:text="${addressPrefecture.displayValue2}" th:selected="${addressPrefecture.cd == detail.addressPrefectureCd}">北海道</option>
+                                                <!--/* -->
+                                                <option value="0002">青森県</option>
+                                                <option value="0003">岩手県</option>
+                                                <option value="0004">宮城県</option>
+                                                <!-- */-->
+                                            </select>
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'addressPrefectureCd')}" th:text="${fieldErrorMessages.addressPrefectureCd}">0 より大きな値にしてください</div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>市町村</td>
-                                    <td><input name="addressMunicipality" class="form-control staff-detail__table__addressMunicipality" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡"></td>
+                                    <td>
+                                        <div>
+                                            <input name="addressMunicipality" class="form-control staff-detail__table__addressMunicipality" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'addressMunicipality')}" th:text="${fieldErrorMessages.addressMunicipality}">0 より大きな値にしてください</div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>電話番号(私用)</td>
-                                    <td><input name="privateTelNo" class="form-control staff-detail__table__privateTelNo" th:value="${detail.privateTelNo}" type="text" value="07727301437"></td>
+                                    <td>
+                                        <div>
+                                            <input name="privateTelNo" class="form-control staff-detail__table__privateTelNo" th:value="${detail.privateTelNo}" type="text" value="07727301437">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'privateTelNo')}" th:text="${fieldErrorMessages.privateTelNo}">0 より大きな値にしてください</div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Eメールアドレス(私用)</td>
-                                    <td><input name="privateEmail" class="form-control staff-detail__table__privateEmail" th:value="${detail.privateEmail}" type="text" value="user2@private.com"></td>
+                                    <td>
+                                        <div>
+                                            <input name="privateEmail" class="form-control staff-detail__table__privateEmail" th:value="${detail.privateEmail}" type="text" value="user2@private.com">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'privateEmail')}" th:text="${fieldErrorMessages.privateEmail}">0 より大きな値にしてください</div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>電話番号(職場)</td>
-                                    <td><input name="workplaceTelNo" class="form-control staff-detail__table__workplaceTelNo" th:value="${detail.workplaceTelNo}" type="text" value="06041084375"></td>
+                                    <td>
+                                        <div>
+                                            <input name="workplaceTelNo" class="form-control staff-detail__table__workplaceTelNo" th:value="${detail.workplaceTelNo}" type="text" value="06041084375">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'workplaceTelNo')}" th:text="${fieldErrorMessages.workplaceTelNo}">0 より大きな値にしてください</div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Eメールアドレス(職場)</td>
-                                    <td><input name="workplaceEmail" class="form-control staff-detail__table__workplaceEmail" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com"></td>
+                                    <td>
+                                        <div>
+                                            <input name="workplaceEmail" class="form-control staff-detail__table__workplaceEmail" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com">
+                                            <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'workplaceEmail')}" th:text="${fieldErrorMessages.workplaceEmail}">0 より大きな値にしてください</div>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

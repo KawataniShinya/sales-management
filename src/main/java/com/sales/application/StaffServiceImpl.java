@@ -15,10 +15,12 @@ import java.util.*;
 @Scope("prototype")
 public class StaffServiceImpl implements StaffService{
     private final StaffDomainService staffDomainService;
+    private final Staff staff;
 
     @Autowired
-    public StaffServiceImpl(StaffDomainService staffDomainService) {
+    public StaffServiceImpl(StaffDomainService staffDomainService, Staff staff) {
         this.staffDomainService = staffDomainService;
+        this.staff = staff;
     }
 
     @Override
@@ -45,6 +47,24 @@ public class StaffServiceImpl implements StaffService{
         staffDomainService.setUserId((String) map.get(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue()));
         staffDomainService.setParamExpirationStart((Date) map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
         staffDomainService.checkAddStaff();
+    }
+
+    @Override
+    public Staff getStaffByParamWithoutValidation(Map<String, Object> map) {
+        Staff staff = this.staff.createStaff();
+        try {
+            staff.setFieldsByMapFromApi(map);
+        } catch (DomainRuleIllegalException e) {
+            e.printStackTrace();
+        }
+        return staff;
+    }
+
+    @Override
+    public Staff getStaffByParam(Map<String, Object> map) throws DomainRuleIllegalException {
+        Staff staff = this.staff.createStaff();
+        staff.setFieldsByMapFromApi(map);
+        return staff;
     }
 
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {
