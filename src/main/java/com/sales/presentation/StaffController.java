@@ -294,6 +294,9 @@ public class StaffController {
         } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CANCEL.getValue())) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+        } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_EXECUTE.getValue())) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_EXECUTE.getValue());
         }
 
         return "staff-add.html";
@@ -305,7 +308,7 @@ public class StaffController {
         staffParams.put(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue(), param.getUserId());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.FAMILY_NAME.getValue(), param.getFamilyName());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.FIRST_NAME.getValue(), param.getFirstName());
-        staffParams.put(Constant.API_FIELD_NAME_STAFF.DEPARTMENT_NAME.getValue(), param.getDepartmentCd());
+        staffParams.put(Constant.API_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.GENDER_CD.getValue(), param.getGenderCd());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.BIRTHDATE.getValue(), new java.sql.Date(param.getBirthdate().getTime()));
         staffParams.put(Constant.API_FIELD_NAME_STAFF.BLOOD_TYPE_CD.getValue(), param.getBloodTypeCd());

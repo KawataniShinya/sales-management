@@ -86,7 +86,7 @@ export function setMaxRowSelector(limitSize) {
     selectorElement.value = String(limitSize);
 }
 export function setMaxRowInForm(limitSize) {
-    const limitSizeDefineElementInForm = document.querySelector('.search__hiddle__limitSize');
+    const limitSizeDefineElementInForm = document.querySelector('.hidden_limitSize');
     limitSizeDefineElementInForm.value = String(limitSize);
 }
 export function addEventSetRowLimitSizeToPageNationHrefParam() {

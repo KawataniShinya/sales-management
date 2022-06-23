@@ -99,7 +99,7 @@ export function setMaxRowSelector(limitSize: number) {
 }
 
 export function setMaxRowInForm(limitSize: number) {
-    const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.search__hiddle__limitSize');
+    const limitSizeDefineElementInForm: HTMLSelectElement | null = document.querySelector('.hidden_limitSize');
     limitSizeDefineElementInForm!.value = String(limitSize);
 }
 

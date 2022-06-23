@@ -79,6 +79,22 @@ body {
   visibility: hidden;
 }
 
+.bg-readonly {
+  background-color: $cReadOnly;
+}
+
+.messageConfirmation {
+  color: blue;
+  font-size: large;
+  font-weight: 600;
+}
+
+.messageExecuted {
+  color: blue;
+  font-size: large;
+  font-weight: 600;
+}
+
 .error-message-grobal {
   color: red;
   font-size: small;

@@ -10,5 +10,4 @@ public interface StaffService {
     StaffServiceBean findStaffs(Map<String, Object> map) throws DomainRuleIllegalException;
     void checkAddStaff(Map<String, Object> map) throws DomainRuleIllegalException;
     Staff getStaffByParamWithoutValidation(Map<String, Object> map);
-    Staff getStaffByParam(Map<String, Object> map) throws DomainRuleIllegalException;
 }

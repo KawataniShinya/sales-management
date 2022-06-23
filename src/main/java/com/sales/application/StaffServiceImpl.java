@@ -75,13 +75,6 @@ public class StaffServiceImpl implements StaffService{
         return staff;
     }
 
-    @Override
-    public Staff getStaffByParam(Map<String, Object> map) throws DomainRuleIllegalException {
-        Staff staff = this.staff.createStaff();
-        staff.setFieldsByMapFromApi(map);
-        return staff;
-    }
-
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {
         staffServiceBean.setStaffs(staffs);
         staffServiceBean.setCount(staffDomainService.getCount());
