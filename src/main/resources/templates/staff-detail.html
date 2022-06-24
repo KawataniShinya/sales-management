@@ -77,7 +77,7 @@
                 <!-- <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">変更登録</a> -->
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/add(paramExpirationStart=${paramExpirationStart})}">変更登録</a>
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">訂正</a>
-                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">削除</a>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/delete(paramExpirationStart=${paramExpirationStart})}">削除</a>
                 <div class="staff-search">
                     <div class="staff-search__result" th:if="${staffs} != null">
                         <div class="staff-search__result__count" th:text="${limitSize} * (${page} - 1) + 1 + ' 件目 / ' + ${count} + ' 件 (' + ${limitSize} + '件表示)'">25 件目 / 135 件 (25件表示)</div>
@@ -177,27 +177,27 @@
                         <tbody>
                             <tr>
                                 <td>ユーザーID</td>
-                                <td><input class="form-control staff-detail__table__userId" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" disabled></td>
                             </tr>
                             <tr>
                                 <td>有効開始日</td>
-                                <td><input class="form-control staff-detail__table__expirationStart" th:value="${detail.expirationStart}" type="text" value="2022-06-01" disabled></td>
+                                <td><input name="expirationStart" class="form-control staff-detail__table__item" th:value="${detail.expirationStart}" type="text" value="2022-06-01" disabled></td>
                             </tr>
                             <tr>
                                 <td>有効終了日</td>
-                                <td><input class="form-control staff-detail__table__expirationEnd" th:value="${detail.expirationEnd}" type="text" value="2022-09-01" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.expirationEnd}" type="text" value="2022-09-01" disabled></td>
                             </tr>
                             <tr>
                                 <td>氏名</td>
                                 <td class="staff-detail__table__separate">
-                                    <input class="form-control staff-detail__table__familyName" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓" disabled>
-                                    <input class="form-control staff-detail__table__firstName" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名" disabled>
+                                    <input class="form-control staff-detail__table__item" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓" disabled>
+                                    <input class="form-control staff-detail__table__item" th:value="${detail.firstName}" type="text" value="圭二" placeholder="名" disabled>
                                 </td>
                             </tr>
                             <tr>
                                 <td>部署</td>
                                 <td>
-                                    <select name="departmentCd" id="departmentCd" class="form-select staff-detail__table__departmentCd" disabled>
+                                    <select name="departmentCd" id="departmentCd" class="form-select staff-detail__table__item" disabled>
                                         <option value="" selected>部署を選択してください</option>
                                         <option value="D10001" th:each="department : *{departments}" th:value="${department.departmentCd}" th:text="${department.departmentNameJa}" th:selected="${department.departmentCd == detail.departmentCd}">人事部</option>
                                         <!--/* -->
@@ -211,7 +211,7 @@
                             <tr>
                                 <td>性別</td>
                                 <td>
-                                    <select name="genderCd" id="genderCd" class="form-select staff-detail__table__genderCd" disabled>
+                                    <select name="genderCd" id="genderCd" class="form-select staff-detail__table__item" disabled>
                                         <option value="" selected>性別を選択してください</option>
                                         <option value="0001" th:each="gender : *{genders}" th:value="${gender.cd}" th:text="${gender.displayValue2}" th:selected="${gender.cd == detail.genderCd}">男性</option>
                                         <!--/* -->
@@ -223,12 +223,12 @@
                             </tr>
                             <tr>
                                 <td>生年月日</td>
-                                <td><input class="form-control staff-detail__table__birthdate" th:value="${detail.birthdate}" type="text" value="1873-11-09" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.birthdate}" type="text" value="1873-11-09" disabled></td>
                             </tr>
                             <tr>
                                 <td>血液型</td>
                                 <td>
-                                    <select name="bloodTypeCd" id="bloodTypeCd" class="form-select staff-detail__table__bloodTypeCd" disabled>
+                                    <select name="bloodTypeCd" id="bloodTypeCd" class="form-select staff-detail__table__item" disabled>
                                         <option value="" selected>血液型を選択してください</option>
                                         <option value="0001" th:each="bloodType : *{bloodTypes}" th:value="${bloodType.cd}" th:text="${bloodType.displayValue1}" th:selected="${bloodType.cd == detail.bloodTypeCd}">A</option>
                                         <!--/* -->
@@ -242,7 +242,7 @@
                             <tr>
                                 <td>都道府県</td>
                                 <td>
-                                    <select name="addressPrefectureCd" id="addressPrefectureCd" class="form-select staff-detail__table__addressPrefectureCd" disabled>
+                                    <select name="addressPrefectureCd" id="addressPrefectureCd" class="form-select staff-detail__table__item" disabled>
                                         <option value="" selected>都道府県を選択してください</option>
                                         <option value="0001" th:each="addressPrefecture : *{addressPrefectures}" th:value="${addressPrefecture.cd}" th:text="${addressPrefecture.displayValue2}" th:selected="${addressPrefecture.cd == detail.addressPrefectureCd}">北海道</option>
                                         <!--/* -->
@@ -255,23 +255,23 @@
                             </tr>
                             <tr>
                                 <td>市町村</td>
-                                <td><input class="form-control staff-detail__table__addressMunicipality" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡" disabled></td>
                             </tr>
                             <tr>
                                 <td>電話番号(私用)</td>
-                                <td><input class="form-control staff-detail__table__privateTelNo" th:value="${detail.privateTelNo}" type="text" value="07727301437" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.privateTelNo}" type="text" value="07727301437" disabled></td>
                             </tr>
                             <tr>
                                 <td>Eメールアドレス(私用)</td>
-                                <td><input class="form-control staff-detail__table__privateEmail" th:value="${detail.privateEmail}" type="text" value="user2@private.com" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.privateEmail}" type="text" value="user2@private.com" disabled></td>
                             </tr>
                             <tr>
                                 <td>電話番号(職場)</td>
-                                <td><input class="form-control staff-detail__table__workplaceTelNo" th:value="${detail.workplaceTelNo}" type="text" value="06041084375" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.workplaceTelNo}" type="text" value="06041084375" disabled></td>
                             </tr>
                             <tr>
                                 <td>Eメールアドレス(職場)</td>
-                                <td><input class="form-control staff-detail__table__workplaceEmail" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com" disabled></td>
+                                <td><input class="form-control staff-detail__table__item" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com" disabled></td>
                             </tr>
                         </tbody>
                     </table>

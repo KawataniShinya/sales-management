@@ -16,7 +16,9 @@ public class Constant {
         FORM_STATE("formState"),
         FORM_STATE_ADD_INIT("stateAddInit"),
         FORM_STATE_ADD_CONFIRM("stateAddConfirm"),
-        FORM_STATE_ADD_EXECUTE("stateAddExecute");
+        FORM_STATE_ADD_EXECUTE("stateAddExecute"),
+        FORM_STATE_DELETE_CONFIRM("stateDeleteConfirm"),
+        FORM_STATE_DELETE_EXECUTE("stateDeleteExecute");
 
         private final String value;
         RESPONSE_FORM_STATE(String value) {this.value = value;}
@@ -30,7 +32,9 @@ public class Constant {
         SEARCH_EXECUTE("searchExecute"),
         SUBMIT_TYPE_ADD_CONFIRM("submitAddConfirm"),
         SUBMIT_TYPE_ADD_CANCEL("submitAddCancel"),
-        SUBMIT_TYPE_ADD_EXECUTE("submitAddExecute");
+        SUBMIT_TYPE_ADD_EXECUTE("submitAddExecute"),
+        SUBMIT_TYPE_DELETE_CANCEL("submitDeleteCancel"),
+        SUBMIT_TYPE_DELETE_EXECUTE("submitDeleteExecute");
 
         private final String value;
         REQUEST_SUBMIT_TYPE(String value) {this.value = value;}

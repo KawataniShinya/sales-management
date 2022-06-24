@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: meta_header('社員情報変更明細登録',~{::link},~{::script})">
+<head th:replace="common :: meta_header('社員情報変更明細削除',~{::link},~{::script})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>社員情報変更明細登録 | TestApplication</title>
+    <title>社員情報変更明細削除 | TestApplication</title>
     <!--/* -->
     <link rel="icon" href="../static/images/logo.png">
     <script src="../static/js/bootstrap.min.js"></script>
@@ -48,6 +48,13 @@
             }
         });
     </script>
+    <script th:src="@{/js/disable_inquiry_button.js}" type="module"></script>
+    <script th:inline="javascript" type="module">
+        import { disableInquiryButtonInStaffDetail } from "/js/disable_inquiry_button.js"
+        window.addEventListener('load', function(){
+            disableInquiryButtonInStaffDetail();
+        });
+    </script>
     <script th:src="@{/js/staff_detail.js}" type="module"></script>
     <script th:inline="javascript" type="module">
         import { visibleStaffDetailButton, disableStaffDetailFields } from '/js/staff_detail.js'
@@ -68,7 +75,7 @@
             <li class="breadcrumb-item"><a href="staff.html" th:href="@{/staff}">社員情報</a></li>
             <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/search}">検索</a></li>
             <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/__${pathParamUserId}__}">照会</a></li>
-            <li class="breadcrumb-item active" aria-current="page">社員情報変更明細登録</li>
+            <li class="breadcrumb-item active" aria-current="page">社員情報変更明細削除</li>
         </ol>
     </nav>
     <div class="content">
@@ -76,9 +83,9 @@
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
-                <div class="page-header bg-light shadow-sm border tytle">社員情報変更明細登録</div>
-                <div class="messageConfirmation un-visible">下記内容で登録しますがよろしいですか</div>
-                <div class="messageExecuted un-visible">登録しました</div>
+                <div class="page-header bg-light shadow-sm border tytle">社員情報変更明細削除</div>
+                <div class="messageConfirmation un-visible">下記内容を削除しますがよろしいですか</div>
+                <div class="messageExecuted un-visible">削除しました</div>
                 <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
                     <ul th:each="i : ${#numbers.sequence(0, 2)}">
                         <li th:if="__${i}__ < ${globalErrorMessages.size()}" th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>
@@ -183,8 +190,8 @@
                     </div>
                 </div>
                 <div class="staff-detail" th:if="${detail} != null">
-                    <div class="staff-detail__title">&lt;&lt; ユーザー情報登録 &gt;&gt;</div>
-                    <form method="post" action="staff-add.html" th:action="@{/staff/__${pathParamUserId}__/add}">
+                    <div class="staff-detail__title">&lt;&lt; ユーザー情報変更明細削除 &gt;&gt;</div>
+                    <form method="post" action="staff-delete.html" th:action="@{/staff/__${pathParamUserId}__/delete}">
                         <table class="table table-striped staff-detail__table">
                             <tbody>
                                 <tr>
@@ -353,9 +360,8 @@
                         <input class="hidden_limitSize" type="hidden" name="limitSize" value="25">
                         <input class="hidden_page" type="hidden" name="page" value="1">
                         <div class="btn-detail">
-                            <button type="submit" class="btn btn-primary mt-4 un-visible btn-detail__confirm" name="submitType" value="submitAddConfirm">登録</button>
-                            <button type="submit" class="btn btn-secondary mt-4 un-visible btn-detail__execute" name="submitType" value="submitAddCancel">戻る</button>
-                            <button type="submit" class="btn btn-primary mt-4 un-visible btn-detail__execute" name="submitType" value="submitAddExecute">確定</button>
+                            <button type="submit" class="btn btn-secondary mt-4 un-visible btn-detail__execute" name="submitType" value="submitDeleteCancel">戻る</button>
+                            <button type="submit" class="btn btn-primary mt-4 un-visible btn-detail__execute" name="submitType" value="submitDeleteExecute">確定</button>
                         </div>
                     </form>
                 </div>

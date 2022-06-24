@@ -17,6 +17,11 @@
         });
     </script>
     <!-- */-->
+    <script>
+        window.addEventListener('load', function(){
+            document.querySelector('#userId').focus()
+        });
+    </script>
 </head>
 <body>
     <!--/* --><header class="header"><div class="header__inner"></div></header><!-- */-->
@@ -32,7 +37,6 @@
                     <div class="form-group mt-3">
                         <label for="userId">ユーザーID</label>
                         <input class="form-control field" type="text" name="userId" id="userId" th:value="${userId}" placeholder="User ID" />
-                        <script>document.querySelector('#userId').focus()</script>
                     </div>
                     <div class="form-group mt-3">
                         <label for="password">パスワード</label>

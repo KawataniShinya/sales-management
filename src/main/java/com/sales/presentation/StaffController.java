@@ -227,13 +227,10 @@ public class StaffController {
     }
 
     @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.GET)
-    public String addStaffDetailAddInit(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+    public String addStaffDetailInit(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
         CommonDisplay.setHeaderParameter(request, model);
-        setRequestedSearchParam(model, param, pathUserId);
 
         Errors errors = new Errors();
-
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-add.html";
 
         Map<String, Object> findStaffsParamMap = new HashMap<>();
         setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
@@ -267,7 +264,7 @@ public class StaffController {
     }
 
     @RequestMapping(value = "/staff/{pathUserId}/add", method = RequestMethod.POST)
-    public String addStaffDetailAddExecute(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerDetailRequest param, BindingResult result) {
+    public String addStaffDetailExecute(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerDetailRequest param, BindingResult result) {
         CommonDisplay.setHeaderParameter(request, model);
 
         Errors errors = new Errors();
@@ -374,5 +371,70 @@ public class StaffController {
         staffParams.put(Constant.API_FIELD_NAME_STAFF.UPDATE_USER.getValue(), param.getUserId());
 
         return staffParams;
+    }
+
+    @RequestMapping(value = "/staff/{pathUserId}/delete", method = RequestMethod.GET)
+    public String deleteStaffDetailInit(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+
+        Errors errors = new Errors();
+
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+        if (staffServiceBean == null) return "staff-delete.html";
+        setStaffListAsAttribute(model, staffServiceBean);
+
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), pathUserId);
+        setDepartmentToModel(model);
+        setGenericCodeToModel(model);
+        staffServiceBean.getStaffs().forEach(staff -> {
+            if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
+            }
+        });
+
+
+
+        model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_CONFIRM.getValue());
+
+        return "staff-delete.html";
+    }
+
+    @RequestMapping(value = "/staff/{pathUserId}/delete", method = RequestMethod.POST)
+    public String deleteStaffDetailExecute(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerDetailRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+
+        Errors errors = new Errors();
+
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), param.getUserId(), findStaffsParamMap);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+        if (staffServiceBean == null) return "staff-add.html";
+        setStaffListAsAttribute(model, staffServiceBean);
+
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
+        setDepartmentToModel(model);
+        setGenericCodeToModel(model);
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(),
+                this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
+
+        if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_CANCEL.getValue())) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationEnd()));
+            return "staff-detail.html";
+        } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_EXECUTE.getValue())) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_EXECUTE.getValue());
+            return "staff-delete.html";
+        }
+
+        return "staff-delete.html";
+    }
+
+    private java.sql.Date getSqlDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return new java.sql.Date(calendar.getTime().getTime());
     }
 }
