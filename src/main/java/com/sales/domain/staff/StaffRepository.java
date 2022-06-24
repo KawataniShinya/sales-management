@@ -9,4 +9,5 @@ public interface StaffRepository {
     List<Map<String, Object>> findUser(StaffDomainService staffDomainService);
     long countUserNewer(StaffDomainService staffDomainService);
     void insertStaff(Staff staff);
+    void updateExpirationEndLastBefore(StaffDomainService staffDomainService);
 }

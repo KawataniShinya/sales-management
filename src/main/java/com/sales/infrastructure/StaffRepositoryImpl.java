@@ -29,6 +29,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     private final String APPLSQL006;
     private final String APPLSQL009;
     private final String APPLSQL010;
+    private final String APPLSQL011;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -41,13 +42,15 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Value("${APPLSQL006}") String applsql006,
             @Value("${APPLSQL009}") String applsql009,
             @Value("${APPLSQL010}") String applsql010,
+            @Value("${APPLSQL011}") String applsql011,
             DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
         this.APPLSQL005 = applsql005;
         this.APPLSQL006 = applsql006;
-        APPLSQL009 = applsql009;
-        APPLSQL010 = applsql010;
+        this.APPLSQL009 = applsql009;
+        this.APPLSQL010 = applsql010;
+        this.APPLSQL011 = applsql011;
         this.departmentController = departmentController;
     }
 
@@ -139,6 +142,17 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
 
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL010", APPLSQL010, paramMap);
         npJdbcTemplate.update(APPLSQL010, paramMap);
+    }
+
+    @Override
+    public void updateExpirationEndLastBefore(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.USER_ID.getValue(), staffDomainService.getUserId());
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), staffDomainService.getParamExpirationStart());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), staffDomainService.getExpirationEnd());
+
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL011", APPLSQL011, paramMap);
+        npJdbcTemplate.update(APPLSQL011, paramMap);
     }
 
     private String removeWhereClausesOrSetParams(StaffDomainService staffDomainService, Map<String, Object> paramMap, String editSql) {

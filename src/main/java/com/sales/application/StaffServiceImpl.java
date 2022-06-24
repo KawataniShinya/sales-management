@@ -8,11 +8,13 @@ import com.sales.domain.staff.StaffDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
 @Scope("prototype")
+@Transactional(transactionManager = "applTransactionManager")
 public class StaffServiceImpl implements StaffService{
     private final StaffDomainService staffDomainService;
     private final Staff staff;
@@ -89,13 +91,19 @@ public class StaffServiceImpl implements StaffService{
         Staff staff = this.getStaffByParam(map);
         staff.addStaff();
 
+        StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
+        staffDomainService.setUserId(staff.getUserId());
+        staffDomainService.setParamExpirationStart(staff.getExpirationStart());
+        staffDomainService.setExpirationEnd(getTheDayBefore(staff.getExpirationStart()));
+        staffDomainService.updateExpirationEndLastBefore();
+    }
 
-        System.out.println(map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
+    private java.sql.Date getTheDayBefore(Date date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime((Date) map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
+        calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, -1);
-        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
-        System.out.println(date);
+        java.sql.Date dayBefore = new java.sql.Date(calendar.getTime().getTime());
+        return dayBefore;
     }
 
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {

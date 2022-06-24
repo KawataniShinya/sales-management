@@ -26,6 +26,8 @@ public interface StaffDomainService {
     Date getParamExpirationEnd();
     void setStaffs(List<Staff> staffs);
     List<Staff> getStaffs();
+    void setExpirationEnd(Date paramExpirationStart);
+    Date getExpirationEnd();
 
     StaffDomainService createStaffService();
 
@@ -33,4 +35,5 @@ public interface StaffDomainService {
 
     StaffDomainService findAllUser();
     void checkAddStaff() throws DomainRuleIllegalException;
+    void updateExpirationEndLastBefore();
 }

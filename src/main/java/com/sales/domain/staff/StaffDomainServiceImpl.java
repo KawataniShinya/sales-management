@@ -49,6 +49,10 @@ public class StaffDomainServiceImpl implements StaffDomainService {
     @Setter
     private List<Staff> staffs;
 
+    @Getter
+    @Setter
+    private Date expirationEnd;
+
     private final Staff staff;
 
     private final StaffRepository staffRepository;
@@ -117,6 +121,11 @@ public class StaffDomainServiceImpl implements StaffDomainService {
                     this.messageSource.getMessage("MSG0002", new String[]{"有効開始日"}, Locale.JAPANESE)
             );
         }
+    }
+
+    @Override
+    public void updateExpirationEndLastBefore() {
+        this.staffRepository.updateExpirationEndLastBefore(this);
     }
 
     public void setUserId(String userId){
