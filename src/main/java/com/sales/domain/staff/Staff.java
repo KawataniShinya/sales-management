@@ -62,6 +62,7 @@ public interface Staff {
 
     Staff setStaffByUserId(String userId);
     void addStaff();
+    void deleteStaff();
 
     void setFieldsByMapFromDataSource(Map<String, Object> map);
     void setFieldsByMapFromApi(Map<String, Object> map) throws DomainRuleIllegalException;

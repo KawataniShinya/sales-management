@@ -31,6 +31,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     private final String APPLSQL010;
     private final String APPLSQL011;
     private final String APPLSQL012;
+    private final String APPLSQL013;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -45,6 +46,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Value("${APPLSQL010}") String applsql010,
             @Value("${APPLSQL011}") String applsql011,
             @Value("${APPLSQL012}") String applsql012,
+            @Value("${APPLSQL013}") String applsql013,
             DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
@@ -53,7 +55,8 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         this.APPLSQL009 = applsql009;
         this.APPLSQL010 = applsql010;
         this.APPLSQL011 = applsql011;
-        APPLSQL012 = applsql012;
+        this.APPLSQL012 = applsql012;
+        this.APPLSQL013 = applsql013;
         this.departmentController = departmentController;
     }
 
@@ -168,6 +171,16 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL012, paramMap);
 
         return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
+    }
+
+    @Override
+    public void deleteStaff(Staff staff) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.USER_ID.getValue(), staff.getUserId());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), staff.getExpirationStart());
+
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL013", APPLSQL013, paramMap);
+        npJdbcTemplate.update(APPLSQL013, paramMap);
     }
 
     private String removeWhereClausesOrSetParams(StaffDomainService staffDomainService, Map<String, Object> paramMap, String editSql) {

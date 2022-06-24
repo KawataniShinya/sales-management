@@ -62,14 +62,26 @@ public class StaffController {
 
             if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
 
-            Map<String, Object> findStaffsParamMap = new HashMap<>();
-            setFindStaffsParameter(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), findStaffsParamMap);
-            StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-            if (staffServiceBean == null) return "staff-search.html";
-            setStaffListAsAttribute(model, staffServiceBean);
+            getStaffListForSeachResultAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
         }
 
         return "staff-search.html";
+    }
+
+    private StaffServiceBean getStaffListForSeachResultAndSetAttribute(int limitSize, int page, String userId, String userName, String departmentCd, Date paramExirationStart, Date paramExpirationEnd, Model model, Errors errors) {
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParameter(limitSize, page, userId, userName, departmentCd, paramExirationStart, paramExpirationEnd, findStaffsParamMap);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+        if (staffServiceBean != null) setStaffListAsAttribute(model, staffServiceBean);
+        return staffServiceBean;
+    }
+
+    private StaffServiceBean getStaffListByIdAndSetAttribute(int limitSize, int page, String userId, Model model, Errors errors) {
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParamUserId(limitSize, page, userId, findStaffsParamMap);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+        if (staffServiceBean != null) setStaffListAsAttribute(model, staffServiceBean);
+        return staffServiceBean;
     }
 
     private void setRequestedSearchParam(Model model, StaffControllerGetStaffsRequest param, String pathParamUserId) {
@@ -189,13 +201,9 @@ public class StaffController {
 
         if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
 
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-        if (staffServiceBean == null) return "staff-search.html";
-        setStaffListAsAttribute(model, staffServiceBean);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
-        if (staffServiceBean.getCount() > 0) {
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
             setGenericCodeToModel(model);
 
@@ -209,9 +217,11 @@ public class StaffController {
                     }
                 });
             }
-        }
 
-        return "staff-detail.html";
+            return "staff-detail.html";
+        } else {
+            return "staff-search.html";
+        }
     }
 
     private void setGenericCodeToModel(Model model) {
@@ -232,13 +242,9 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-        if (staffServiceBean == null) return "staff-add.html";
-        setStaffListAsAttribute(model, staffServiceBean);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
-        if (staffServiceBean.getCount() > 0) {
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
             setGenericCodeToModel(model);
 
@@ -250,10 +256,10 @@ public class StaffController {
             if (model.getAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue()) == null) {
                 model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), getBlankStaffWithUserId(param.getUserId()));
             }
-        }
 
-        model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
-                com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+        }
         return "staff-add.html";
     }
 
@@ -269,27 +275,27 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), param.getUserId(), findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-        if (staffServiceBean == null) return "staff-add.html";
-        setStaffListAsAttribute(model, staffServiceBean);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
 
-        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
-        setDepartmentToModel(model);
-        setGenericCodeToModel(model);
-        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(),
-                this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(),
+                    this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
 
-        if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CONFIRM.getValue())) {
-            boolean isSuccess = checkInputAndSetFormState(model, param, result, errors);
-            if (!isSuccess) return "staff-add.html";
-        } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CANCEL.getValue())) {
-            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
-                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
-        } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_EXECUTE.getValue())) {
-            boolean isSuccess = addStaffAndSetFormState(model, param, result, errors);
-            if (!isSuccess) return "staff-add.html";
+            if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CONFIRM.getValue())) {
+                boolean isSuccess = checkAddInputAndSetFormState(model, param, result, errors);
+                if (!isSuccess) return "staff-add.html";
+            } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_CANCEL.getValue())) {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
+            } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_ADD_EXECUTE.getValue())) {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_EXECUTE.getValue());
+                boolean isSuccess = addStaffAndSetFormState(model, param, result, errors);
+                if (!isSuccess) return "staff-add.html";
+            }
         }
 
         return "staff-add.html";
@@ -308,11 +314,8 @@ public class StaffController {
             errors.getGlobal().addAll(e.getMessages());
         }
 
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), param.getUserId(), findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-        if (staffServiceBean == null) return false;
-        setStaffListAsAttribute(model, staffServiceBean);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+        if (staffServiceBean == null || staffServiceBean.getCount() == 0) return false;
 
         if (!errors.getGlobal().isEmpty()) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
@@ -325,7 +328,7 @@ public class StaffController {
         return true;
     }
 
-    private boolean checkInputAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
+    private boolean checkAddInputAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
         if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
@@ -388,47 +391,48 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), pathUserId, findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-        if (staffServiceBean == null) return "staff-delete.html";
-        setStaffListAsAttribute(model, staffServiceBean);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
-        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), pathUserId);
-        setDepartmentToModel(model);
-        setGenericCodeToModel(model);
-        staffServiceBean.getStaffs().forEach(staff -> {
-            if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
-                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
-            }
-        });
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), pathUserId);
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
+            staffServiceBean.getStaffs().forEach(staff -> {
+                if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
+                    model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
+                }
+            });
 
-
-
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
-            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getParamExpirationStart()));
+            boolean isSuccess = checkDeleteInputAndSetFormState(model, pathUserId, param, result, errors);
+            if (!isSuccess) return "staff-detail.html";
+        } else {
             return "staff-detail.html";
         }
+
+        return "staff-delete.html";
+    }
+
+    private boolean checkDeleteInputAndSetFormState(Model model, String pathUserId, StaffControllerGetStaffsRequest param, BindingResult result, Errors errors) {
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getParamExpirationStart()));
+            return false;
+        }
+
         try {
             this.staffService.checkDeleteStaff(getStaffByPrimaryKey(pathUserId, param.getParamExpirationStart()));
         } catch (DomainRuleIllegalException e) {
             errors.getGlobal().addAll(e.getMessages());
         }
+
         if (!errors.getGlobal().isEmpty()) {
             model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getParamExpirationStart()));
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
-            return "staff-detail.html";
+            return false;
         } else {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_CONFIRM.getValue());
         }
-
-
-
-
-
-
-        return "staff-delete.html";
+        return true;
     }
 
     @RequestMapping(value = "/staff/{pathUserId}/delete", method = RequestMethod.POST)
@@ -437,28 +441,59 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParamUserId(param.getLimitSize(), param.getPage(), param.getUserId(), findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
-        if (staffServiceBean == null) return "staff-add.html";
-        setStaffListAsAttribute(model, staffServiceBean);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
 
-        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
-        setDepartmentToModel(model);
-        setGenericCodeToModel(model);
-        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(),
-                this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(),
+                    this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
 
-        if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_CANCEL.getValue())) {
-            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationStart()));
-            return "staff-detail.html";
-        } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_EXECUTE.getValue())) {
-            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
-                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_EXECUTE.getValue());
+            if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_CANCEL.getValue())) {
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationStart()));
+                return "staff-detail.html";
+            } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_EXECUTE.getValue())) {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_EXECUTE.getValue());
+                boolean isSuccess = deleteStaffAndSetFormState(model, pathUserId, param, result, errors);
+                if (!isSuccess) return "staff-detail.html";
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), null);
+            }
+
             return "staff-delete.html";
+        } else {
+            return "staff-detail.html";
+        }
+    }
+
+    private boolean deleteStaffAndSetFormState(Model model, String pathUserId, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationStart()));
+            return false;
         }
 
-        return "staff-delete.html";
+        try {
+            this.staffService.deleteStaff(getStaffByPrimaryKey(pathUserId, param.getExpirationStart()));
+        } catch (DomainRuleIllegalException e) {
+            errors.getGlobal().addAll(e.getMessages());
+        }
+
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+        if (staffServiceBean == null || staffServiceBean.getCount() == 0) return false;
+
+        if (!errors.getGlobal().isEmpty()) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationStart()));
+            return false;
+        } else {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_EXECUTE.getValue());
+        }
+
+        model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), null);
+
+        return true;
     }
 
     private java.sql.Date getSqlDate(Date date) {

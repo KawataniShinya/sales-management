@@ -13,4 +13,5 @@ public interface StaffService {
     Staff getStaffByParam(Map<String, Object> map) throws DomainRuleIllegalException;
     void addStaff(Map<String, Object> map) throws DomainRuleIllegalException;
     void checkDeleteStaff(Map<String, Object> map) throws DomainRuleIllegalException;
+    void deleteStaff(Map<String, Object> map) throws DomainRuleIllegalException;
 }

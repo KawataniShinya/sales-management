@@ -191,6 +191,11 @@ public class StaffImpl implements Staff{
     }
 
     @Override
+    public void deleteStaff() {
+        this.staffRepository.deleteStaff(this);
+    }
+
+    @Override
     public void setFieldsByMapFromDataSource(Map<String, Object> map) {
         Optional.ofNullable(map.getOrDefault(Constant.DATA_SOURCE_FIELD_NAME_STAFF.USER_ID.getValue(), null))
                 .ifPresent(object -> this.setUserId(object.toString()));

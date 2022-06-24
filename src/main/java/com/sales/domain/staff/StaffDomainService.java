@@ -35,6 +35,7 @@ public interface StaffDomainService {
 
     StaffDomainService findAllUser();
     void checkAddStaff() throws DomainRuleIllegalException;
-    void updateExpirationEndLastBefore();
+    void updateExpirationEndLastBeforeAdded();
     void checkDeleteStaff() throws DomainRuleIllegalException;
+    void updateExpirationEndLastBeforeDeleted();
 }

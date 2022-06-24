@@ -77,8 +77,10 @@
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
                 <div class="page-header bg-light shadow-sm border tytle">社員情報変更明細登録</div>
-                <div class="messageConfirmation un-visible">下記内容で登録しますがよろしいですか</div>
-                <div class="messageExecuted un-visible">登録しました</div>
+                <div class="info">
+                    <div class="messageConfirmation un-visible">下記内容で登録しますがよろしいですか</div>
+                    <div class="messageExecuted un-visible">登録しました</div>
+                </div>
                 <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
                     <ul th:each="i : ${#numbers.sequence(0, 2)}">
                         <li th:if="__${i}__ < ${globalErrorMessages.size()}" th:text="${globalErrorMessages[__${i}__]}">global message test 1</li>

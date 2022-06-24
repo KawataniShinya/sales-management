@@ -124,8 +124,17 @@ public class StaffDomainServiceImpl implements StaffDomainService {
     }
 
     @Override
-    public void updateExpirationEndLastBefore() {
+    public void updateExpirationEndLastBeforeAdded() {
+        this.expirationEnd = this.getTheDayBefore(this.paramExpirationStart);
         this.staffRepository.updateExpirationEndLastBefore(this);
+    }
+
+    private java.sql.Date getTheDayBefore(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        java.sql.Date dayBefore = new java.sql.Date(calendar.getTime().getTime());
+        return dayBefore;
     }
 
     @Override
@@ -137,6 +146,12 @@ public class StaffDomainServiceImpl implements StaffDomainService {
                     this.messageSource.getMessage("MSG0002", new String[]{"有効開始日"}, Locale.JAPANESE)
             );
         }
+    }
+
+    @Override
+    public void updateExpirationEndLastBeforeDeleted() {
+        this.expirationEnd = java.sql.Date.valueOf("9999-12-31");
+        this.staffRepository.updateExpirationEndLastBefore(this);
     }
 
     public void setUserId(String userId){

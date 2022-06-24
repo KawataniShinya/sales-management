@@ -11,4 +11,5 @@ public interface StaffRepository {
     void insertStaff(Staff staff);
     void updateExpirationEndLastBefore(StaffDomainService staffDomainService);
     long countUserNewerNotEqual(StaffDomainService staffDomainService);
+    void deleteStaff(Staff staff);
 }

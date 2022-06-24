@@ -33,4 +33,9 @@ export function disableStaffDetailFields (formState: string) {
         selectOptions.forEach(selectOption => selectOption.disabled = !selectOption.selected);
         document.querySelectorAll('.staff-detail__table__select').forEach(select => select.classList.add('bg-readonly'));
     }
+
+    const disUses = document.querySelectorAll('.info .un-visible');
+    disUses.forEach(disUse => {
+        disUse.remove();
+    });
 }
