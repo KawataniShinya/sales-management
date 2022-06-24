@@ -357,7 +357,7 @@ public class StaffController {
         staffParams.put(Constant.API_FIELD_NAME_STAFF.FIRST_NAME.getValue(), param.getFirstName());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue(), param.getDepartmentCd());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.GENDER_CD.getValue(), param.getGenderCd());
-        staffParams.put(Constant.API_FIELD_NAME_STAFF.BIRTHDATE.getValue(), new java.sql.Date(param.getBirthdate().getTime()));
+        if (param.getBirthdate() != null) staffParams.put(Constant.API_FIELD_NAME_STAFF.BIRTHDATE.getValue(), new java.sql.Date(param.getBirthdate().getTime()));
         staffParams.put(Constant.API_FIELD_NAME_STAFF.BLOOD_TYPE_CD.getValue(), param.getBloodTypeCd());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.ADDRESS_PREFECTURE_CD.getValue(), param.getAddressPrefectureCd());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.ADDRESS_MUNICIPALITY.getValue(), param.getAddressMunicipality());
@@ -365,10 +365,19 @@ public class StaffController {
         staffParams.put(Constant.API_FIELD_NAME_STAFF.PRIVATE_EMAIL.getValue(), param.getPrivateEmail());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_TEL_NO.getValue(), param.getPrivateTelNo());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_EMAIL.getValue(), param.getWorkplaceEmail());
-        staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), new java.sql.Date(param.getExpirationStart().getTime()));
-        staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), new java.sql.Date(param.getExpirationEnd().getTime()));
+        if (param.getExpirationStart() != null) staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), new java.sql.Date(param.getExpirationStart().getTime()));
+        if (param.getExpirationEnd() != null) staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), new java.sql.Date(param.getExpirationEnd().getTime()));
         staffParams.put(Constant.API_FIELD_NAME_STAFF.INSERT_USER.getValue(), param.getUserId());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.UPDATE_USER.getValue(), param.getUserId());
+
+        return staffParams;
+    }
+
+    private Map<String, Object> getStaffByPrimaryKey(String userId, Date paramExpirationStart) {
+        Map<String, Object> staffParams = new HashMap<>();
+
+        staffParams.put(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue(), userId);
+        if (paramExpirationStart != null) staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), new java.sql.Date(paramExpirationStart.getTime()));
 
         return staffParams;
     }
@@ -396,8 +405,28 @@ public class StaffController {
 
 
 
-        model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
-                com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_CONFIRM.getValue());
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getParamExpirationStart()));
+            return "staff-detail.html";
+        }
+        try {
+            this.staffService.checkDeleteStaff(getStaffByPrimaryKey(pathUserId, param.getParamExpirationStart()));
+        } catch (DomainRuleIllegalException e) {
+            errors.getGlobal().addAll(e.getMessages());
+        }
+        if (!errors.getGlobal().isEmpty()) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getParamExpirationStart()));
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+            return "staff-detail.html";
+        } else {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_DELETE_CONFIRM.getValue());
+        }
+
+
+
+
+
 
         return "staff-delete.html";
     }
@@ -421,7 +450,7 @@ public class StaffController {
                 this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
 
         if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_CANCEL.getValue())) {
-            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationEnd()));
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationStart()));
             return "staff-detail.html";
         } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_DELETE_EXECUTE.getValue())) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),

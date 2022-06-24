@@ -96,6 +96,7 @@ body {
 .error-message-grobal {
   color: red;
   font-size: small;
+  margin-bottom: 20px;
 }
 
 .error-message-grobal ul {

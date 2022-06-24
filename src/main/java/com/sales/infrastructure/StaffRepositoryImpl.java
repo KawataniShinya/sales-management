@@ -30,6 +30,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     private final String APPLSQL009;
     private final String APPLSQL010;
     private final String APPLSQL011;
+    private final String APPLSQL012;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -43,6 +44,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Value("${APPLSQL009}") String applsql009,
             @Value("${APPLSQL010}") String applsql010,
             @Value("${APPLSQL011}") String applsql011,
+            @Value("${APPLSQL012}") String applsql012,
             DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
@@ -51,6 +53,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         this.APPLSQL009 = applsql009;
         this.APPLSQL010 = applsql010;
         this.APPLSQL011 = applsql011;
+        APPLSQL012 = applsql012;
         this.departmentController = departmentController;
     }
 
@@ -108,12 +111,12 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     }
 
     @Override
-    public long countUserNewer(StaffDomainService staffDomainService) {
+    public long countUserNewerEqual(StaffDomainService staffDomainService) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.USER_ID.getValue(), staffDomainService.getUserId());
         paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), staffDomainService.getParamExpirationStart());
 
-        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL005", APPLSQL009, paramMap);
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL009", APPLSQL009, paramMap);
         List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL009, paramMap);
 
         return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
@@ -153,6 +156,18 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
 
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL011", APPLSQL011, paramMap);
         npJdbcTemplate.update(APPLSQL011, paramMap);
+    }
+
+    @Override
+    public long countUserNewerNotEqual(StaffDomainService staffDomainService) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.USER_ID.getValue(), staffDomainService.getUserId());
+        paramMap.put(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), staffDomainService.getParamExpirationStart());
+
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL012", APPLSQL012, paramMap);
+        List<Map<String, Object>> resultList = npJdbcTemplate.queryForList(APPLSQL012, paramMap);
+
+        return (long) resultList.get(0).get(Constant.DATA_SOURCE_SEARCH_PARAM_STAFF.COUNT.getValue());
     }
 
     private String removeWhereClausesOrSetParams(StaffDomainService staffDomainService, Map<String, Object> paramMap, String editSql) {

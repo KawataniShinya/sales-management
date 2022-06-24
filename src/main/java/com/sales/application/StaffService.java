@@ -12,4 +12,5 @@ public interface StaffService {
     Staff getStaffByParamWithoutValidation(Map<String, Object> map);
     Staff getStaffByParam(Map<String, Object> map) throws DomainRuleIllegalException;
     void addStaff(Map<String, Object> map) throws DomainRuleIllegalException;
+    void checkDeleteStaff(Map<String, Object> map) throws DomainRuleIllegalException;
 }

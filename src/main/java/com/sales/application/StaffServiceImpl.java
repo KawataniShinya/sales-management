@@ -98,6 +98,24 @@ public class StaffServiceImpl implements StaffService{
         staffDomainService.updateExpirationEndLastBefore();
     }
 
+    @Override
+    public void checkDeleteStaff(Map<String, Object> map) throws DomainRuleIllegalException {
+        List<String> errorMessages = new ArrayList<>();
+
+        StaffDomainService staffDomainService = this.staffDomainService.createStaffService();
+        staffDomainService.setUserId((String) map.get(Constant.API_FIELD_NAME_STAFF.USER_ID.getValue()));
+        staffDomainService.setParamExpirationStart((Date) map.get(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue()));
+        try {
+            staffDomainService.checkDeleteStaff();
+        } catch (DomainRuleIllegalException e) {
+            errorMessages.addAll(e.getMessages());
+        }
+
+        if (!errorMessages.isEmpty()) {
+            throw new DomainRuleIllegalException(errorMessages);
+        }
+    }
+
     private java.sql.Date getTheDayBefore(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
