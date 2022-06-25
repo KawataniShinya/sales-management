@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: meta_header('社員情報変更明細削除',~{::link},~{::script})">
+<head th:replace="common :: meta_header('社員情報変更明細更新',~{::link},~{::script})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>社員情報変更明細削除 | TestApplication</title>
+    <title>社員情報変更明細更新 | TestApplication</title>
     <!--/* -->
     <link rel="icon" href="../static/images/logo.png">
     <script src="../static/js/bootstrap.min.js"></script>
@@ -83,7 +83,7 @@
             <li class="breadcrumb-item"><a href="staff.html" th:href="@{/staff}">社員情報</a></li>
             <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/search}">検索</a></li>
             <li class="breadcrumb-item"><a href="staff-search.html" th:href="@{/staff/__${pathParamUserId}__}">照会</a></li>
-            <li class="breadcrumb-item active" aria-current="page">社員情報変更明細削除</li>
+            <li class="breadcrumb-item active" aria-current="page">社員情報変更明細更新</li>
         </ol>
     </nav>
     <div class="content">
@@ -91,10 +91,10 @@
         <!--/*/<div th:replace="common :: left-nav"></div>/*/-->
         <div class="row main">
             <div class="center col-12 border-start border-end border-bottom">
-                <div class="page-header bg-light shadow-sm border tytle">社員情報変更明細削除</div>
+                <div class="page-header bg-light shadow-sm border tytle">社員情報変更明細更新</div>
                 <div class="info">
-                    <div class="messageConfirmation un-visible">下記内容を削除しますがよろしいですか</div>
-                    <div class="messageExecuted un-visible">削除しました</div>
+                    <div class="messageConfirmation un-visible">下記内容で更新しますがよろしいですか</div>
+                    <div class="messageExecuted un-visible">更新しました</div>
                 </div>
                 <div th:if="${globalErrorMessages != null} and ${globalErrorMessages.size()} > 0" class="error-message-grobal">
                     <ul th:each="i : ${#numbers.sequence(0, 2)}">
@@ -200,8 +200,8 @@
                     </div>
                 </div>
                 <div class="staff-detail" th:if="${detail} != null">
-                    <div class="staff-detail__title">&lt;&lt; ユーザー情報変更明細削除 &gt;&gt;</div>
-                    <form method="post" action="staff-delete.html" th:action="@{/staff/__${pathParamUserId}__/delete}">
+                    <div class="staff-detail__title">&lt;&lt; ユーザー情報変更明細更新 &gt;&gt;</div>
+                    <form method="post" action="staff-update.html" th:action="@{/staff/__${pathParamUserId}__/update}">
                         <table class="table table-striped staff-detail__table">
                             <tbody>
                                 <tr>
@@ -217,7 +217,7 @@
                                     <td>有効開始日</td>
                                     <div>
                                         <td>
-                                            <input name="expirationStart" class="form-control staff-detail__table__item" th:value="${detail.expirationStart}" type="date" value="2022-06-01">
+                                            <input name="expirationStart" class="form-control staff-detail__table__item" th:value="${detail.expirationStart}" type="date" value="2022-06-01" readOnly>
                                             <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'expirationStart')}" th:text="${fieldErrorMessages.expirationStart}">0 より大きな値にしてください</div>
                                         </td>
                                     </div>
@@ -226,7 +226,7 @@
                                     <td>有効終了日</td>
                                     <div>
                                         <td>
-                                            <input name="expirationEnd" class="form-control staff-detail__table__item" th:value="${detail.expirationEnd}" type="date" value="2022-09-01">
+                                            <input name="expirationEnd" class="form-control staff-detail__table__item" th:value="${detail.expirationEnd}" type="date" value="2022-09-01" readOnly>
                                             <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'expirationEnd')}" th:text="${fieldErrorMessages.expirationEnd}">0 より大きな値にしてください</div>
                                         </td>
                                     </div>
@@ -370,8 +370,9 @@
                         <input class="hidden_limitSize" type="hidden" name="limitSize" value="25">
                         <input class="hidden_page" type="hidden" name="page" value="1">
                         <div class="btn-detail">
-                            <button type="submit" class="btn btn-secondary mt-4 un-visible btn-detail__execute" name="submitType" value="submitDeleteCancel">戻る</button>
-                            <button type="submit" class="btn btn-primary mt-4 un-visible btn-detail__execute" name="submitType" value="submitDeleteExecute">確定</button>
+                            <button type="submit" class="btn btn-primary mt-4 un-visible btn-detail__confirm" name="submitType" value="submitUpdateConfirm">更新</button>
+                            <button type="submit" class="btn btn-secondary mt-4 un-visible btn-detail__execute" name="submitType" value="submitUpdateCancel">戻る</button>
+                            <button type="submit" class="btn btn-primary mt-4 un-visible btn-detail__execute" name="submitType" value="submitUpdateExecute">確定</button>
                         </div>
                     </form>
                 </div>

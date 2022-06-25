@@ -501,4 +501,31 @@ public class StaffController {
         calendar.setTime(date);
         return new java.sql.Date(calendar.getTime().getTime());
     }
+
+    @RequestMapping(value = "/staff/{pathUserId}/update", method = RequestMethod.GET)
+    public String updateStaffDetailInit(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+
+        Errors errors = new Errors();
+
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
+
+            staffServiceBean.getStaffs().forEach(staff -> {
+                if (staff.getExpirationStart().equals(param.getParamExpirationStart())) {
+                    model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), staff);
+                }
+            });
+            if (model.getAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue()) == null) {
+                model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(), getBlankStaffWithUserId(param.getUserId()));
+            }
+
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
+        }
+        return "staff-update.html";
+    }
 }

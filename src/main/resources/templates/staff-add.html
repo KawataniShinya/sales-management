@@ -57,6 +57,14 @@
             disableStaffDetailFields(formState);
         });
     </script>
+    <script th:src="@{/js/infomessage.js}" type="module"></script>
+    <script th:inline="javascript" type="module">
+        import { removeInfoMessagesDisuse } from '/js/infomessage.js'
+        window.addEventListener('load', function(){
+            const formState = /*[[${formState}]]*/ null;
+            removeInfoMessagesDisuse(formState);
+        });
+    </script>
     /*/-->
 </head>
 <body>

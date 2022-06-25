@@ -48,11 +48,11 @@
             }
         });
     </script>
-    <script th:src="@{/js/disable_inquiry_button.js}" type="module"></script>
+    <script th:src="@{/js/staff_detail_list.js}" type="module"></script>
     <script th:inline="javascript" type="module">
-        import { disableInquiryButtonInStaffDetail } from "/js/disable_inquiry_button.js"
+        import { hilightSelectedInStaffDetailList } from "/js/staff_detail_list.js"
         window.addEventListener('load', function(){
-            disableInquiryButtonInStaffDetail();
+            hilightSelectedInStaffDetailList();
         });
     </script>
     /*/-->
@@ -85,7 +85,7 @@
                     </ul>
                 </div>
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/add(paramExpirationStart=${paramExpirationStart})}">変更登録</a>
-                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/search}">訂正</a>
+                <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/update(paramExpirationStart=${paramExpirationStart})}">更新</a>
                 <a class="btn btn-outline-primary" href="#" th:href="@{/staff/__${pathParamUserId}__/delete(paramExpirationStart=${paramExpirationStart})}">削除</a>
                 <div class="staff-search">
                     <div class="staff-search__result" th:if="${staffs} != null">
