@@ -127,6 +127,28 @@ public class StaffServiceImpl implements StaffService{
         staffDomainService.updateExpirationEndLastBeforeDeleted();
     }
 
+    @Override
+    public void checkUpdateStaff(Map<String, Object> map) throws DomainRuleIllegalException {
+        List<String> errorMessages = new ArrayList<>();
+
+        try {
+            getStaffByParam(map);
+        } catch (DomainRuleIllegalException e) {
+            errorMessages.addAll(e.getMessages());
+        }
+
+        if (!errorMessages.isEmpty()) {
+            throw new DomainRuleIllegalException(errorMessages);
+        }
+    }
+
+    @Override
+    public void updateStaff(Map<String, Object> map) throws DomainRuleIllegalException {
+        this.checkUpdateStaff(map);
+        Staff staff = this.getStaffByParam(map);
+        staff.updateStaff();
+    }
+
     private void setResultToBean(StaffDomainService staffDomainService, List<Staff> staffs, StaffServiceBean staffServiceBean) {
         staffServiceBean.setStaffs(staffs);
         staffServiceBean.setCount(staffDomainService.getCount());

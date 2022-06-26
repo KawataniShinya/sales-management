@@ -32,6 +32,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
     private final String APPLSQL011;
     private final String APPLSQL012;
     private final String APPLSQL013;
+    private final String APPLSQL014;
     private final DepartmentController departmentController;
 
     @Autowired
@@ -47,6 +48,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
             @Value("${APPLSQL011}") String applsql011,
             @Value("${APPLSQL012}") String applsql012,
             @Value("${APPLSQL013}") String applsql013,
+            @Value("${APPLSQL014}") String applsql014,
             DepartmentController departmentController) {
         super(jdbcTemplate, npJdbcTemplate, loggingDelegateRepository);
         this.APPLSQL002 = applsql002;
@@ -57,6 +59,7 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
         this.APPLSQL011 = applsql011;
         this.APPLSQL012 = applsql012;
         this.APPLSQL013 = applsql013;
+        this.APPLSQL014 = applsql014;
         this.departmentController = departmentController;
     }
 
@@ -181,6 +184,29 @@ public class StaffRepositoryImpl extends AbstractBaseApplicationDbRepository imp
 
         super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL013", APPLSQL013, paramMap);
         npJdbcTemplate.update(APPLSQL013, paramMap);
+    }
+
+    @Override
+    public void updateStaff(Staff staff) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.USER_ID.getValue(), staff.getUserId());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), staff.getExpirationStart());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.FAMILY_NAME.getValue(), staff.getFamilyName());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.FIRST_NAME.getValue(), staff.getFirstName());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.DEPARTMENT_CD.getValue(), staff.getDepartmentCd());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.GENDER_CD.getValue(), staff.getGenderCd());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.BIRTHDATE.getValue(), staff.getBirthdate());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.BLOOD_TYPE_CD.getValue(), staff.getBloodTypeCd());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.ADDRESS_PREFECTURE_CD.getValue(), staff.getAddressPrefectureCd());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.ADDRESS_MUNICIPALITY.getValue(), staff.getAddressMunicipality());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.PRIVATE_TEL_NO.getValue(), staff.getPrivateTelNo());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.PRIVATE_EMAIL.getValue(), staff.getPrivateEmail());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.WORKPLACE_TEL_NO.getValue(), staff.getWorkplaceTelNo());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.WORKPLACE_EMAIL.getValue(), staff.getWorkplaceEmail());
+        paramMap.put(Constant.DATA_SOURCE_FIELD_NAME_STAFF.UPDATE_USER.getValue(), staff.getUpdateUser());
+
+        super.loggingDelegateRepository.loggingDbDebugPoint(this.getClass(), new Object(){}.getClass().getEnclosingMethod(), "APPLSQL014", APPLSQL014, paramMap);
+        npJdbcTemplate.update(APPLSQL014, paramMap);
     }
 
     private String removeWhereClausesOrSetParams(StaffDomainService staffDomainService, Map<String, Object> paramMap, String editSql) {

@@ -528,4 +528,87 @@ public class StaffController {
         }
         return "staff-update.html";
     }
+
+    @RequestMapping(value = "/staff/{pathUserId}/update", method = RequestMethod.POST)
+    public String updateStaffDetailExecute(HttpServletRequest request, Model model, @PathVariable("pathUserId") String pathUserId, @ModelAttribute @Validated StaffControllerDetailRequest param, BindingResult result) {
+        CommonDisplay.setHeaderParameter(request, model);
+
+        Errors errors = new Errors();
+
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+
+        if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), param.getUserId());
+            setDepartmentToModel(model);
+            setGenericCodeToModel(model);
+            model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.DETAIL.getValue(),
+                    this.staffService.getStaffByParamWithoutValidation(getStaffParamByRequestParam(param)));
+
+            if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_UPDATE_CONFIRM.getValue())) {
+                boolean isSuccess = checkUpdateInputAndSetFormState(model, param, result, errors);
+                if (!isSuccess) return "staff-update.html";
+            } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_UPDATE_CANCEL.getValue())) {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
+            } else if (param.getSubmitType().equals(com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SUBMIT_TYPE_UPDATE_EXECUTE.getValue())) {
+                model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                        com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_EXECUTE.getValue());
+                boolean isSuccess = updateStaffAndSetFormState(model, param, result, errors);
+                if (!isSuccess) return "staff-update.html";
+            }
+        }
+
+        return "staff-update.html";
+    }
+
+    private boolean checkUpdateInputAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
+            return false;
+        }
+
+        try {
+            this.staffService.checkUpdateStaff(getStaffParamByRequestParam(param));
+        } catch (DomainRuleIllegalException e) {
+            errors.getGlobal().addAll(e.getMessages());
+        }
+
+        if (!errors.getGlobal().isEmpty()) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
+        } else {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_CONFIRM.getValue());
+        }
+        return true;
+    }
+
+    private boolean updateStaffAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
+        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
+            return false;
+        }
+
+        try {
+            this.staffService.updateStaff(getStaffParamByRequestParam(param));
+        } catch (DomainRuleIllegalException e) {
+            errors.getGlobal().addAll(e.getMessages());
+        }
+
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+        if (staffServiceBean == null || staffServiceBean.getCount() == 0) return false;
+
+        if (!errors.getGlobal().isEmpty()) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
+        } else {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
+                    com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_EXECUTE.getValue());
+        }
+        return true;
+    }
 }
