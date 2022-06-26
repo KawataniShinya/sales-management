@@ -57,11 +57,12 @@
     </script>
     <script th:src="@{/js/staff_detail.js}" type="module"></script>
     <script th:inline="javascript" type="module">
-        import { visibleStaffDetailButton, disableStaffDetailFields } from '/js/staff_detail.js'
+        import { visibleStaffDetailButton, disableStaffDetailFields, hilightUpdateField } from '/js/staff_detail.js'
         window.addEventListener('load', function(){
             const formState = /*[[${formState}]]*/ null;
             visibleStaffDetailButton(formState);
             disableStaffDetailFields(formState);
+            hilightUpdateField(formState);
         });
     </script>
     <script th:src="@{/js/infomessage.js}" type="module"></script>
@@ -136,7 +137,9 @@
                                         <td class="expirationStart" th:text="${staff.expirationStart}">2022-06-01</td>
                                         <td class="expirationEnd" th:text="${staff.expirationEnd}">2022-09-01</td>
                                         <td class="userId" th:text="${staff.userId}">STF0000002</td>
-                                        <td class="familyName" th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
+                                        <td class="userName" th:text="${staff.familyName} + ' ' + ${staff.firstName}">楠 圭二</td>
+                                        <td class="familyName" th:text="${staff.familyName}" hidden>楠</td>
+                                        <td class="firstName" th:text="${staff.firstName}" hidden>圭二</td>
                                         <td class="departmentName" th:text="${staff.departmentName}">D30001</td>
                                         <td class="genderName" th:text="${staff.genderName}">0001</td>
                                         <td class="birthdate" th:text="${staff.birthdate}">1873-11-09</td>
@@ -205,7 +208,7 @@
                         <table class="table table-striped staff-detail__table">
                             <tbody>
                                 <tr>
-                                    <td>ユーザーID</td>
+                                    <td class="fieldtitle">ユーザーID</td>
                                     <div>
                                         <td>
                                             <input name="userId" class="form-control staff-detail__table__item" th:value="${detail.userId}" type="text" value="STF0000002" placeholder="STF0000001" readonly>
@@ -214,7 +217,7 @@
                                     </div>
                                 </tr>
                                 <tr>
-                                    <td>有効開始日</td>
+                                    <td class="fieldtitle">有効開始日</td>
                                     <div>
                                         <td>
                                             <input name="expirationStart" class="form-control staff-detail__table__item" th:value="${detail.expirationStart}" type="date" value="2022-06-01" readOnly>
@@ -223,7 +226,7 @@
                                     </div>
                                 </tr>
                                 <tr>
-                                    <td>有効終了日</td>
+                                    <td class="fieldtitle">有効終了日</td>
                                     <div>
                                         <td>
                                             <input name="expirationEnd" class="form-control staff-detail__table__item" th:value="${detail.expirationEnd}" type="date" value="2022-09-01" readOnly>
@@ -232,7 +235,7 @@
                                     </div>
                                 </tr>
                                 <tr>
-                                    <td>氏名</td>
+                                    <td class="fieldtitle">氏名</td>
                                     <td class="staff-detail__table__separate">
                                         <div class="staff-detail__table__separate__column">
                                             <input name="familyName" class="form-control staff-detail__table__item" th:value="${detail.familyName}" type="text" value="楠" placeholder="姓">
@@ -245,7 +248,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>部署</td>
+                                    <td class="fieldtitle">部署</td>
                                     <td>
                                         <div>
                                             <select name="departmentCd" id="departmentCd" class="form-select staff-detail__table__select">
@@ -262,7 +265,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>性別</td>
+                                    <td class="fieldtitle">性別</td>
                                     <td>
                                         <div>
                                             <select name="genderCd" id="genderCd" class="form-select staff-detail__table__select">
@@ -278,7 +281,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>生年月日</td>
+                                    <td class="fieldtitle">生年月日</td>
                                     <td>
                                         <div>
                                             <input name="birthdate" class="form-control staff-detail__table__item" th:value="${detail.birthdate}" type="date" value="1873-11-09">
@@ -287,7 +290,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>血液型</td>
+                                    <td class="fieldtitle">血液型</td>
                                     <td>
                                         <div>
                                             <select name="bloodTypeCd" id="bloodTypeCd" class="form-select staff-detail__table__select">
@@ -304,7 +307,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>都道府県</td>
+                                    <td class="fieldtitle">都道府県</td>
                                     <td>
                                         <div>
                                             <select name="addressPrefectureCd" id="addressPrefectureCd" class="form-select staff-detail__table__select">
@@ -321,7 +324,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>市町村</td>
+                                    <td class="fieldtitle">市町村</td>
                                     <td>
                                         <div>
                                             <input name="addressMunicipality" class="form-control staff-detail__table__item" th:value="${detail.addressMunicipality}" type="text" value="南陽市長岡">
@@ -330,7 +333,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>電話番号(私用)</td>
+                                    <td class="fieldtitle">電話番号(私用)</td>
                                     <td>
                                         <div>
                                             <input name="privateTelNo" class="form-control staff-detail__table__item" th:value="${detail.privateTelNo}" type="text" value="07727301437">
@@ -339,7 +342,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Eメールアドレス(私用)</td>
+                                    <td class="fieldtitle">Eメールアドレス(私用)</td>
                                     <td>
                                         <div>
                                             <input name="privateEmail" class="form-control staff-detail__table__item" th:value="${detail.privateEmail}" type="text" value="user2@private.com">
@@ -348,7 +351,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>電話番号(職場)</td>
+                                    <td class="fieldtitle">電話番号(職場)</td>
                                     <td>
                                         <div>
                                             <input name="workplaceTelNo" class="form-control staff-detail__table__item" th:value="${detail.workplaceTelNo}" type="text" value="06041084375">
@@ -357,7 +360,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Eメールアドレス(職場)</td>
+                                    <td class="fieldtitle">Eメールアドレス(職場)</td>
                                     <td>
                                         <div>
                                             <input name="workplaceEmail" class="form-control staff-detail__table__item" th:value="${detail.workplaceEmail}" type="text" value="user2@sales.com">

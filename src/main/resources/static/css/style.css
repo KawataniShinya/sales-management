@@ -145,10 +145,11 @@ body {
   top: 140px;
   padding-top: 10px;
   width: 230px;
-  height: 100%;
+  height: calc(100vh - calc(100px + 40px));
   z-index: 100;
   background-color: #f8f9fa;
   font-size: small;
+  overflow-y: auto;
 }
 
 .content .left-nav ul {

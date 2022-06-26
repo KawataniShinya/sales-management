@@ -146,10 +146,11 @@ body {
     top: $contentsHeightOffset;
     padding-top: 10px;
     width: $leftnavWidth;
-    height: 100%;
+    height: $bodyHeight;
     z-index: 100;
     background-color: $cBgLight;
     font-size: small;
+    overflow-y: auto;
     
     ul {
       list-style: none;

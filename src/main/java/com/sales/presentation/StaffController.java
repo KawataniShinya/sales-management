@@ -366,7 +366,7 @@ public class StaffController {
         staffParams.put(Constant.API_FIELD_NAME_STAFF.ADDRESS_MUNICIPALITY.getValue(), param.getAddressMunicipality());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.PRIVATE_TEL_NO.getValue(), param.getPrivateTelNo());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.PRIVATE_EMAIL.getValue(), param.getPrivateEmail());
-        staffParams.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_TEL_NO.getValue(), param.getPrivateTelNo());
+        staffParams.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_TEL_NO.getValue(), param.getWorkplaceTelNo());
         staffParams.put(Constant.API_FIELD_NAME_STAFF.WORKPLACE_EMAIL.getValue(), param.getWorkplaceEmail());
         if (param.getExpirationStart() != null) staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_START.getValue(), new java.sql.Date(param.getExpirationStart().getTime()));
         if (param.getExpirationEnd() != null) staffParams.put(Constant.API_FIELD_NAME_STAFF.EXPIRATION_END.getValue(), new java.sql.Date(param.getExpirationEnd().getTime()));
