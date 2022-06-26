@@ -201,7 +201,7 @@
                 </div>
                 <div class="staff-detail" th:if="${detail} != null">
                     <div class="staff-detail__title">&lt;&lt; ユーザー情報変更明細削除 &gt;&gt;</div>
-                    <form method="post" action="staff-delete.html" th:action="@{/staff/__${pathParamUserId}__/delete}">
+                    <form method="post" action="staff-delete.html" th:action="@{/staff/__${pathParamUserId}__/__${paramExpirationStart}__/delete}">
                         <table class="table table-striped staff-detail__table">
                             <tbody>
                                 <tr>
@@ -354,7 +354,7 @@
                                             <input name="workplaceTelNo" class="form-control staff-detail__table__item" th:value="${detail.workplaceTelNo}" type="text" value="06041084375">
                                             <div class="error-message-field" th:if="${fieldErrorMessages != null} and ${#maps.containsKey(fieldErrorMessages, 'workplaceTelNo')}" th:text="${fieldErrorMessages.workplaceTelNo}">0 より大きな値にしてください</div>
                                         </div>
-                                    </td>
+                                    </td>pdate
                                 </tr>
                                 <tr>
                                     <td>Eメールアドレス(職場)</td>

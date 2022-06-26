@@ -204,7 +204,7 @@
                 </div>
                 <div class="staff-detail" th:if="${detail} != null">
                     <div class="staff-detail__title">&lt;&lt; ユーザー情報変更明細更新 &gt;&gt;</div>
-                    <form method="post" action="staff-update.html" th:action="@{/staff/__${pathParamUserId}__/update}">
+                    <form method="post" action="staff-update.html" th:action="@{/staff/__${pathParamUserId}__/__${paramExpirationStart}__/update}">
                         <table class="table table-striped staff-detail__table">
                             <tbody>
                                 <tr>
