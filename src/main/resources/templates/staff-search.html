@@ -33,7 +33,7 @@
     <!--/*/
     <script th:src="@{/js/pagenation_maxrowselector.js}" type="module"></script>
     <script th:inline="javascript" type="module">
-        import { setPageNation, setMaxRowSelector, setMaxRowInForm, addEventSetRowLimitSizeToPageNationHrefParam, addEventSetRowLimitSizeToSubmitForm } from "/js/pagenation_maxrowselector.js"
+        import { setPageNation, setMaxRowSelector, setMaxRowInForm, addEventSetRowLimitSizeToPageNationHrefParam, addEventSetRowLimitSizeToSubmitForm } from "/apl/js/pagenation_maxrowselector.js"
         window.addEventListener('load', function(){
             const staffs = /*[[${staffs}]]*/ null;
             if (staffs) {
