@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.6.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
 }
 
 group = 'com'
@@ -12,7 +13,6 @@ repositories {
 	mavenCentral()
 }
 
-apply plugin: 'war'
 war {
 	archiveName 'apl.war'
 }
@@ -38,10 +38,8 @@ dependencies {
 	implementation 'com.github.jsimone:webapp-runner:9.0.27.1'
 }
 
-task stage(dependsOn: ['jar', 'war', 'clean'])
-jar.mustRunAfter clean
-war.mustRunAfter clean
-
+task herokuDeploy(dependsOn: ['clean', 'bootJar'])
+bootJar.mustRunAfter clean
 
 tasks.named('test') {
 	useJUnitPlatform()
