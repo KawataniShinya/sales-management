@@ -42,7 +42,6 @@ task stage(dependsOn: ['jar', 'war', 'clean'])
 jar.mustRunAfter clean
 war.mustRunAfter clean
 
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
