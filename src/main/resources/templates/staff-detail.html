@@ -33,7 +33,7 @@
     <!--/*/
     <script th:src="@{/js/pagenation_maxrowselector.js}" type="module"></script>
     <script th:inline="javascript" type="module">
-        import { setPageNation, setMaxRowSelector, addEventSetRowLimitSizeToPageNationHrefParam } from "/js/pagenation_maxrowselector.js"
+        import { setPageNation, setMaxRowSelector, addEventSetRowLimitSizeToPageNationHrefParam } from "/apl/js/pagenation_maxrowselector.js"
         window.addEventListener('load', function(){
             const staffs = /*[[${staffs}]]*/ null;
             if (staffs) {
@@ -50,7 +50,7 @@
     </script>
     <script th:src="@{/js/staff_detail_list.js}" type="module"></script>
     <script th:inline="javascript" type="module">
-        import { hilightSelectedInStaffDetailList } from "/js/staff_detail_list.js"
+        import { hilightSelectedInStaffDetailList } from "/apl/js/staff_detail_list.js"
         window.addEventListener('load', function(){
             hilightSelectedInStaffDetailList();
         });
