@@ -38,9 +38,8 @@ dependencies {
 	implementation 'com.github.jsimone:webapp-runner:9.0.27.1'
 }
 
-task stage() {
-	dependsOn clean, war
-}
+task stage(dependsOn: ['jar', 'war', 'clean'])
+jar.mustRunAfter clean
 war.mustRunAfter clean
 
 tasks.named('test') {
