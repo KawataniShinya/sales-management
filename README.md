@@ -44,19 +44,19 @@ Webアプリケーション実装の学習のため、販売管理システム�
 https://fathomless-stream-18403.herokuapp.com/apl/
 
 ### 例. ログイン
-
+![01](https://user-images.githubusercontent.com/102776020/176465788-4e476cea-0c76-4daa-81ea-d68855a77d16.gif)
 
 ### 例. 社員情報検索
-
+![02](https://user-images.githubusercontent.com/102776020/176465896-a2426a55-8553-450d-a649-e663297c45f6.gif)
 
 ### 例. 社員情報変更登録
-
+![03](https://user-images.githubusercontent.com/102776020/176465914-7a34d9fb-99a7-47fb-84ff-dcc2c894fede.gif)
 
 ### 例. 社員情報詳細更新
-
+![04](https://user-images.githubusercontent.com/102776020/176465951-19a87a90-7c74-4d47-8c05-07e87414dcb9.gif)
 
 ### 例. 社員情報詳細削除
-
+![05](https://user-images.githubusercontent.com/102776020/176465971-ad175464-b4f6-4d3c-9c1f-a6eb6f06573f.gif)
 
 ## Usage
 
