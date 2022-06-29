@@ -3,7 +3,6 @@ package com.sales.application;
 import com.sales.common.SessionConstant;
 import com.sales.domain.auth.Constant;
 import com.sales.domain.customer.Customer;
-import com.sales.domain.customer.CustomerRepository;
 import com.sales.domain.staff.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
