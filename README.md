@@ -162,6 +162,8 @@ MySQLやPostgreSQLのアドオンを利用するため、クレジットカー�
 #### 2-2. MySQLの準備
 HerokuアプリにアドオンとしてMySQLを追加する。<br>
 (アプリ) -> Resources -> Add-ons<br>
+![heroku_addon](https://user-images.githubusercontent.com/102776020/176582328-d029f8f6-aacd-4288-9c7a-c03e788c444c.jpg)
+
 <br>
 データベースにテーブルを作成。resources配下のddl(MySQL用)を使用。<br>
 指定するユーザーやパスワード等は、Herokuに作成されたものを指定する。<br>
@@ -193,6 +195,8 @@ psql -h (ホスト名) -p 5432 -U (ユーザー名) -d (データベース名) -
 各データベースへの接続は、環境変数に設定されたデータソースを参照している。<br>
 Herokuのシステム環境変数に下記情報を設定。(ユーザー名やパスワード等の設定内容はHerokuで指定されたものに従う。)<br>
 (アプリ) -> Setting -> Config Vars<br>
+![envVal](https://user-images.githubusercontent.com/102776020/176582433-291ba61d-a033-4ec1-a823-65d06eb231ee.png)
+
 ```
 SPRING_DATASOURCE_SYSTEM01_URL : jdbc:postgresql://(PostgreSQLホスト名)):5432/(PostgreSQLデータベース名)?currentSchema=pjschema1
 SPRING_DATASOURCE_SYSTEM01_USERNAME : (PostgreSQLユーザー名)
