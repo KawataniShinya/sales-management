@@ -59,8 +59,176 @@ https://fathomless-stream-18403.herokuapp.com/apl/
 ![05](https://user-images.githubusercontent.com/102776020/176465971-ad175464-b4f6-4d3c-9c1f-a6eb6f06573f.gif)
 
 ## Usage
+システムログイン画面から認証情報(T_MST_AUTHテーブル)に登録されたユーザーID、パスワードを入力。
+左メニューからメニューを選択し、各機能単位でデータ操作を行う。
+(操作例はDemo項目ご参照)
 
 ## Install
+アプリケーションを稼働させるための環境を構築する。
+ローカルまたはHerokuへの環境構築方法を示す。
+
+### 1. ローカルでのアプリケーション環境構築
+#### 1-1. MySQLの準備
+アプリケーションから使用されるデータを格納するデータベースを準備。<br>
+公式HP等からMySQLをインストール。<br>
+https://www.mysql.com/jp/<br>
+<br>
+アプリケーションで使用するデータベースを作成。(例としてデータベース名をpjdbとする。)<br>
+```
+create database pjdb;
+```
+<br>
+データベースへ接続するユーザーを作成。
+(例としてユーザー名をpjusr1、パスワードをpjusr1zaq12wsxとする。)<br>
+
+```
+create user pjusr1@localhost identified with mysql_native_password by 'pjusr1zaq12wsx';
+```
+<br>
+ユーザーに操作権限を付与。<br>
+
+```
+grant all on pjdb.* to pjusr1@localhost;
+```
+<br>
+データベースにテーブルを作成。resources配下のddl(MySQL用)を使用。<br>
+
+```
+mysql -u pjusr1 -h localhost pjdb --password="pjusr1zaq12wsx" < T_MST_AUTH_dump_and_ddl.sql
+mysql -u pjusr1 -h localhost pjdb --password="pjusr1zaq12wsx" < T_MST_CUSTOMER_dump_and_ddl.sql
+mysql -u pjusr1 -h localhost pjdb --password="pjusr1zaq12wsx" < T_MST_DEPARTMENT_dump_and_ddl.sql
+mysql -u pjusr1 -h localhost pjdb --password="pjusr1zaq12wsx" < T_MST_GENERIC_CD_dump_and_ddl.sql
+mysql -u pjusr1 -h localhost pjdb --password="pjusr1zaq12wsx" < T_MST_STAFF_dump_and_ddl.sql
+```
+<br>
+各テーブルに任意のデータを格納。<br>
+特に認証情報(T_MST_AUTHテーブル)のパスワード(PASSWORD)はbcrypt形式で登録。<br>
+<br>
+
+#### 1-2. PostgreSQLの準備
+アプリケーションから出力されるログデータを格納するデータベースを準備。<br>
+公式HP等からPostgreSQLをインストール。<br>
+https://www.enterprisedb.com/downloads/postgres-postgresql-downloads<br>
+<br>
+ユーザー(ロール)を作成する。(例としてユーザー名をpjusr1、パスワードをpjusr1zaq12wsxとする。)<br>
+
+```
+create role pjusr1 with login password 'pjusr1zaq12wsx'; 
+```
+<br>
+アプリケーションで使用するデータベース、を作成。<br>
+resources配下のddl(PostgreSQL用)を使用。<br>
+(データベース名をpjdb、スキーマ名をpjschema1としている。)<br>
+
+```
+psql -h localhost -p 5432 -U pjusr1 -d pjdb -f ./postgresql_dump_pjdb-schema.sql;
+```
+<br>
+
+#### 1-3. 環境変数の設定
+各データベースへの接続は、環境変数に設定されたデータソースを参照している。<br>
+システム環境変数に下記情報を設定。(ユーザー名やパスワード等の設定内容は上記例の通り。)
+```
+SPRING_DATASOURCE_SYSTEM01_URL : jdbc:postgresql://localhost:5432/pjdb?currentSchema=pjschema1
+SPRING_DATASOURCE_SYSTEM01_USERNAME : pjusr1
+SPRING_DATASOURCE_SYSTEM01_PASSWORD : pjusr1zaq12wsx
+SPRING_DATASOURCE_APPLICATION01_URL : jdbc:mysql://localhost:3306/pjdb
+SPRING_DATASOURCE_APPLICATION01_USERNAME : pjusr1
+SPRING_DATASOURCE_APPLICATION01_PASSWORD : pjusr1zaq12wsx
+```
+
+#### 1-4. アプリケーションの起動
+統合開発環境やGradleコマンドラインから、タスクbootRunを実行。<br>
+```
+gradle bootRun
+```
+<br>
+
+#### 1-5. アプリケーションへの接続
+ブラウザからポート8080、コンテキストパスaplにアクセス。<br>
+```
+http://localhost:8080/apl/login
+```
+<br>
+
+### 2. Herokuでのアプリケーション環境構築
+#### 2-1. Herokuの準備
+Herokuにアカウントを登録する。<br>
+Heroku上にアプリを作成する。<br>
+MySQLやPostgreSQLのアドオンを利用するため、クレジットカード登録をする。(ただし無料の範囲で使用する。)<br>
+(個人設定) -> Account setting -> Billing -> Billing Information<br>
+<br>
+
+#### 2-2. MySQLの準備
+HerokuアプリにアドオンとしてMySQLを追加する。<br>
+(アプリ) -> Resources -> Add-ons<br>
+<br>
+データベースにテーブルを作成。resources配下のddl(MySQL用)を使用。<br>
+指定するユーザーやパスワード等は、Herokuに作成されたものを指定する。<br>
+
+```
+mysql -u (ユーザーID) -h (ホスト名) (データベース名) --password=(パスワード) < T_MST_AUTH_dump_and_ddl.sql
+mysql -u (ユーザーID) -h (ホスト名) (データベース名) --password=(パスワード) < T_MST_CUSTOMER_dump_and_ddl.sql
+mysql -u (ユーザーID) -h (ホスト名) (データベース名) --password=(パスワード) < T_MST_DEPARTMENT_dump_and_ddl.sql
+mysql -u (ユーザーID) -h (ホスト名) (データベース名) --password=(パスワード) < T_MST_GENERIC_CD_dump_and_ddl.sql
+mysql -u (ユーザーID) -h (ホスト名) (データベース名) --password=(パスワード) < T_MST_STAFF_dump_and_ddl.sql
+```
+<br>
+各テーブルに任意のデータを格納。<br>
+特に認証情報(T_MST_AUTHテーブル)のパスワード(PASSWORD)はbcrypt形式で登録。<br>
+<br>
+
+#### 1-3. PostgreSQLの準備
+HerokuアプリにアドオンとしてPostgreSQLを追加する。<br>
+(アプリ) -> Resources -> Add-ons<br>
+<br>
+データベースにテーブルを作成。resources配下のddl(PostgreSQL用)を使用。<br>
+ddl内で指定するユーザーやパスワード等は、Herokuに作成されたものを指定する。<br>
+```
+psql -h (ホスト名) -p 5432 -U (ユーザー名) -d (データベース名) -f ./postgresql_dump_pjdb-schema.sql;
+```
+<br>
+
+#### 1-4. 環境変数の設定
+各データベースへの接続は、環境変数に設定されたデータソースを参照している。<br>
+Herokuのシステム環境変数に下記情報を設定。(ユーザー名やパスワード等の設定内容はHerokuで指定されたものに従う。)<br>
+(アプリ) -> Setting -> Config Vars<br>
+```
+SPRING_DATASOURCE_SYSTEM01_URL : jdbc:postgresql://(PostgreSQLホスト名)):5432/(PostgreSQLデータベース名)?currentSchema=pjschema1
+SPRING_DATASOURCE_SYSTEM01_USERNAME : (PostgreSQLユーザー名)
+SPRING_DATASOURCE_SYSTEM01_PASSWORD : (PostgreSQLパスワード)
+SPRING_DATASOURCE_APPLICATION01_URL : jdbc:mysql://(MySQLホスト名):3306/(MySQLデータベース名)
+SPRING_DATASOURCE_APPLICATION01_USERNAME : (MySQLユーザー名)
+SPRING_DATASOURCE_APPLICATION01_PASSWORD : (MySQLパスワード)
+```
+<br>
+また、HerokuにGitデプロイするためのGradleタスク名も環境変数として定義する。<br>
+
+```
+GRADLE_TASK : herokuDeploy
+```
+<br>
+
+#### 1-5. Herokuへのデプロイ
+Git config にHerokuのURLを指定して[remote "heroku"]を登録。
+```
+[remote "heroku"]
+	url = https://git.heroku.com/(Herokuアプリ名).git
+	fetch = +refs/heads/*:refs/remotes/heroku/*
+```
+<br>
+Herokuアプリケーションにデプロイ。
+
+```
+git push heroku main
+```
+
+#### 1-6. アプリケーションへの接続
+ブラウザからHerokuURLにコンテキストパスaplでアクセス。<br>
+```
+https://(Herokuアプリ名).herokuapp.com/apl/
+```
+<br>
 
 ## Licence
 Licensed under the MIT License.
