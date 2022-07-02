@@ -15,6 +15,10 @@ Webアプリケーション実装の学習のため、販売管理システム�
 - ログ管理
 - 社員
 
+<br>
+サーバー上のTomcatやHerokuにデプロイ可能。<br>
+<br>
+
 ## Components
 アプリケーションを構成する要素は下記の通り。(生成元要素やトランスパイル元も含む)
 - Java
@@ -152,8 +156,10 @@ http://localhost:8080/apl/login
 <br>
 
 ### 2. Herokuでのアプリケーション環境構築
-#### 2-1. Herokuの準備
+#### 2-1. Herokuの準備(公式手順のため詳細割愛)
+https://jp.heroku.com/<br>
 Herokuにアカウントを登録する。<br>
+HerokuCLIをローカルにインストールする。<br>
 Heroku上にアプリを作成する。<br>
 MySQLやPostgreSQLのアドオンを利用するため、クレジットカード登録をする。(ただし無料の範囲で使用する。)<br>
 (個人設定) -> Account setting -> Billing -> Billing Information<br>

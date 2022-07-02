@@ -26,14 +26,6 @@ public class LoginController {
     @RequestMapping("/login")
     public String login(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
         if (request.getSession().getAttribute(SessionConstant.ATTRIBUTE.SECURITY_CONTEXT.getValue()) != null) {
-//            request.getSession().getAttributeNames().asIterator().forEachRemaining(e -> System.out.println(e.toString()));
-//            System.out.println(request.getSession().getAttribute("org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN"));
-
-//            System.out.println(request.getSession().getAttribute("SPRING_SECURITY_CONTEXT"));
-
-//            ArrayList<? extends GrantedAuthority> roleList = new ArrayList<>(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-//            roleList.forEach(role -> System.out.println(role.toString()));
-//            System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString());
             return "redirect:/authenticated";
         }
         return "login.html";
@@ -41,11 +33,6 @@ public class LoginController {
 
     @RequestMapping("/authenticated")
     public String authenticated(HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-//        if (request == null) {
-//            System.out.println("null");
-//        } else {
-//            System.out.println("not null");
-//        }
         if (request.getSession().getAttribute(SessionConstant.ATTRIBUTE.SECURITY_CONTEXT.getValue()) != null) {
             request.getSession().setAttribute(SessionConstant.ATTRIBUTE.USER_ID.getValue(), ThreadVariables.threadLocal.get().getUserId());
             request.getSession().setAttribute(SessionConstant.ATTRIBUTE.ROLE.getValue(), ThreadVariables.threadLocal.get().getRole());

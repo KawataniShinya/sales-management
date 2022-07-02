@@ -9,14 +9,13 @@ import com.sales.presentation.dto.DepartmentGetRequest;
 import com.sales.presentation.dto.DepartmentGetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
+@Controller
 @Scope("prototype")
 public class DepartmentController {
     private final DepartmentService departmentService;
@@ -26,8 +25,9 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
+    @ResponseBody
     @RequestMapping(value = "/api/department", method = RequestMethod.GET)
-    public DepartmentGetResponse getDepartment(@RequestBody DepartmentGetRequest departmentGetRequest){
+    public DepartmentGetResponse getDepartment(@ModelAttribute @Validated DepartmentGetRequest departmentGetRequest){
         DepartmentServiceBean departmentServiceBean =
                 this.departmentService.getDepartmentByCd(new ObjectMapper().convertValue(departmentGetRequest, new TypeReference<>() { }));
 
