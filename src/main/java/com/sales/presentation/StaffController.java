@@ -12,6 +12,7 @@ import com.sales.domain.staff.Constant;
 import com.sales.domain.staff.Staff;
 import com.sales.presentation.dto.StaffControllerDetailRequest;
 import com.sales.presentation.dto.StaffControllerGetStaffsRequest;
+import com.sales.presentation.dto.StaffControllerGetStaffsResponse;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,10 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -613,5 +611,12 @@ public class StaffController {
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_EXECUTE.getValue());
         }
         return true;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/staffs", method = RequestMethod.GET)
+    public StaffControllerGetStaffsResponse getStaffsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest staffControllerGetStaffsRequest) {
+        StaffControllerGetStaffsResponse staffControllerGetStaffsResponse = new StaffControllerGetStaffsResponse();
+        return staffControllerGetStaffsResponse;
     }
 }
