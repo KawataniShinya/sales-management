@@ -9,5 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 public class StaffControllerGetStaffsResponse {
-    List<Staff> staffs;
+    private long count;
+    private long limitSize;
+    private long page;
+    private List<Staff> staffs;
 }

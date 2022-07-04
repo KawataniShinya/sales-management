@@ -615,8 +615,26 @@ public class StaffController {
 
     @ResponseBody
     @RequestMapping(value = "/api/staffs", method = RequestMethod.GET)
-    public StaffControllerGetStaffsResponse getStaffsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest staffControllerGetStaffsRequest) {
+    public StaffControllerGetStaffsResponse getStaffsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+        Errors errors = new Errors();
+
+//        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
+//        getStaffListForSeachResultAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
+
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParameter(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), findStaffsParamMap);
+        StaffServiceBean staffServiceBean = null;
+        try {
+            staffServiceBean = this.staffService.findStaffs(findStaffsParamMap);
+        } catch (DomainRuleIllegalException e) {
+            errors.getGlobal().addAll(e.getMessages());
+        }
+
         StaffControllerGetStaffsResponse staffControllerGetStaffsResponse = new StaffControllerGetStaffsResponse();
+        staffControllerGetStaffsResponse.setCount(staffServiceBean.getCount());
+        staffControllerGetStaffsResponse.setLimitSize(staffServiceBean.getLimitSize());
+        staffControllerGetStaffsResponse.setPage(staffServiceBean.getPage());
+        staffControllerGetStaffsResponse.setStaffs(staffServiceBean.getStaffs());
         return staffControllerGetStaffsResponse;
     }
 }
