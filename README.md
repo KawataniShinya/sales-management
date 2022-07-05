@@ -219,7 +219,16 @@ GRADLE_TASK : herokuDeploy
 ```
 <br>
 
-#### 1-5. Herokuへのデプロイ
+#### 1-5. gradleビルドパックを追加
+ビルド時に参照されるBuildpacksにgradleを追加。
+```
+heroku create --buildpack https://github.com/heroku/heroku-buildpack-gradle.git
+heroku buildpacks:add --index 1 heroku/gradle -a (Herokuアプリ名)
+```
+Settings -> Buildpacks<br>
+<br>
+
+#### 1-6. Herokuへのデプロイ
 Git config にHerokuのURLを指定して[remote "heroku"]を登録。
 ```
 [remote "heroku"]
@@ -233,7 +242,7 @@ Herokuアプリケーションにデプロイ。
 git push heroku main
 ```
 
-#### 1-6. アプリケーションへの接続
+#### 1-7. アプリケーションへの接続
 ブラウザからHerokuURLにコンテキストパスaplでアクセス。<br>
 ```
 https://(Herokuアプリ名).herokuapp.com/apl/
