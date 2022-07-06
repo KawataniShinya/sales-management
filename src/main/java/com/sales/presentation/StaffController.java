@@ -60,24 +60,35 @@ public class StaffController {
 
             if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) return "staff-search.html";
 
-            getStaffListForSeachResultAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
+            getStaffListForSeachResultAndSetErrorsToModel(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
         }
 
         return "staff-search.html";
     }
 
-    private StaffServiceBean getStaffListForSeachResultAndSetAttribute(int limitSize, int page, String userId, String userName, String departmentCd, Date paramExirationStart, Date paramExpirationEnd, Model model, Errors errors) {
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParameter(limitSize, page, userId, userName, departmentCd, paramExirationStart, paramExpirationEnd, findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+    private StaffServiceBean getStaffListForSeachResultAndSetErrorsToModel(int limitSize, int page, String userId, String userName, String departmentCd, Date paramExirationStart, Date paramExpirationEnd, Model model, Errors errors) {
+        StaffServiceBean staffServiceBean = getStaffListForSeachResult(limitSize, page, userId, userName, departmentCd, paramExirationStart, paramExpirationEnd, errors);
+        if (!errors.getGlobal().isEmpty()) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+        }
         if (staffServiceBean != null) setStaffListAsAttribute(model, staffServiceBean);
         return staffServiceBean;
     }
 
-    private StaffServiceBean getStaffListByIdAndSetAttribute(int limitSize, int page, String userId, Model model, Errors errors) {
+    private StaffServiceBean getStaffListForSeachResult(int limitSize, int page, String userId, String userName, String departmentCd, Date paramExirationStart, Date paramExpirationEnd, Errors errors) {
+        Map<String, Object> findStaffsParamMap = new HashMap<>();
+        setFindStaffsParameter(limitSize, page, userId, userName, departmentCd, paramExirationStart, paramExpirationEnd, findStaffsParamMap);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(errors, findStaffsParamMap);
+        return staffServiceBean;
+    }
+
+    private StaffServiceBean getStaffListByIdAndSetErrorsToModel(int limitSize, int page, String userId, Model model, Errors errors) {
         Map<String, Object> findStaffsParamMap = new HashMap<>();
         setFindStaffsParamUserId(limitSize, page, userId, findStaffsParamMap);
-        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(model, errors, findStaffsParamMap);
+        StaffServiceBean staffServiceBean = getStaffServiceBeanOrSetErrorMessages(errors, findStaffsParamMap);
+        if (!errors.getGlobal().isEmpty()) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
+        }
         if (staffServiceBean != null) setStaffListAsAttribute(model, staffServiceBean);
         return staffServiceBean;
     }
@@ -104,15 +115,12 @@ public class StaffController {
         model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PAGE.getValue(), staffServiceBean.getPage());
     }
 
-    private StaffServiceBean getStaffServiceBeanOrSetErrorMessages(Model model, Errors errors, Map<String, Object> findStaffsParamMap) {
+    private StaffServiceBean getStaffServiceBeanOrSetErrorMessages(Errors errors, Map<String, Object> findStaffsParamMap) {
         StaffServiceBean staffServiceBean = null;
         try {
             staffServiceBean = this.staffService.findStaffs(findStaffsParamMap);
         } catch (DomainRuleIllegalException e) {
             errors.getGlobal().addAll(e.getMessages());
-        }
-        if (!errors.getGlobal().isEmpty()) {
-            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.GLOBAL_ERROR_MESSAGES.getValue(), errors.getGlobal());
         }
         return staffServiceBean;
     }
@@ -207,7 +215,7 @@ public class StaffController {
 
         if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) return "staff-search.html";
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
@@ -248,7 +256,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PATH_PARAM_USER_ID.getValue(), pathUserId);
@@ -283,7 +291,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
@@ -321,7 +329,7 @@ public class StaffController {
             errors.getGlobal().addAll(e.getMessages());
         }
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
         if (staffServiceBean == null || staffServiceBean.getCount() == 0) return false;
 
         if (!errors.getGlobal().isEmpty()) {
@@ -400,7 +408,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
@@ -449,7 +457,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
@@ -485,7 +493,7 @@ public class StaffController {
             errors.getGlobal().addAll(e.getMessages());
         }
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
         if (staffServiceBean == null || staffServiceBean.getCount() == 0) return false;
 
         if (!errors.getGlobal().isEmpty()) {
@@ -516,7 +524,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
@@ -545,7 +553,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
         if (staffServiceBean != null && staffServiceBean.getCount() != 0) {
             setDepartmentToModel(model);
@@ -607,7 +615,7 @@ public class StaffController {
             errors.getGlobal().addAll(e.getMessages());
         }
 
-        StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
+        StaffServiceBean staffServiceBean = getStaffListByIdAndSetErrorsToModel(param.getLimitSize(), param.getPage(), param.getUserId(), model, errors);
         if (staffServiceBean == null || staffServiceBean.getCount() == 0) return false;
 
         if (!errors.getGlobal().isEmpty()) {
@@ -632,15 +640,10 @@ public class StaffController {
             return staffControllerGetStaffsResponse;
         }
 
-//        getStaffListForSeachResultAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
-
-        Map<String, Object> findStaffsParamMap = new HashMap<>();
-        setFindStaffsParameter(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), findStaffsParamMap);
-        StaffServiceBean staffServiceBean = null;
-        try {
-            staffServiceBean = this.staffService.findStaffs(findStaffsParamMap);
-        } catch (DomainRuleIllegalException e) {
-            errors.getGlobal().addAll(e.getMessages());
+        StaffServiceBean staffServiceBean = getStaffListForSeachResult(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), errors);
+        if (!errors.getGlobal().isEmpty()) {
+            staffControllerGetStaffsResponse.getErrors().setGlobal(errors.getGlobal());
+            return staffControllerGetStaffsResponse;
         }
 
         staffControllerGetStaffsResponse.setCount(staffServiceBean.getCount());
