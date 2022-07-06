@@ -226,7 +226,7 @@ heroku create --buildpack https://github.com/heroku/heroku-buildpack-gradle.git
 heroku buildpacks:add --index 1 heroku/gradle -a (Herokuアプリ名)
 ```
 Settings -> Buildpacks<br>
-<br>
+![buildpacks](https://user-images.githubusercontent.com/102776020/177272153-90ccafb2-4449-4469-bb53-d6824607855a.JPG)
 
 #### 1-6. Herokuへのデプロイ
 Git config にHerokuのURLを指定して[remote "heroku"]を登録。
