@@ -1,5 +1,6 @@
 package com.sales.presentation.dto;
 
+import com.sales.common.Errors;
 import com.sales.domain.staff.Staff;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +14,5 @@ public class StaffControllerGetStaffsResponse {
     private long limitSize;
     private long page;
     private List<Staff> staffs;
+    private Errors errors = new Errors();
 }

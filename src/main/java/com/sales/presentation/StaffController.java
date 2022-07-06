@@ -58,7 +58,7 @@ public class StaffController {
         if (com.sales.presentation.Constant.REQUEST_SUBMIT_TYPE.SEARCH_EXECUTE.getValue().equals(param.getSubmitType())) {
             Errors errors = new Errors();
 
-            if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
+            if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) return "staff-search.html";
 
             getStaffListForSeachResultAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
         }
@@ -148,7 +148,16 @@ public class StaffController {
     }
 
 
-    private boolean checkBeanValidationAndSetErrorMessages(Model model, BindingResult result, Errors errors) {
+    private boolean checkBeanValidationAndSetErrorMessagesToModel(Model model, BindingResult result, Errors errors) {
+        boolean isPassed = true;
+        if (!checkBeanValidationAndSetErrorMessages(result, errors)) {
+            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.FIELD_ERROR_MESSAGES.getValue(), errors.getField());
+            isPassed = false;
+        }
+        return isPassed;
+    }
+
+    private boolean checkBeanValidationAndSetErrorMessages(BindingResult result, Errors errors) {
         boolean isPassed = true;
         List<Map<String, String>> messageTransformList = getAlternativeErrorMessages();
 
@@ -164,7 +173,6 @@ public class StaffController {
             }
         }
         if (!errors.getField().isEmpty()) {
-            model.addAttribute(com.sales.presentation.Constant.RESPONSE_COMMON.FIELD_ERROR_MESSAGES.getValue(), errors.getField());
             isPassed = false;
         }
         return isPassed;
@@ -197,7 +205,7 @@ public class StaffController {
 
         Errors errors = new Errors();
 
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) return "staff-search.html";
 
         StaffServiceBean staffServiceBean = getStaffListByIdAndSetAttribute(param.getLimitSize(), param.getPage(), pathUserId, model, errors);
 
@@ -301,7 +309,7 @@ public class StaffController {
     }
 
     private boolean addStaffAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
             return false;
@@ -328,7 +336,7 @@ public class StaffController {
     }
 
     private boolean checkAddInputAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_ADD_INIT.getValue());
             return false;
@@ -413,7 +421,7 @@ public class StaffController {
     }
 
     private boolean checkDeleteInputAndSetFormState(Model model, String pathUserId, String pathExpirationStart, BindingResult result, Errors errors) {
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) {
             return false;
         }
 
@@ -466,7 +474,7 @@ public class StaffController {
     }
 
     private boolean deleteStaffAndSetFormState(Model model, String pathUserId, String pathExpirationStart, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) {
             model.addAttribute(Constant.API_SEARCH_PARAM_STAFF.PARAM_EXPIRATION_START.getValue(), getSqlDate(param.getExpirationStart()));
             return false;
         }
@@ -563,7 +571,7 @@ public class StaffController {
     }
 
     private boolean checkUpdateInputAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
             return false;
@@ -587,7 +595,7 @@ public class StaffController {
     }
 
     private boolean updateStaffAndSetFormState(Model model, StaffControllerDetailRequest param, BindingResult result, Errors errors) {
-        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) {
+        if (!checkBeanValidationAndSetErrorMessagesToModel(model, result, errors)) {
             model.addAttribute(com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE.getValue(),
                     com.sales.presentation.Constant.RESPONSE_FORM_STATE.FORM_STATE_UPDATE_INIT.getValue());
             return false;
@@ -616,9 +624,14 @@ public class StaffController {
     @ResponseBody
     @RequestMapping(value = "/api/staffs", method = RequestMethod.GET)
     public StaffControllerGetStaffsResponse getStaffsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+        StaffControllerGetStaffsResponse staffControllerGetStaffsResponse = new StaffControllerGetStaffsResponse();
         Errors errors = new Errors();
 
-//        if (!checkBeanValidationAndSetErrorMessages(model, result, errors)) return "staff-search.html";
+        if (!checkBeanValidationAndSetErrorMessages(result, errors)) {
+            staffControllerGetStaffsResponse.getErrors().setField(errors.getField());
+            return staffControllerGetStaffsResponse;
+        }
+
 //        getStaffListForSeachResultAndSetAttribute(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), model, errors);
 
         Map<String, Object> findStaffsParamMap = new HashMap<>();
@@ -630,7 +643,6 @@ public class StaffController {
             errors.getGlobal().addAll(e.getMessages());
         }
 
-        StaffControllerGetStaffsResponse staffControllerGetStaffsResponse = new StaffControllerGetStaffsResponse();
         staffControllerGetStaffsResponse.setCount(staffServiceBean.getCount());
         staffControllerGetStaffsResponse.setLimitSize(staffServiceBean.getLimitSize());
         staffControllerGetStaffsResponse.setPage(staffServiceBean.getPage());
