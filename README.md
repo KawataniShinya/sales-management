@@ -186,7 +186,7 @@ mysql -u (ユーザーID) -h (ホスト名) (データベース名) --password=(
 特に認証情報(T_MST_AUTHテーブル)のパスワード(PASSWORD)はbcrypt形式で登録。<br>
 <br>
 
-#### 1-3. PostgreSQLの準備
+#### 2-3. PostgreSQLの準備
 HerokuアプリにアドオンとしてPostgreSQLを追加する。<br>
 (アプリ) -> Resources -> Add-ons<br>
 <br>
@@ -197,7 +197,7 @@ psql -h (ホスト名) -p 5432 -U (ユーザー名) -d (データベース名) -
 ```
 <br>
 
-#### 1-4. 環境変数の設定
+#### 2-4. 環境変数の設定
 各データベースへの接続は、環境変数に設定されたデータソースを参照している。<br>
 Herokuのシステム環境変数に下記情報を設定。(ユーザー名やパスワード等の設定内容はHerokuで指定されたものに従う。)<br>
 (アプリ) -> Setting -> Config Vars<br>
@@ -219,7 +219,7 @@ GRADLE_TASK : herokuDeploy
 ```
 <br>
 
-#### 1-5. gradleビルドパックを追加
+#### 2-5. gradleビルドパックを追加
 ビルド時に参照されるBuildpacksにgradleを追加。
 ```
 heroku create --buildpack https://github.com/heroku/heroku-buildpack-gradle.git
@@ -228,7 +228,7 @@ heroku buildpacks:add --index 1 heroku/gradle -a (Herokuアプリ名)
 Settings -> Buildpacks<br>
 ![buildpacks](https://user-images.githubusercontent.com/102776020/177272153-90ccafb2-4449-4469-bb53-d6824607855a.JPG)
 
-#### 1-6. Herokuへのデプロイ
+#### 2-6. Herokuへのデプロイ
 Git config にHerokuのURLを指定して[remote "heroku"]を登録。
 ```
 [remote "heroku"]
@@ -242,7 +242,7 @@ Herokuアプリケーションにデプロイ。
 git push heroku main
 ```
 
-#### 1-7. アプリケーションへの接続
+#### 2-7. アプリケーションへの接続
 ブラウザからHerokuURLにコンテキストパスaplでアクセス。<br>
 ```
 https://(Herokuアプリ名).herokuapp.com/apl/

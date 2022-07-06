@@ -16,6 +16,8 @@ import com.sales.presentation.dto.StaffControllerGetStaffsResponse;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -631,25 +633,25 @@ public class StaffController {
 
     @ResponseBody
     @RequestMapping(value = "/api/staffs", method = RequestMethod.GET)
-    public StaffControllerGetStaffsResponse getStaffsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
+    public ResponseEntity<StaffControllerGetStaffsResponse> getStaffsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest param, BindingResult result) {
         StaffControllerGetStaffsResponse staffControllerGetStaffsResponse = new StaffControllerGetStaffsResponse();
         Errors errors = new Errors();
 
         if (!checkBeanValidationAndSetErrorMessages(result, errors)) {
             staffControllerGetStaffsResponse.getErrors().setField(errors.getField());
-            return staffControllerGetStaffsResponse;
+            return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.BAD_REQUEST);
         }
 
         StaffServiceBean staffServiceBean = getStaffListForSeachResult(param.getLimitSize(), param.getPage(), param.getUserId(), param.getUserName(), param.getDepartmentCd(), param.getParamExpirationStart(), param.getParamExpirationEnd(), errors);
         if (!errors.getGlobal().isEmpty()) {
             staffControllerGetStaffsResponse.getErrors().setGlobal(errors.getGlobal());
-            return staffControllerGetStaffsResponse;
+            return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.BAD_REQUEST);
         }
 
         staffControllerGetStaffsResponse.setCount(staffServiceBean.getCount());
         staffControllerGetStaffsResponse.setLimitSize(staffServiceBean.getLimitSize());
         staffControllerGetStaffsResponse.setPage(staffServiceBean.getPage());
         staffControllerGetStaffsResponse.setStaffs(staffServiceBean.getStaffs());
-        return staffControllerGetStaffsResponse;
+        return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.OK);
     }
 }
