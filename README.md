@@ -4,7 +4,8 @@
 ## Description
 For my self improvement.<br>
 Webアプリケーション実装の学習のため、販売管理システムを題材に作成した架空のアプリケーション。<br>
-業務利用を想定して稼働するアプリケーションとして、フロントエンド/サーバーサイド/永続化領域(データベース)を通して1つのプロジェクトとして構築。<br>
+業務利用を想定して稼働するWebアプリケーションとして、フロントエンド/サーバーサイド/永続化領域(データベース)を通して1つのプロジェクトとして構築。<br>
+また、APIとしても利用できるようサービスを公開。<br>
 マイクロサービス化を見越し、部分的にドメイン駆動設計の考えに沿い、ビジネス的関心を独立して実装。<br>
 <br>
 現時点で実装されている機能は社員管理機能のみで、未完成ながらも下記ドメインが含まれている。
@@ -61,6 +62,16 @@ https://fathomless-stream-18403.herokuapp.com/apl/
 
 ### 例. 社員情報詳細削除
 ![05](https://user-images.githubusercontent.com/102776020/176465971-ad175464-b4f6-4d3c-9c1f-a6eb6f06573f.gif)
+
+### 例. 社員情報検索API
+リクエスト
+```
+curl -v -G http://localhost:8080/apl/api/staffs --data-urlencode "departmentCd=D20001" --data-urlencode "userName=テスト"
+```
+レスポンス
+```
+{"count":2,"limitSize":25,"page":1,"staffs":[{"userId":"STF0000003","familyName":...},{...}],"errors":{"field":{},"global":[]}}
+```
 
 ## Usage
 システムログイン画面から認証情報(T_MST_AUTHテーブル)に登録されたユーザーID、パスワードを入力。
