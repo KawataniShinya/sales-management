@@ -3,10 +3,24 @@ openapi: "3.0.0"
 info:
     title: "Search Staffs"
     version: "1.0.0"
+    description: |
+        # Features
+        - Get staffs list by search parameter.
+    license:
+        name: "MIT License"
+        url: "https://opensource.org/licenses/MIT"
 
-servers: []
+servers:
+    - url: "http://localhost:{port}"
+      description: "Local Development"
+      variables:
+        port:
+            enum: ["8080"]
+            default: "8080"
 
-tags: []
+tags:
+    - name: "staffs"
+      description: "Return staffs list"
 
 paths: {}
 
