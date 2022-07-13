@@ -21,7 +21,7 @@ Webアプリケーション実装の学習のため、販売管理システム�
 <br>
 
 ## Components
-アプリケーションを構成する要素は下記の通り。(生成元要素やトランスパイル元も含む)
+プロジェクト、アプリケーションを構成する要素は下記の通り。(生成元要素やトランスパイル元も含む)
 - Java
 - Spring Boot
 - Thymeleaf
@@ -34,6 +34,7 @@ Webアプリケーション実装の学習のため、販売管理システム�
 - Bootstrap
 - Google Fonts
 - PlantUML
+- OpenAPI
 
 ## Development Environment And Tools
 開発環境や使用されている支援ツールは下記の通り。
