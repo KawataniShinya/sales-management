@@ -654,4 +654,28 @@ public class StaffController {
         staffControllerGetStaffsResponse.setStaffs(staffServiceBean.getStaffs());
         return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/api/staffs/{pathUserId}", method = RequestMethod.GET)
+    public ResponseEntity<StaffControllerGetStaffsResponse> getStaffDetailsAPI(@ModelAttribute @Validated StaffControllerGetStaffsRequest param, @PathVariable("pathUserId") String pathUserId, BindingResult result) {
+        StaffControllerGetStaffsResponse staffControllerGetStaffsResponse = new StaffControllerGetStaffsResponse();
+        Errors errors = new Errors();
+
+        if (!checkBeanValidationAndSetErrorMessages(result, errors)) {
+            staffControllerGetStaffsResponse.getErrors().setField(errors.getField());
+            return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        StaffServiceBean staffServiceBean = getStaffListForSeachResult(param.getLimitSize(), param.getPage(), pathUserId, "", "", null, null, errors);
+        if (!errors.getGlobal().isEmpty()) {
+            staffControllerGetStaffsResponse.getErrors().setGlobal(errors.getGlobal());
+            return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        staffControllerGetStaffsResponse.setCount(staffServiceBean.getCount());
+        staffControllerGetStaffsResponse.setLimitSize(staffServiceBean.getLimitSize());
+        staffControllerGetStaffsResponse.setPage(staffServiceBean.getPage());
+        staffControllerGetStaffsResponse.setStaffs(staffServiceBean.getStaffs());
+        return new ResponseEntity<>(staffControllerGetStaffsResponse, HttpStatus.OK);
+    }
 }
