@@ -71,6 +71,37 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InvalidRequest"
+  "/apl/api/staffs/{userId}":
+    get:
+      summary: "Get staff details"
+      description: "Get staff details by userId"
+      tags: ["getStaff"]
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: limitSize
+          in: query
+          required: false
+          schema: { type: int }
+        - name: page
+          in: query
+          required: false
+          schema: { type: int }
+      responses:
+        "200":
+          description: "Success operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Staffs"
+        "400":
+          description: "Invalid request parameter"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidRequest"
 
 components:
   schemas:
